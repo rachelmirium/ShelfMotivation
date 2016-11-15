@@ -110,11 +110,7 @@ public class Goals extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-<<<<<<< Updated upstream
 
-=======
-            //Intent;
->>>>>>> Stashed changes
             return true;
         }
 
