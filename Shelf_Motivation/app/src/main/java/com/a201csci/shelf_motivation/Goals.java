@@ -1,5 +1,6 @@
 package com.a201csci.shelf_motivation;
 //working
+//leo
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -109,7 +110,11 @@ public class Goals extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+<<<<<<< Updated upstream
 
+=======
+            //Intent;
+>>>>>>> Stashed changes
             return true;
         }
 
