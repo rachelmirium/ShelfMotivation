@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_goals"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.a201csci.shelf_motivation.Goals"
+    tools:showIn="@layout/activity_goals">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GOALS"
+        android:id="@+id/goalsTitle"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:layout_below="@+id/goalsBookTitle"
+        android:layout_alignStart="@+id/goalsBookTitle"
+        android:layout_marginTop="12dp"
+        android:id="@+id/goalsDateTitle"
+        android:hint="Date (mm/dd/yyyy)" />
+
+    <Button
+        android:text="ADD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/goalsDateTitle"
+        android:layout_alignStart="@+id/goalsTitle"
+        android:layout_marginStart="12dp"
+        android:id="@+id/goalsAddButton"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:elevation="10dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/goalsCheckboxes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/goalsAddButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="12dp"></LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/goalsTitle"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/goalsAlertLabel"
+        android:textColor="@android:color/holo_red_dark" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/goalsBookTitle"
+        android:hint="Book Title"
+        android:layout_below="@+id/goalsAlertLabel"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
