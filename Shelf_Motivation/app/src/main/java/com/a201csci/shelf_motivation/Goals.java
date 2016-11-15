@@ -1,5 +1,5 @@
 package com.a201csci.shelf_motivation;
-
+//working
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -109,7 +109,7 @@ public class Goals extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent
+
             return true;
         }
 
