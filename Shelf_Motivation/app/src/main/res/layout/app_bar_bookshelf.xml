@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.a201csci.shelf_motivation.Goals">
+    tools:context="com.a201csci.shelf_motivation.BookshelfActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,8 +21,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_goals" />
-
+    <include layout="@layout/content_bookshelf" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
