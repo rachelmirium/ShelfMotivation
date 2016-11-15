@@ -80,13 +80,17 @@ public class Navigation_Menu extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_search) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_bookshelf) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_bookclubs) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_notifications) {
+
+        } else if (id == R.id.nav_goals) {
+
+        } else if (id == R.id.nav_logout) {
 
         } else if (id == R.id.nav_share) {
 
