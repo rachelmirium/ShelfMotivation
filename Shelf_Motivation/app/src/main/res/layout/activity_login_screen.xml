@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f4e5d7">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="138dp"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:weightSum="1">
+
+        <Space android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:layout_weight="0.21" />
+
+        <TextView
+            android:layout_width="277dp"
+            android:layout_height="match_parent"
+            android:id="@+id/errorMessage" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="43dp"
+            android:inputType="textPersonName"
+            android:text="username"
+            android:ems="10"
+            android:id="@+id/username"
+            android:layout_weight="0.79"
+            android:background="#ffffff" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="13dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="43dp"
+            android:inputType="text"
+            android:ems="10"
+            android:id="@+id/password"
+            android:layout_weight="0.82"
+            android:text="password"
+            android:background="#ffffff" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+
+    <Space
+        android:layout_width="413dp"
+        android:layout_height="13dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="Login"
+            android:layout_width="229dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/login"
+            android:layout_weight="0.39"
+            android:background="#32684f"
+            android:textColor="#ffffff"
+            android:onClick="onLogin2Clicked (startScreen)" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+</LinearLayout>
