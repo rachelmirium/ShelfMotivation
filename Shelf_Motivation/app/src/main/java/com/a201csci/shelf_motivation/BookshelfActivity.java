@@ -1,6 +1,7 @@
 package com.a201csci.shelf_motivation;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,13 +14,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
+
+import java.util.ArrayList;
 
 
 public class BookshelfActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private int numberOfSavedBooks;
 
-    private boolean guest;
+    private ArrayList<ImageButton> buttons;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +51,21 @@ public class BookshelfActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        numberOfSavedBooks=0;
 
+        buttons= new ArrayList<ImageButton>(9);
+
+        buttons.add((ImageButton)(findViewById(R.id.book0)));
+        buttons.add((ImageButton)(findViewById(R.id.book1)));
+        buttons.add((ImageButton)(findViewById(R.id.book2)));
+        buttons.add((ImageButton)(findViewById(R.id.book3)));
+        buttons.add((ImageButton)(findViewById(R.id.book4)));
+        buttons.add((ImageButton)(findViewById(R.id.book5)));
+        buttons.add((ImageButton)(findViewById(R.id.book6)));
+        buttons.add((ImageButton)(findViewById(R.id.book7)));
+        buttons.add((ImageButton)(findViewById(R.id.book8)));
+
+        fixVisibility();
 
     }
 
@@ -121,4 +141,24 @@ public class BookshelfActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void newBook(){
+
+        ImageButton button=  buttons.get(numberOfSavedBooks);
+//        button.setBackgroundResource(R.drawable.cover);
+//set the cover of the book to an image passed in from the API
+        numberOfSavedBooks++;
+        fixVisibility();
+    }
+
+    private void fixVisibility(){
+        for (int i=0; i<9; i++){
+            if (numberOfSavedBooks-1<i){
+                buttons.get(i).setVisibility(View.INVISIBLE);
+            } else{
+                buttons.get(i).setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
 }
