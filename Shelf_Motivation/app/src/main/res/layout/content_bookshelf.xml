@@ -11,14 +11,52 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.a201csci.shelf_motivation.BookshelfActivity"
-    tools:showIn="@layout/app_bar_bookshelf">
+    tools:showIn="@layout/app_bar_bookshelf"
+    android:background="#f4e5d7">
 
-    <TextView
-        android:text="Not Guest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="174dp"
-        android:id="@+id/textView"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentStart="true">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="78dp"
+            android:layout_weight="0.38" />
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            app:srcCompat="@drawable/wood"
+            android:id="@+id/imageButton" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="78dp"
+            android:layout_weight="0.29" />
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            app:srcCompat="@drawable/wood"
+            android:id="@+id/imageButton2" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="78dp"
+            android:layout_weight="0.23" />
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            app:srcCompat="@drawable/wood"
+            android:id="@+id/imageButton3" />
+
+
+
+    </LinearLayout>
+
 </RelativeLayout>
