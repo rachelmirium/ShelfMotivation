@@ -16,25 +16,20 @@
             android:name=".Navigation_Menu"
             android:label="@string/title_activity_navigation__menu"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".BookshelfActivity"
             android:label="@string/title_activity_bookshelf"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".StartScreenActivity" />
-        <activity android:name=".CreateAccountScreenActivity" />
-        <activity android:name=".LoginScreenActivity">
+        <activity android:name=".StartScreenActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CreateAccountScreenActivity" />
+        <activity android:name=".LoginScreenActivity"/>
     </application>
 
 </manifest>

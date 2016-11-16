@@ -40,6 +40,20 @@ public class StartScreenActivity extends AppCompatActivity {
         });
 
 
+        final Button continueAsGuest = (Button) findViewById(R.id.continueAsGuest);
+        continueAsGuest.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+
+                Intent activityChangeIntent = new Intent(StartScreenActivity.this, BookshelfActivity.class);
+
+                // currentContext.startActivity(activityChangeIntent);
+
+                startActivity(activityChangeIntent);
+            }
+        });
+
+
 
 
     }
