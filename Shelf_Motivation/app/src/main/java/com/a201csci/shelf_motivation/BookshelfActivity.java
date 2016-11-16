@@ -14,9 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+
 public class BookshelfActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
+    private boolean guest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +44,9 @@ public class BookshelfActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
     }
 
     @Override
@@ -88,15 +94,22 @@ public class BookshelfActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_bookclubs) {
-
+            if ( ((Guest) this.getApplication()).getGuest()){
+                Intent intent = new Intent(this, GuestError.class);
+                startActivity(intent);
+            }
         } else if (id == R.id.nav_notifications) {
-
+            if ( ((Guest) this.getApplication()).getGuest()){
+                Intent intent = new Intent(this, GuestError.class);
+                startActivity(intent);
+            }
         } else if (id == R.id.nav_goals) {
             Intent intent = new Intent(this, Goals.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_logout ) {
-
+        } else if (id == R.id.nav_settings ) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
         }
 //        } else if (id == R.id.nav_share) {
 //

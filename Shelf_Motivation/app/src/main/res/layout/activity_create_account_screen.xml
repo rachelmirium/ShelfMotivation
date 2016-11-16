@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="43dp"
             android:inputType="textPersonName"
-            android:text="name"
+            android:hint="name"
             android:ems="10"
             android:id="@+id/name"
             android:layout_weight="0.79"
@@ -76,7 +76,7 @@
             android:ems="10"
             android:id="@+id/username"
             android:layout_weight="0.82"
-            android:text="usernname"
+            android:hint="usernname"
             android:background="#ffffff" />
 
         <Space
@@ -106,7 +106,7 @@
             android:layout_width="wrap_content"
             android:layout_height="43dp"
             android:inputType="textPersonName"
-            android:text="password"
+            android:hint="password"
             android:ems="10"
             android:id="@+id/password"
             android:layout_weight="0.79"

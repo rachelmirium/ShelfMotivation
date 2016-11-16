@@ -13,4 +13,12 @@
     tools:context="com.a201csci.shelf_motivation.BookshelfActivity"
     tools:showIn="@layout/app_bar_bookshelf">
 
+    <TextView
+        android:text="Not Guest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="174dp"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

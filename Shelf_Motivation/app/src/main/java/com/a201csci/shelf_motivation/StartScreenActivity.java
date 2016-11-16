@@ -48,13 +48,16 @@ public class StartScreenActivity extends AppCompatActivity {
                 Intent activityChangeIntent = new Intent(StartScreenActivity.this, BookshelfActivity.class);
 
                 // currentContext.startActivity(activityChangeIntent);
-
+                //activityChangeIntent.putExtra("is guest", true);
+                makeGuest();
                 startActivity(activityChangeIntent);
             }
         });
 
-
-
-
     }
+
+    public void makeGuest(){
+        ((Guest) this.getApplication()).setGuest(true);
+    }
+
 }
