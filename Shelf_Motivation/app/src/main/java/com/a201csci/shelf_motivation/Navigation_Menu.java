@@ -88,15 +88,21 @@ public class Navigation_Menu extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_bookclubs) {
-
+            if ( ((Guest) this.getApplication()).getGuest()){
+                Intent intent = new Intent(this, GuestError.class);
+                startActivity(intent);
+            }
         } else if (id == R.id.nav_notifications) {
-
+            if ( ((Guest) this.getApplication()).getGuest()){
+                Intent intent = new Intent(this, GuestError.class);
+                startActivity(intent);
+            }
         } else if (id == R.id.nav_goals) {
             Intent intent = new Intent(this, Goals.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_logout ) {
-            Intent intent= new Intent (this, StartScreenActivity.class);
+        } else if (id == R.id.nav_settings ) {
+            Intent intent= new Intent (this, SettingsActivity.class);
             startActivity(intent);
         }
 

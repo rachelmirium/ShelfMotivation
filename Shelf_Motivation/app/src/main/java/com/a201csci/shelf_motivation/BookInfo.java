@@ -1,11 +1,9 @@
 package com.a201csci.shelf_motivation;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,23 +13,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageButton;
+import android.widget.Button;
+import android.widget.TextView;
 
-import java.util.ArrayList;
-
-
-public class BookshelfActivity extends AppCompatActivity
+public class BookInfo extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private int numberOfSavedBooks;
-
-    private ArrayList<ImageButton> buttons;
-    private ArrayList<String> bookIDs;
+    String bookID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bookshelf);
+        setContentView(R.layout.activity_book_info);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -53,41 +46,27 @@ public class BookshelfActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        numberOfSavedBooks=0;
-
-        buttons= new ArrayList<ImageButton>(9);
-
-        buttons.add((ImageButton)(findViewById(R.id.book0)));
-        buttons.add((ImageButton)(findViewById(R.id.book1)));
-        buttons.add((ImageButton)(findViewById(R.id.book2)));
-        buttons.add((ImageButton)(findViewById(R.id.book3)));
-        buttons.add((ImageButton)(findViewById(R.id.book4)));
-        buttons.add((ImageButton)(findViewById(R.id.book5)));
-        buttons.add((ImageButton)(findViewById(R.id.book6)));
-        buttons.add((ImageButton)(findViewById(R.id.book7)));
-        buttons.add((ImageButton)(findViewById(R.id.book8)));
-
-        for(int i = 0; i < buttons.size(); i++){
-            ImageButton b = buttons.get(i);
-            final String id = bookIDs.get(i);
-            b.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View view){
-                    Intent activityChangeIntent = new Intent(BookshelfActivity.this, BookInfo.class);
-                    activityChangeIntent.putExtra("init", id);
-                    startActivity(activityChangeIntent);
-                }
-            });
-        }
-
-        fixVisibility();
-
-        Bundle b = getIntent().getExtras();
-        if(b != null) {
-            String bookID = b.getString("add");
-            if (bookID != null) {
-                newBook(bookID);
+        final Button addButton = (Button) findViewById(R.id.addToBookshelf);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            addBook();
             }
+        });
+
+        final Button recommendButton = (Button) findViewById(R.id.recommendButton);
+        recommendButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                TextView tv = (TextView) findViewById(R.id.recommendBook);
+                recommend((String) tv.getText(), bookID);
+            }
+        });
+
+        Bundle b = getIntent().getExtras();// or other values
+        if(b != null) {
+            String bookID = b.getString("init");
+            initializeView();
         }
+
 
     }
 
@@ -104,7 +83,7 @@ public class BookshelfActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.bookshelf, menu);
+        getMenuInflater().inflate(R.menu.book_info, menu);
         return true;
     }
 
@@ -128,62 +107,33 @@ public class BookshelfActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_search) {
-            BooksAPI.getBookByID(this, "zyTCAlFPjgYC");
+            // Handle the camera action
         } else if (id == R.id.nav_bookshelf) {
-            Intent intent = new Intent(this, BookshelfActivity.class);
-            startActivity(intent);
-
         } else if (id == R.id.nav_bookclubs) {
-            if ( ((Guest) this.getApplication()).getGuest()){
-                Intent intent = new Intent(this, GuestError.class);
-                startActivity(intent);
-            }
         } else if (id == R.id.nav_notifications) {
-            if ( ((Guest) this.getApplication()).getGuest()){
-                Intent intent = new Intent(this, GuestError.class);
-                startActivity(intent);
-            }
         } else if (id == R.id.nav_goals) {
-            Intent intent = new Intent(this, Goals.class);
-            startActivity(intent);
-
-        } else if (id == R.id.nav_settings ) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
+        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_send) {
         }
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    public void newBook(String bookID){
-
-        ImageButton button=  buttons.get(numberOfSavedBooks);
-//        button.setBackgroundResource(R.drawable.cover);
-//set the cover of the book to an image passed in from the API
-        bookIDs.add(bookID);
-        numberOfSavedBooks++;
-        fixVisibility();
+    public void addBook(){
+        Intent activityChangeIntent = new Intent(BookInfo.this, BookshelfActivity.class);
+        activityChangeIntent.putExtra("add", bookID);
+        startActivity(activityChangeIntent);
     }
 
-    private void fixVisibility(){
-        for (int i=0; i<9; i++){
-            if (numberOfSavedBooks-1<i){
-                buttons.get(i).setVisibility(View.INVISIBLE);
-            } else{
-                buttons.get(i).setVisibility(View.VISIBLE);
-            }
-        }
+    public void initializeView(){
+        //set image
+        //set title
+        //set author
     }
 
-
-
+    public void recommend(String username, String bookID){
+        //send bookID to user
+    }
 }
