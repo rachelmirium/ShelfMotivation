@@ -114,10 +114,13 @@ public class BookshelfActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_bookclubs) {
+
             if ( ((Guest) this.getApplication()).getGuest()){
                 Intent intent = new Intent(this, GuestError.class);
                 startActivity(intent);
             }
+            Intent intent = new Intent(this, BookclubActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_notifications) {
             if ( ((Guest) this.getApplication()).getGuest()){
                 Intent intent = new Intent(this, GuestError.class);
@@ -131,6 +134,10 @@ public class BookshelfActivity extends AppCompatActivity
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         }
+//        else if (id == R.id.nav_logout ) {
+//            Intent intent= new Intent (this, StartScreenActivity.class);
+//            startActivity(intent);
+//        }
 //        } else if (id == R.id.nav_share) {
 //
 //        } else if (id == R.id.nav_send) {

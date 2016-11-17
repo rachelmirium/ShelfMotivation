@@ -1,7 +1,12 @@
 package com.a201csci.shelf_motivation;
 
+import android.app.ListActivity;
 import android.content.Intent;
+import android.app.Activity;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -13,16 +18,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
-public class Navigation_Menu extends AppCompatActivity
+import java.util.ArrayList;
+
+public class BookclubActivity extends Activity
         implements NavigationView.OnNavigationItemSelectedListener {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation__menu);
+        setContentView(R.layout.activity_bookclub);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -41,6 +53,21 @@ public class Navigation_Menu extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        String[] usernamess = {"Leo", "Anish", "Katie", "Rachel", "Julianne"};
+        int[] imageIdss = {
+                R.drawable.ic_menu_camera,
+                R.drawable.ic_menu_gallery,
+                R.drawable.ic_menu_manage,
+                R.drawable.ic_menu_send,
+                R.drawable.ic_menu_manage
+        };
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getListView().getContext(), android.R.layout.simple_list_item_1, usernames);
+//        getListView().setAdapter(adapter);
+        ListView lv = (ListView) findViewById(R.id.userlist);
+        lv.setAdapter(new CustomAdapter(this, usernamess, imageIdss));
+
     }
 
     @Override
@@ -56,7 +83,7 @@ public class Navigation_Menu extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.navigation__menu, menu);
+        getMenuInflater().inflate(R.menu.bookclub, menu);
         return true;
     }
 
@@ -81,35 +108,35 @@ public class Navigation_Menu extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_search) {
+        if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_bookshelf) {
             Intent intent = new Intent(this, BookshelfActivity.class);
             startActivity(intent);
-
         } else if (id == R.id.nav_bookclubs) {
-            if ( ((Guest) this.getApplication()).getGuest()){
-                Intent intent = new Intent(this, GuestError.class);
-                startActivity(intent);
-            }
             Intent intent = new Intent(this, BookclubActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_notifications) {
-            if ( ((Guest) this.getApplication()).getGuest()){
-                Intent intent = new Intent(this, GuestError.class);
-                startActivity(intent);
-            }
+
         } else if (id == R.id.nav_goals) {
             Intent intent = new Intent(this, Goals.class);
             startActivity(intent);
-
-        } else if (id == R.id.nav_settings ) {
-            Intent intent= new Intent (this, SettingsActivity.class);
-            startActivity(intent);
         }
+//        else if (id == R.id.nav_logout) {
+//            Intent intent= new Intent (this, StartScreenActivity.class);
+//            startActivity(intent);
+//        } else if (id == R.id.nav_share) {
+//
+//        } else if (id == R.id.nav_send) {
+//
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }
+
+

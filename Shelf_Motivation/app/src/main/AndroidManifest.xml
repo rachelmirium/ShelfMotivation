@@ -49,7 +49,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SearchResults"
-            android:label="@string/title_activity_search_results"
+            android:label="@string/title_activity_search_results" />
+
+        <activity
+            android:name=".BookclubActivity"
+            android:label="@string/title_activity_bookclub"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
