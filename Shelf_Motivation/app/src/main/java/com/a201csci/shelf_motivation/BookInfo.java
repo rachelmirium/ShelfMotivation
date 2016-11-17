@@ -64,7 +64,7 @@ public class BookInfo extends AppCompatActivity
         Bundle b = getIntent().getExtras();// or other values
         if(b != null) {
             String bookID = b.getString("init");
-            initializeView();
+            if(bookID != null) initializeView(bookID);
         }
 
 
@@ -127,7 +127,7 @@ public class BookInfo extends AppCompatActivity
         startActivity(activityChangeIntent);
     }
 
-    public void initializeView(){
+    public void initializeView(String bookID){
         //set image
         //set title
         //set author

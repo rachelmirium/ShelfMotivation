@@ -56,6 +56,7 @@ public class BookshelfActivity extends AppCompatActivity
         numberOfSavedBooks=0;
 
         buttons= new ArrayList<ImageButton>(9);
+        bookIDs = new ArrayList<String>(9);
 
         buttons.add((ImageButton)(findViewById(R.id.book0)));
         buttons.add((ImageButton)(findViewById(R.id.book1)));
@@ -169,7 +170,7 @@ public class BookshelfActivity extends AppCompatActivity
         ImageButton button=  buttons.get(numberOfSavedBooks);
 //        button.setBackgroundResource(R.drawable.cover);
 //set the cover of the book to an image passed in from the API
-        bookIDs.add(bookID);
+        bookIDs.set(numberOfSavedBooks, bookID);
         numberOfSavedBooks++;
         fixVisibility();
     }
