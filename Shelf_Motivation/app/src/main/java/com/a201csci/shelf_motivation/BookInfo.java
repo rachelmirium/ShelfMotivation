@@ -14,9 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class BookInfo extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    String bookID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +49,23 @@ public class BookInfo extends AppCompatActivity
         final Button addButton = (Button) findViewById(R.id.addToBookshelf);
         addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-           //add book
+            addBook();
             }
         });
+
+        final Button recommendButton = (Button) findViewById(R.id.recommendButton);
+        recommendButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                TextView tv = (TextView) findViewById(R.id.recommendBook);
+                recommend((String) tv.getText(), bookID);
+            }
+        });
+
+        Bundle b = getIntent().getExtras();// or other values
+        if(b != null) {
+            String bookID = b.getString("init");
+            initializeView();
+        }
 
 
     }
@@ -102,5 +119,21 @@ public class BookInfo extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void addBook(){
+        Intent activityChangeIntent = new Intent(BookInfo.this, BookshelfActivity.class);
+        activityChangeIntent.putExtra("add", bookID);
+        startActivity(activityChangeIntent);
+    }
+
+    public void initializeView(){
+        //set image
+        //set title
+        //set author
+    }
+
+    public void recommend(String username, String bookID){
+        //send bookID to user
     }
 }

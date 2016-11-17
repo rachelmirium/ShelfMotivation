@@ -25,6 +25,7 @@ public class BookshelfActivity extends AppCompatActivity
     private int numberOfSavedBooks;
 
     private ArrayList<ImageButton> buttons;
+    private ArrayList<String> bookIDs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,27 @@ public class BookshelfActivity extends AppCompatActivity
         buttons.add((ImageButton)(findViewById(R.id.book7)));
         buttons.add((ImageButton)(findViewById(R.id.book8)));
 
+        for(int i = 0; i < buttons.size(); i++){
+            ImageButton b = buttons.get(i);
+            final String id = bookIDs.get(i);
+            b.setOnClickListener(new View.OnClickListener(){
+                public void onClick(View view){
+                    Intent activityChangeIntent = new Intent(BookshelfActivity.this, BookInfo.class);
+                    activityChangeIntent.putExtra("init", id);
+                    startActivity(activityChangeIntent);
+                }
+            });
+        }
+
         fixVisibility();
+
+        Bundle b = getIntent().getExtras();
+        if(b != null) {
+            String bookID = b.getString("add");
+            if (bookID != null) {
+                newBook(bookID);
+            }
+        }
 
     }
 
@@ -142,11 +163,12 @@ public class BookshelfActivity extends AppCompatActivity
         return true;
     }
 
-    public void newBook(){
+    public void newBook(String bookID){
 
         ImageButton button=  buttons.get(numberOfSavedBooks);
 //        button.setBackgroundResource(R.drawable.cover);
 //set the cover of the book to an image passed in from the API
+        bookIDs.add(bookID);
         numberOfSavedBooks++;
         fixVisibility();
     }

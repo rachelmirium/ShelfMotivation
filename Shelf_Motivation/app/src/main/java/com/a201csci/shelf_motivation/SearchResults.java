@@ -15,8 +15,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
 public class SearchResults extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    ArrayList<String> bookIDs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,11 @@ public class SearchResults extends AppCompatActivity
                 startActivity(activityChangeIntent);
             }
         });
+
+        Bundle b = getIntent().getExtras();
+        if(b != null) {
+            bookIDs = b.getStringArrayList("results");
+        }
     }
 
     @Override

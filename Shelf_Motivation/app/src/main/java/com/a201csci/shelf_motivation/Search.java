@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
 public class Search extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -103,12 +105,12 @@ public class Search extends AppCompatActivity
     }
 
     public void search(){
-        // Perform action on click
+
+        //create array of search results
+        ArrayList<String> bookIDs = new ArrayList<String>();
 
         Intent activityChangeIntent = new Intent(Search.this, SearchResults.class);
-
-        // currentContext.startActivity(activityChangeIntent);
-
+        activityChangeIntent.putExtra("results", bookIDs);
         startActivity(activityChangeIntent);
     }
 }
