@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_book_info"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.a201csci.shelf_motivation.BookInfo"
+    tools:showIn="@layout/app_bar_book_info">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/book_icon"
+        android:id="@+id/imageView4"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Book Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="106dp"
+        android:id="@+id/bookTitle"
+        android:layout_alignBottom="@+id/imageView4"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="Book Author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bookTitle"
+        android:layout_alignStart="@+id/bookTitle"
+        android:layout_marginTop="26dp"
+        android:id="@+id/bookAuthor" />
+
+    <Button
+        android:text="Add to Bookshelf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="57dp"
+        android:id="@+id/addToBookshelf"
+        android:layout_below="@+id/bookAuthor"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Type Username"
+        android:ems="10"
+        android:layout_below="@+id/addToBookshelf"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="39dp"
+        android:id="@+id/recommendBook"
+        android:layout_toStartOf="@+id/bookAuthor" />
+
+    <Button
+        android:text="Recommend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/recommendBook"
+        android:layout_toEndOf="@+id/recommendBook"
+        android:id="@+id/recommendButton" />
+</RelativeLayout>
