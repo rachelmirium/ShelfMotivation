@@ -30,5 +30,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'com.google.apis:google-api-services-books:v1-rev88-1.22.0'
+    compile 'com.google.firebase:firebase-auth:9.2.0'
     testCompile 'junit:junit:4.12'
 }
+
+apply plugin: 'com.google.gms.google-services'
