@@ -1,7 +1,6 @@
 package com.a201csci.shelf_motivation;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -16,8 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
-import java.io.InputStream;
-import java.net.URL;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 
@@ -27,6 +26,7 @@ public class BookshelfActivity extends AppCompatActivity
     private int numberOfSavedBooks;
 
     private ArrayList<ImageButton> buttons;
+    private ArrayList<String> bookIDs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,11 @@ public class BookshelfActivity extends AppCompatActivity
 
         numberOfSavedBooks = 0;
 
+
         buttons = new ArrayList<ImageButton>(9);
+
+        bookIDs = new ArrayList<String>(9);
+
 
         buttons.add((ImageButton) (findViewById(R.id.book0)));
         buttons.add((ImageButton) (findViewById(R.id.book1)));
@@ -67,10 +71,6 @@ public class BookshelfActivity extends AppCompatActivity
         buttons.add((ImageButton) (findViewById(R.id.book7)));
         buttons.add((ImageButton) (findViewById(R.id.book8)));
 
-        fixVisibility();
-        //newBook("str");
-        //Drawable dr= LoadImageFromWebOperations("https://books.google.com/books/content?id=zyTCAlFPjgYC&printsec=frontcover&img=1&zoom=2&edge=curl&source=gbs_api");
-        newBook("str");
 
     }
 
@@ -113,7 +113,7 @@ public class BookshelfActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_search) {
-            // Handle the camera action
+            BooksAPI.getBookByID(this, "zyTCAlFPjgYC");
         } else if (id == R.id.nav_bookshelf) {
             Intent intent = new Intent(this, BookshelfActivity.class);
             startActivity(intent);
@@ -136,26 +136,21 @@ public class BookshelfActivity extends AppCompatActivity
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         }
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    public void newBook(String src) {
 
+
+
+
+    public void newBook(String bookID, String URL){
         ImageButton button = buttons.get(numberOfSavedBooks);
-        Drawable d = LoadImageFromWebOperations("https://books.google.com/books/content?id=zyTCAlFPjgYC&printsec=frontcover&img=1&zoom=2&edge=curl&source=gbs_api");
+        Picasso.with(this).load(URL).into(button);
+        //bookIDs.set(numberOfSavedBooks, bookID);
         numberOfSavedBooks++;
         fixVisibility();
-
-        button.setBackground(d);
-       // button.setBackground(d);
 
 
     }
@@ -172,14 +167,7 @@ public class BookshelfActivity extends AppCompatActivity
     }
 
 
-    public static Drawable LoadImageFromWebOperations(String url) {
-            try {
-                InputStream is = (InputStream) new URL(url).getContent();
-                Drawable d = Drawable.createFromStream(is, "src name");
-                return d;
-            } catch (Exception e) {
-                return null;
-            }
-    }
+
 
 }
+
