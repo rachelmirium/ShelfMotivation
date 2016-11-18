@@ -34,12 +34,6 @@
         <activity android:name=".CreateAccountScreenActivity" />
         <activity android:name=".LoginScreenActivity" />
 
-        <!-- <application -->
-        <!-- android:name=".Guest" -->
-        <!-- android:icon="@drawable/icon" -->
-        <!-- android:label="@string/app_name"> -->
-        <!-- </application> -->
-
         <activity android:name=".GuestError" />
         <activity android:name=".SettingsActivity" />
         <activity

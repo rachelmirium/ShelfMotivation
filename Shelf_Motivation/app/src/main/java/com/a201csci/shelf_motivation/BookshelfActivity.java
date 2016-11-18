@@ -129,6 +129,8 @@ public class BookshelfActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_search) {
+            Intent intent = new Intent(this, Search.class);
+            startActivity(intent);
             BooksAPI.getBookByID(this, "zyTCAlFPjgYC");
         } else if (id == R.id.nav_bookshelf) {
             Intent intent = new Intent(this, BookshelfActivity.class);

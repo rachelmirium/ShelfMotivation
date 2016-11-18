@@ -9,20 +9,46 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class BooksAPI{
     private static String API_KEY ="AIzaSyAcIQ5LpzutH12EmFbQjDahAoAgljf7Xgk";
-    static String APIurl ="https://www.googleapis.com/books/";
-//    public BooksAPI(String key){
-//        this.API_KEY = key;
-//    }
+    static String APIurl ="https://www.googleapis.com/books/v1/volumes";
 
-    public static void getBookByID(Activity activity, String id){
+    public static void getBookByID(final Activity activity, String id, final AbsctractBooksAPI access){
         RequestQueue queue = Volley.newRequestQueue(activity);
-        String url = APIurl+"v1/volumes/"+id+"?key="+API_KEY;
+        String url = APIurl+"/"+id+"?key="+API_KEY;
+        // https://www.googleapis.com/books/v1/volumes/volumeId?=key=APIkey
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        System.out.println("Response: " + response.toString());
+                        Book book = new Book(response);
+                        access.gotBookByID(book);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        access.gotError();
+                    }
+                });
+
+    // Add the request to the RequestQueue.
+        queue.add(jsObjRequest);
+    }
+
+    public static void getBookByTitle(Activity activity, String title, final AbsctractBooksAPI access){
+        RequestQueue queue = Volley.newRequestQueue(activity);
+        String url = APIurl+"?q="+title.trim().replaceAll(" ","+")+"&key="+API_KEY;
+        // https://www.googleapis.com/books/v1/volumes?q=search+terms
+        System.out.println(url);
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
@@ -30,11 +56,52 @@ public class BooksAPI{
                     public void onResponse(JSONObject response) {
                         System.out.println("Response: " + response.toString());
                         //process the response
+                        ArrayList<Book> books = new ArrayList<Book>();
                         try {
-                            System.out.println(response.get("id"));
+                            JSONArray booksArray = (JSONArray) response.get("items");
+                            for(int i=0;i<10;i++){
+                                books.add(new Book(booksArray.optJSONObject(i)));
+                                System.out.println(booksArray.optJSONObject(i));
+                            }
+                            access.gotAllBooks(books);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-                            System.out.println(((JSONObject)response.get("volumeInfo")).get("title"));
-                            System.out.println(response.get("description"));
+
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        access.gotError();
+                    }
+                });
+        // Add the request to the RequestQueue.
+        queue.add(jsObjRequest);
+    }
+
+    public static void getBookByAuthor(Activity activity, String author, final AbsctractBooksAPI access){
+        RequestQueue queue = Volley.newRequestQueue(activity);
+        String query = "?q=inauthor:"+author.trim().replaceAll(" ","+");
+        String url = APIurl+query+"&key="+API_KEY;
+        // https://www.googleapis.com/books/v1/volumes?q=flowers+inauthor:keyes&key=yourAPIKey
+        System.out.println(url);
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        System.out.println("Response: " + response.toString());
+                        //process the response
+                        ArrayList<Book> books = new ArrayList<Book>();
+                        try {
+                            JSONArray booksArray = (JSONArray) response.get("items");
+                            for(int i=0;i<10;i++){
+                                books.add(new Book(booksArray.optJSONObject(i)));
+                                System.out.println(booksArray.optJSONObject(i));
+                            }
+                            access.gotAllBooks(books);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -43,11 +110,10 @@ public class BooksAPI{
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
-
+                        access.gotError();
                     }
                 });
-    // Add the request to the RequestQueue.
+        // Add the request to the RequestQueue.
         queue.add(jsObjRequest);
     }
 }
