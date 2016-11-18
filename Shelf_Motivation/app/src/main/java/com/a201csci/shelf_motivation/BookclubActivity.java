@@ -1,29 +1,19 @@
 package com.a201csci.shelf_motivation;
 
-import android.app.ListActivity;
-import android.content.Intent;
 import android.app.Activity;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import java.util.ArrayList;
 
 public class BookclubActivity extends Activity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -114,8 +104,13 @@ public class BookclubActivity extends Activity
             Intent intent = new Intent(this, BookshelfActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_bookclubs) {
-            Intent intent = new Intent(this, BookclubActivity.class);
-            startActivity(intent);
+            if ( ((Guest) this.getApplication()).getGuest()){
+                Intent intent = new Intent(this, GuestError.class);
+                startActivity(intent);
+            }else {
+                Intent intent = new Intent(this, BookclubActivity.class);
+                startActivity(intent);
+            }
         } else if (id == R.id.nav_notifications) {
 
         } else if (id == R.id.nav_goals) {
