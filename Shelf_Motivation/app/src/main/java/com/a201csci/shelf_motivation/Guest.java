@@ -10,6 +10,7 @@ import android.app.Application;
 public class Guest extends Application {
 
     private boolean isGuest;
+    private int numberOfBooks;
 
     public boolean getGuest() {
         return isGuest;
@@ -17,6 +18,15 @@ public class Guest extends Application {
 
     public void setGuest(boolean isGuest) {
         this.isGuest = isGuest;
+    }
+
+    public int getNumberOfBooks(){
+        return numberOfBooks;
+    }
+
+
+    public void setNumberOfBooks(int numberOfBooks) {
+        this.numberOfBooks = numberOfBooks;
     }
 
 }

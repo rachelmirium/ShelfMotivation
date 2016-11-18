@@ -23,7 +23,6 @@ import java.util.ArrayList;
 public class BookshelfActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private int numberOfSavedBooks;
 
     private ArrayList<ImageButton> buttons;
     private ArrayList<String> bookIDs;
@@ -53,7 +52,7 @@ public class BookshelfActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        numberOfSavedBooks = 0;
+        ((Guest) this.getApplication()).setNumberOfBooks(0);
 
         buttons = new ArrayList<ImageButton>(9);
 
@@ -170,10 +169,10 @@ public class BookshelfActivity extends AppCompatActivity
 
 
     public void newBook(String bookID, String URL){
-        ImageButton button = buttons.get(numberOfSavedBooks);
+        ImageButton button = buttons.get(((Guest) this.getApplication()).getNumberOfBooks());
         Picasso.with(this).load(URL).into(button);
         //bookIDs.set(numberOfSavedBooks, bookID);
-        numberOfSavedBooks++;
+        ((Guest) this.getApplication()).setNumberOfBooks(((Guest) this.getApplication()).getNumberOfBooks()+1);
         fixVisibility();
 
 
@@ -181,7 +180,7 @@ public class BookshelfActivity extends AppCompatActivity
 
     private void fixVisibility() {
         for (int i = 0; i < 9; i++) {
-            if (numberOfSavedBooks - 1 < i) {
+            if ( ((Guest) this.getApplication()).getNumberOfBooks() - 1 < i) {
                 buttons.get(i).setVisibility(View.INVISIBLE);
             } else {
                 buttons.get(i).setVisibility(View.VISIBLE);
