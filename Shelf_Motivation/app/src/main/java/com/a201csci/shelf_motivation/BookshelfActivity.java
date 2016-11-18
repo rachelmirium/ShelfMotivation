@@ -55,11 +55,9 @@ public class BookshelfActivity extends AppCompatActivity
 
         numberOfSavedBooks = 0;
 
-
         buttons = new ArrayList<ImageButton>(9);
 
         bookIDs = new ArrayList<String>(9);
-
 
         buttons.add((ImageButton)(findViewById(R.id.book0)));
         buttons.add((ImageButton)(findViewById(R.id.book1)));
@@ -70,7 +68,6 @@ public class BookshelfActivity extends AppCompatActivity
         buttons.add((ImageButton)(findViewById(R.id.book6)));
         buttons.add((ImageButton)(findViewById(R.id.book7)));
         buttons.add((ImageButton)(findViewById(R.id.book8)));
-
 
 
         Bundle b = getIntent().getExtras();
