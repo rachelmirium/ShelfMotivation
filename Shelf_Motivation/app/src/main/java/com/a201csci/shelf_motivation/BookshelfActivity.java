@@ -61,16 +61,46 @@ public class BookshelfActivity extends AppCompatActivity
         bookIDs = new ArrayList<String>(9);
 
 
-        buttons.add((ImageButton) (findViewById(R.id.book0)));
-        buttons.add((ImageButton) (findViewById(R.id.book1)));
-        buttons.add((ImageButton) (findViewById(R.id.book2)));
-        buttons.add((ImageButton) (findViewById(R.id.book3)));
-        buttons.add((ImageButton) (findViewById(R.id.book4)));
-        buttons.add((ImageButton) (findViewById(R.id.book5)));
-        buttons.add((ImageButton) (findViewById(R.id.book6)));
-        buttons.add((ImageButton) (findViewById(R.id.book7)));
-        buttons.add((ImageButton) (findViewById(R.id.book8)));
+        buttons.add((ImageButton)(findViewById(R.id.book0)));
+        buttons.add((ImageButton)(findViewById(R.id.book1)));
+        buttons.add((ImageButton)(findViewById(R.id.book2)));
+        buttons.add((ImageButton)(findViewById(R.id.book3)));
+        buttons.add((ImageButton)(findViewById(R.id.book4)));
+        buttons.add((ImageButton)(findViewById(R.id.book5)));
+        buttons.add((ImageButton)(findViewById(R.id.book6)));
+        buttons.add((ImageButton)(findViewById(R.id.book7)));
+        buttons.add((ImageButton)(findViewById(R.id.book8)));
 
+          Bundle b = getIntent().getExtras(); 
+        if(b != null) {
+            String bookID = b.getString("add"); 
+            String URL=b.getString("URL"); 
+            if (bookID != null) { 
+                bookIDs.add(bookID);
+                newBook(bookID, URL);
+                ImageButton imageButton = buttons.get(Integer.parseInt(bookID)); 
+                final String id = bookIDs.get((Integer.parseInt(bookID))); 
+                imageButton.setOnClickListener(new View.OnClickListener(){ 
+                    public void onClick(View view){
+                     Intent activityChangeIntent = new Intent(BookshelfActivity.this, BookInfo.class);
+                    activityChangeIntent.putExtra("init", id); 
+                        startActivity(activityChangeIntent); 
+                    } 
+                });
+            } 
+        }   
+        //        for(int i = 0; i < buttons.size(); i++){ 
+        //            ImageButton imageButton = buttons.get(i); //
+        //            final String id = bookIDs.get(i); //
+        //            imageButton.setOnClickListener(new View.OnClickListener(){ //
+        //                public void onClick(View view){ //
+        //                    Intent activityChangeIntent = new Intent(BookshelfActivity.this, BookInfo.class); //
+        //                    activityChangeIntent.putExtra("init", id); //
+        //                    startActivity(activityChangeIntent); //
+        //                } //
+        //            }); //
+        //        }  
+        fixVisibility(); 
 
     }
 
@@ -119,10 +149,13 @@ public class BookshelfActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_bookclubs) {
-            if (((Guest) this.getApplication()).getGuest()) {
+
+            if ( ((Guest) this.getApplication()).getGuest()){
                 Intent intent = new Intent(this, GuestError.class);
                 startActivity(intent);
             }
+            Intent intent = new Intent(this, BookclubActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_notifications) {
             if (((Guest) this.getApplication()).getGuest()) {
                 Intent intent = new Intent(this, GuestError.class);
@@ -136,6 +169,7 @@ public class BookshelfActivity extends AppCompatActivity
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

@@ -29,6 +29,12 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
+
+    compile 'com.google.apis:google-api-services-books:v1-rev88-1.22.0'
+    compile 'com.google.firebase:firebase-auth:9.4.0'
+    compile 'com.google.firebase:firebase-database:9.4.0'
+
+
     compile 'com.loopj.android:android-async-http:1.4.8'
     compile('com.google.apis:google-api-services-books:v1-rev88-1.22.0') {
         exclude module: 'httpclient' //by artifact name
@@ -36,6 +42,11 @@ dependencies {
         exclude group: 'org.apache.httpcomponents', module: 'httpclient' //by both name and group
     }
     compile 'com.android.volley:volley:1.0.0'
+
     compile group:'com.squareup.picasso', name:'picasso', version:'2.5.0'
+
+
     testCompile 'junit:junit:4.12'
 }
+
+apply plugin: 'com.google.gms.google-services'
