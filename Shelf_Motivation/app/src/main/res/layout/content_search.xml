@@ -51,5 +51,7 @@
         android:layout_below="@+id/bookButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:id="@+id/searchButton" />
+        android:id="@+id/searchButton"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="#ffffff" />
 </RelativeLayout>

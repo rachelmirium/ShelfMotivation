@@ -140,7 +140,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/createAccount"
             android:layout_weight="0.39"
-            android:background="#32684f"
+            android:background="@color/colorPrimaryDark"
             android:textColor="#ffffff"
 
             />

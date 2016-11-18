@@ -79,7 +79,7 @@
                 android:layout_toEndOf="@+id/bookAuthor"
                 android:layout_marginStart="32dp"
                 android:layout_weight="1"
-                android:background="#32684f"
+                android:background="@color/colorPrimaryDark"
                 android:textColor="#ffffff" />
 
         </LinearLayout>
@@ -103,7 +103,7 @@
             android:id="@+id/recommendButton"
             android:layout_alignTop="@+id/recommendBook"
             android:layout_toEndOf="@+id/bookImage"
-            android:background="#32684f"
+            android:background="@color/colorPrimaryDark"
             android:textColor="#ffffff" />
 
     </LinearLayout>
