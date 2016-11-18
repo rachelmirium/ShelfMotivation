@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -25,6 +26,7 @@ public class BookshelfActivity extends AppCompatActivity
     private int numberOfSavedBooks;
 
     private ArrayList<ImageButton> buttons;
+    private ArrayList<String> bookIDs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class BookshelfActivity extends AppCompatActivity
         numberOfSavedBooks=0;
 
         buttons= new ArrayList<ImageButton>(9);
+        bookIDs = new ArrayList<String>(9);
 
         buttons.add((ImageButton)(findViewById(R.id.book0)));
         buttons.add((ImageButton)(findViewById(R.id.book1)));
@@ -65,7 +68,27 @@ public class BookshelfActivity extends AppCompatActivity
         buttons.add((ImageButton)(findViewById(R.id.book7)));
         buttons.add((ImageButton)(findViewById(R.id.book8)));
 
+//        for(int i = 0; i < buttons.size(); i++){
+//            ImageButton b = buttons.get(i);
+//            final String id = bookIDs.get(i);
+//            b.setOnClickListener(new View.OnClickListener(){
+//                public void onClick(View view){
+//                    Intent activityChangeIntent = new Intent(BookshelfActivity.this, BookInfo.class);
+//                    activityChangeIntent.putExtra("init", id);
+//                    startActivity(activityChangeIntent);
+//                }
+//            });
+//        }
+
         fixVisibility();
+
+        Bundle b = getIntent().getExtras();
+        if(b != null) {
+            String bookID = b.getString("add");
+            if (bookID != null) {
+                newBook(bookID);
+            }
+        }
 
     }
 
@@ -108,7 +131,7 @@ public class BookshelfActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_search) {
-            // Handle the camera action
+            BooksAPI.getBookByID(this, "zyTCAlFPjgYC");
         } else if (id == R.id.nav_bookshelf) {
             Intent intent = new Intent(this, BookshelfActivity.class);
             startActivity(intent);
@@ -149,11 +172,12 @@ public class BookshelfActivity extends AppCompatActivity
         return true;
     }
 
-    public void newBook(){
+    public void newBook(String bookID){
 
         ImageButton button=  buttons.get(numberOfSavedBooks);
 //        button.setBackgroundResource(R.drawable.cover);
 //set the cover of the book to an image passed in from the API
+        bookIDs.set(numberOfSavedBooks, bookID);
         numberOfSavedBooks++;
         fixVisibility();
     }
@@ -167,5 +191,7 @@ public class BookshelfActivity extends AppCompatActivity
             }
         }
     }
+
+
 
 }
