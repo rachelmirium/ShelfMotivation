@@ -57,11 +57,11 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
         String password = editTextPassword.getText().toString().trim();
 
         if(TextUtils.isEmpty(email)){
-            Toast.makeText(this, "Please enter an email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter your email", Toast.LENGTH_SHORT).show();
             return;
         }
         if(TextUtils.isEmpty(password)){
-            Toast.makeText(this, "Please enter a password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter your password", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -76,6 +76,7 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
                         if(task.isSuccessful()){
                             notGuest();
                             finish();
+                            //Log.d("USER EMAIL", firebaseAuth.getCurrentUser().getEmail());
                             startActivity(new Intent(getApplicationContext(), BookshelfActivity.class));
                         }
                     }
