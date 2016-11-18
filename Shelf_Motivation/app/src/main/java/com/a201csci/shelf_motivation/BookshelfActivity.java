@@ -55,11 +55,9 @@ public class BookshelfActivity extends AppCompatActivity
 
         numberOfSavedBooks = 0;
 
-
         buttons = new ArrayList<ImageButton>(9);
 
         bookIDs = new ArrayList<String>(9);
-
 
         buttons.add((ImageButton)(findViewById(R.id.book0)));
         buttons.add((ImageButton)(findViewById(R.id.book1)));
@@ -71,24 +69,26 @@ public class BookshelfActivity extends AppCompatActivity
         buttons.add((ImageButton)(findViewById(R.id.book7)));
         buttons.add((ImageButton)(findViewById(R.id.book8)));
 
-          Bundle b = getIntent().getExtras(); 
+        Bundle b = getIntent().getExtras();
         if(b != null) {
-            String bookID = b.getString("add"); 
-            String URL=b.getString("URL"); 
-            if (bookID != null) { 
+            String bookID = b.getString("add");
+            String URL = b.getString("URL");
+            if (bookID != null) {
                 bookIDs.add(bookID);
                 newBook(bookID, URL);
-                ImageButton imageButton = buttons.get(Integer.parseInt(bookID)); 
-                final String id = bookIDs.get((Integer.parseInt(bookID))); 
-                imageButton.setOnClickListener(new View.OnClickListener(){ 
-                    public void onClick(View view){
-                     Intent activityChangeIntent = new Intent(BookshelfActivity.this, BookInfo.class);
-                    activityChangeIntent.putExtra("init", id); 
-                        startActivity(activityChangeIntent); 
-                    } 
+                ImageButton imageButton = buttons.get(Integer.parseInt(bookID));
+                final String id = bookIDs.get((Integer.parseInt(bookID)));
+                imageButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View view) {
+                        Intent activityChangeIntent = new Intent(BookshelfActivity.this, BookInfo.class);
+                        activityChangeIntent.putExtra("init", id);
+                        startActivity(activityChangeIntent);
+
+                    }
                 });
-            } 
-        }   
+            }
+        }
+
         //        for(int i = 0; i < buttons.size(); i++){ 
         //            ImageButton imageButton = buttons.get(i); //
         //            final String id = bookIDs.get(i); //
@@ -100,7 +100,8 @@ public class BookshelfActivity extends AppCompatActivity
         //                } //
         //            }); //
         //        }  
-        fixVisibility(); 
+        fixVisibility();
+
 
     }
 
