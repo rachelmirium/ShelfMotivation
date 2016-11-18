@@ -11,7 +11,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.a201csci.shelf_motivation.BookInfo"
-    tools:showIn="@layout/app_bar_book_info">
+    tools:showIn="@layout/app_bar_book_info"
+    android:background="#f4e5d7">
 
     <LinearLayout
         android:orientation="vertical"
@@ -77,7 +78,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_toEndOf="@+id/bookAuthor"
                 android:layout_marginStart="32dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="#32684f"
+                android:textColor="#ffffff" />
 
         </LinearLayout>
 
@@ -99,7 +102,9 @@
             android:layout_height="78dp"
             android:id="@+id/recommendButton"
             android:layout_alignTop="@+id/recommendBook"
-            android:layout_toEndOf="@+id/bookImage" />
+            android:layout_toEndOf="@+id/bookImage"
+            android:background="#32684f"
+            android:textColor="#ffffff" />
 
     </LinearLayout>
 
