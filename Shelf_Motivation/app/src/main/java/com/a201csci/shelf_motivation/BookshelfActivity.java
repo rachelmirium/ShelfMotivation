@@ -1,12 +1,11 @@
 package com.a201csci.shelf_motivation;
 
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,8 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageButton;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -51,21 +53,24 @@ public class BookshelfActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        numberOfSavedBooks=0;
+        numberOfSavedBooks = 0;
 
-        buttons= new ArrayList<ImageButton>(9);
+        buttons = new ArrayList<ImageButton>(9);
 
-        buttons.add((ImageButton)(findViewById(R.id.book0)));
-        buttons.add((ImageButton)(findViewById(R.id.book1)));
-        buttons.add((ImageButton)(findViewById(R.id.book2)));
-        buttons.add((ImageButton)(findViewById(R.id.book3)));
-        buttons.add((ImageButton)(findViewById(R.id.book4)));
-        buttons.add((ImageButton)(findViewById(R.id.book5)));
-        buttons.add((ImageButton)(findViewById(R.id.book6)));
-        buttons.add((ImageButton)(findViewById(R.id.book7)));
-        buttons.add((ImageButton)(findViewById(R.id.book8)));
+        buttons.add((ImageButton) (findViewById(R.id.book0)));
+        buttons.add((ImageButton) (findViewById(R.id.book1)));
+        buttons.add((ImageButton) (findViewById(R.id.book2)));
+        buttons.add((ImageButton) (findViewById(R.id.book3)));
+        buttons.add((ImageButton) (findViewById(R.id.book4)));
+        buttons.add((ImageButton) (findViewById(R.id.book5)));
+        buttons.add((ImageButton) (findViewById(R.id.book6)));
+        buttons.add((ImageButton) (findViewById(R.id.book7)));
+        buttons.add((ImageButton) (findViewById(R.id.book8)));
 
         fixVisibility();
+        //newBook("str");
+        //Drawable dr= LoadImageFromWebOperations("https://books.google.com/books/content?id=zyTCAlFPjgYC&printsec=frontcover&img=1&zoom=2&edge=curl&source=gbs_api");
+        newBook("str");
 
     }
 
@@ -114,12 +119,12 @@ public class BookshelfActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_bookclubs) {
-            if ( ((Guest) this.getApplication()).getGuest()){
+            if (((Guest) this.getApplication()).getGuest()) {
                 Intent intent = new Intent(this, GuestError.class);
                 startActivity(intent);
             }
         } else if (id == R.id.nav_notifications) {
-            if ( ((Guest) this.getApplication()).getGuest()){
+            if (((Guest) this.getApplication()).getGuest()) {
                 Intent intent = new Intent(this, GuestError.class);
                 startActivity(intent);
             }
@@ -127,7 +132,7 @@ public class BookshelfActivity extends AppCompatActivity
             Intent intent = new Intent(this, Goals.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_settings ) {
+        } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         }
@@ -142,23 +147,39 @@ public class BookshelfActivity extends AppCompatActivity
         return true;
     }
 
-    public void newBook(){
+    public void newBook(String src) {
 
-        ImageButton button=  buttons.get(numberOfSavedBooks);
-//        button.setBackgroundResource(R.drawable.cover);
-//set the cover of the book to an image passed in from the API
+        ImageButton button = buttons.get(numberOfSavedBooks);
+        Drawable d = LoadImageFromWebOperations("https://books.google.com/books/content?id=zyTCAlFPjgYC&printsec=frontcover&img=1&zoom=2&edge=curl&source=gbs_api");
         numberOfSavedBooks++;
         fixVisibility();
+
+        button.setBackground(d);
+       // button.setBackground(d);
+
+
     }
 
-    private void fixVisibility(){
-        for (int i=0; i<9; i++){
-            if (numberOfSavedBooks-1<i){
+    private void fixVisibility() {
+        for (int i = 0; i < 9; i++) {
+            if (numberOfSavedBooks - 1 < i) {
                 buttons.get(i).setVisibility(View.INVISIBLE);
-            } else{
+            } else {
                 buttons.get(i).setVisibility(View.VISIBLE);
+
             }
         }
+    }
+
+
+    public static Drawable LoadImageFromWebOperations(String url) {
+            try {
+                InputStream is = (InputStream) new URL(url).getContent();
+                Drawable d = Drawable.createFromStream(is, "src name");
+                return d;
+            } catch (Exception e) {
+                return null;
+            }
     }
 
 }
