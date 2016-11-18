@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/loginButton"
             android:layout_weight="0.39"
-            android:background="#32684f"
+            android:background="@color/colorPrimaryDark"
             android:textColor="#ffffff" />
 
         <Space
@@ -54,7 +54,7 @@
             android:layout_width="229dp"
             android:layout_height="wrap_content"
             android:id="@+id/createAccount"
-            android:background="#32684f"
+            android:background="@color/colorPrimaryDark"
             android:textColor="#ffffff"
             android:layout_weight="0.42" />
 
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/continueAsGuest"
             android:layout_weight="0.39"
-            android:background="#32684f"
+            android:background="@color/colorPrimaryDark"
             android:textColor="#ffffff" />
 
         <Space

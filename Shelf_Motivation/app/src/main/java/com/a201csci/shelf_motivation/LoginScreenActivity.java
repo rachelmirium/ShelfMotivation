@@ -3,6 +3,7 @@ package com.a201csci.shelf_motivation;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,7 +34,10 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
         firebaseAuth = FirebaseAuth.getInstance();
         if(firebaseAuth.getCurrentUser() != null){
             //the user login already
-            //firebaseAuth.signOut();
+            firebaseAuth.signOut();
+
+            //Log.d("user", firebaseAuth.getCurrentUser().getEmail());
+
             finish();
             startActivity(new Intent(getApplicationContext(), BookshelfActivity.class));
         }
@@ -54,11 +57,11 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
         String password = editTextPassword.getText().toString().trim();
 
         if(TextUtils.isEmpty(email)){
-            Toast.makeText(this, "Please enter an email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter your email", Toast.LENGTH_SHORT).show();
             return;
         }
         if(TextUtils.isEmpty(password)){
-            Toast.makeText(this, "Please enter a password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter your password", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -73,6 +76,7 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
                         if(task.isSuccessful()){
                             notGuest();
                             finish();
+                            //Log.d("USER EMAIL", firebaseAuth.getCurrentUser().getEmail());
                             startActivity(new Intent(getApplicationContext(), BookshelfActivity.class));
                         }
                     }

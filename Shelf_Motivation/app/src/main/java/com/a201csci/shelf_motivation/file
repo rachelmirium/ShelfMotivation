@@ -1,0 +1,40 @@
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_bookshelf);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        numberOfSavedBooks = 0;
+
+
+        buttons = new ArrayList<ImageButton>(9);
+
+        bookIDs = new ArrayList<String>(9);
+
+
+        buttons.add((ImageButton)(findViewById(R.id.book0)));
+        buttons.add((ImageButton)(findViewById(R.id.book1)));
+        buttons.add((ImageButton)(findViewById(R.id.book2)));
+        buttons.add((ImageButton)(findViewById(R.id.book3)));
+        buttons.add((ImageButton)(findViewById(R.id.book4)));
+        buttons.add((ImageButton)(findViewById(R.id.book5)));
+        buttons.add((ImageButton)(findViewById(R.id.book6)));
+        buttons.add((ImageButton)(findViewById(R.id.book7)));
+        buttons.add((ImageButton)(findViewById(R.id.book8)));

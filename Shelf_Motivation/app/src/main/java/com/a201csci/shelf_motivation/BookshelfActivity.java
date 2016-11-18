@@ -21,9 +21,8 @@ import java.util.ArrayList;
 
 
 public class BookshelfActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AbsctractBooksAPI {
 
-    private int numberOfSavedBooks;
 
     private ArrayList<ImageButton> buttons;
     private ArrayList<String> bookIDs;
@@ -53,7 +52,7 @@ public class BookshelfActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        numberOfSavedBooks = 0;
+        ((Guest) this.getApplication()).setNumberOfBooks(0);
 
         buttons = new ArrayList<ImageButton>(9);
 
@@ -69,40 +68,26 @@ public class BookshelfActivity extends AppCompatActivity
         buttons.add((ImageButton)(findViewById(R.id.book7)));
         buttons.add((ImageButton)(findViewById(R.id.book8)));
 
+
         Bundle b = getIntent().getExtras();
-        if(b != null) {
-            String bookID = b.getString("add");
+        if (b!= null){
+            String bookID= b.getString("add");
             String URL = b.getString("URL");
-            if (bookID != null) {
+            if (bookID!=null){
                 bookIDs.add(bookID);
-                newBook(bookID, URL);
-                ImageButton imageButton = buttons.get(Integer.parseInt(bookID));
-                final String id = bookIDs.get((Integer.parseInt(bookID)));
-                imageButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View view) {
-                        Intent activityChangeIntent = new Intent(BookshelfActivity.this, BookInfo.class);
+                ImageButton imageButton= buttons.get(Integer.parseInt(bookID));
+                final String id= bookIDs.get(Integer.parseInt(bookID));
+                imageButton.setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        Intent activityChangeIntent= new Intent (BookshelfActivity.this, BookInfo.class);
                         activityChangeIntent.putExtra("init", id);
                         startActivity(activityChangeIntent);
-
                     }
                 });
             }
         }
 
-        //        for(int i = 0; i < buttons.size(); i++){ 
-        //            ImageButton imageButton = buttons.get(i); //
-        //            final String id = bookIDs.get(i); //
-        //            imageButton.setOnClickListener(new View.OnClickListener(){ //
-        //                public void onClick(View view){ //
-        //                    Intent activityChangeIntent = new Intent(BookshelfActivity.this, BookInfo.class); //
-        //                    activityChangeIntent.putExtra("init", id); //
-        //                    startActivity(activityChangeIntent); //
-        //                } //
-        //            }); //
-        //        }  
         fixVisibility();
-
-
     }
 
     @Override
@@ -144,7 +129,9 @@ public class BookshelfActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_search) {
-            BooksAPI.getBookByID(this, "zyTCAlFPjgYC");
+            Intent intent = new Intent(this, Search.class);
+            startActivity(intent);
+            BooksAPI.getBookByID(this, "zyTCAlFPjgYC", this);
         } else if (id == R.id.nav_bookshelf) {
             Intent intent = new Intent(this, BookshelfActivity.class);
             startActivity(intent);
@@ -154,13 +141,16 @@ public class BookshelfActivity extends AppCompatActivity
             if ( ((Guest) this.getApplication()).getGuest()){
                 Intent intent = new Intent(this, GuestError.class);
                 startActivity(intent);
+            }else {
+                Intent intent = new Intent(this, BookclubActivity.class);
+                startActivity(intent);
             }
-            Intent intent = new Intent(this, BookclubActivity.class);
-            startActivity(intent);
         } else if (id == R.id.nav_notifications) {
             if (((Guest) this.getApplication()).getGuest()) {
                 Intent intent = new Intent(this, GuestError.class);
                 startActivity(intent);
+            } else{
+
             }
         } else if (id == R.id.nav_goals) {
             Intent intent = new Intent(this, Goals.class);
@@ -181,10 +171,10 @@ public class BookshelfActivity extends AppCompatActivity
 
 
     public void newBook(String bookID, String URL){
-        ImageButton button = buttons.get(numberOfSavedBooks);
+        ImageButton button = buttons.get(((Guest) this.getApplication()).getNumberOfBooks());
         Picasso.with(this).load(URL).into(button);
         //bookIDs.set(numberOfSavedBooks, bookID);
-        numberOfSavedBooks++;
+        ((Guest) this.getApplication()).setNumberOfBooks(((Guest) this.getApplication()).getNumberOfBooks()+1);
         fixVisibility();
 
 
@@ -192,7 +182,7 @@ public class BookshelfActivity extends AppCompatActivity
 
     private void fixVisibility() {
         for (int i = 0; i < 9; i++) {
-            if (numberOfSavedBooks - 1 < i) {
+            if ( ((Guest) this.getApplication()).getNumberOfBooks() - 1 < i) {
                 buttons.get(i).setVisibility(View.INVISIBLE);
             } else {
                 buttons.get(i).setVisibility(View.VISIBLE);
@@ -202,6 +192,14 @@ public class BookshelfActivity extends AppCompatActivity
     }
 
 
+    public void gotBookByID(Book book){
+    }
+    public void gotAllBooks(ArrayList<Book> books){
+
+    }
+    public void gotError(){
+
+    }
 
 
 }

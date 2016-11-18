@@ -91,9 +91,10 @@ public class Navigation_Menu extends AppCompatActivity
             if ( ((Guest) this.getApplication()).getGuest()){
                 Intent intent = new Intent(this, GuestError.class);
                 startActivity(intent);
+            }else {
+                Intent intent = new Intent(this, BookclubActivity.class);
+                startActivity(intent);
             }
-            Intent intent = new Intent(this, BookclubActivity.class);
-            startActivity(intent);
         } else if (id == R.id.nav_notifications) {
             if ( ((Guest) this.getApplication()).getGuest()){
                 Intent intent = new Intent(this, GuestError.class);
