@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 
 public class BookshelfActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AbsctractBooksAPI {
 
 
     private ArrayList<ImageButton> buttons;
@@ -131,7 +131,7 @@ public class BookshelfActivity extends AppCompatActivity
         if (id == R.id.nav_search) {
             Intent intent = new Intent(this, Search.class);
             startActivity(intent);
-            BooksAPI.getBookByID(this, "zyTCAlFPjgYC");
+            BooksAPI.getBookByID(this, "zyTCAlFPjgYC", this);
         } else if (id == R.id.nav_bookshelf) {
             Intent intent = new Intent(this, BookshelfActivity.class);
             startActivity(intent);
@@ -192,6 +192,14 @@ public class BookshelfActivity extends AppCompatActivity
     }
 
 
+    public void gotBookByID(Book book){
+    }
+    public void gotAllBooks(ArrayList<Book> books){
+
+    }
+    public void gotError(){
+
+    }
 
 
 }
