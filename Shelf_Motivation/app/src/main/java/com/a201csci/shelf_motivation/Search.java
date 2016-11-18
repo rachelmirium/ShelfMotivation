@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.RadioButton;
 
 import java.util.ArrayList;
 
@@ -106,7 +107,10 @@ public class Search extends AppCompatActivity
 
     public void search(){
 
-        //create array of search results
+        //create array of search results depending on whether author or book is selected
+        boolean authorSelected = ((RadioButton) findViewById(R.id.authorButton)).isSelected();
+        boolean bookSelected = ((RadioButton) findViewById(R.id.bookButton)).isSelected();
+
         ArrayList<String> bookIDs = new ArrayList<String>();
 
         Intent activityChangeIntent = new Intent(Search.this, SearchResults.class);

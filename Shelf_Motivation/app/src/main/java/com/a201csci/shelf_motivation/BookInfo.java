@@ -14,12 +14,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 public class BookInfo extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     String bookID;
+    String bookURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +62,7 @@ public class BookInfo extends AppCompatActivity
         recommendButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 TextView tv = (TextView) findViewById(R.id.recommendBook);
-                recommend((String) tv.getText(), bookID);
+                recommend((String) tv.getText());
             }
         });
 
@@ -125,16 +130,20 @@ public class BookInfo extends AppCompatActivity
 
         Intent activityChangeIntent = new Intent(BookInfo.this, BookshelfActivity.class);
         activityChangeIntent.putExtra("add", bookID);
+        activityChangeIntent.putExtra("URL", bookURL);
         startActivity(activityChangeIntent);
     }
 
     public void initializeView(String bookID){
-        //set image
+        this.bookID = bookID;
+        //set bookURL
+        ImageView i = (ImageView) findViewById(R.id.bookImage);
+        Picasso.with(this).load(bookURL).into(i);
         //set title
         //set author
     }
 
-    public void recommend(String username, String bookID){
+    public void recommend(String username){
         //send bookID to user
     }
 }
