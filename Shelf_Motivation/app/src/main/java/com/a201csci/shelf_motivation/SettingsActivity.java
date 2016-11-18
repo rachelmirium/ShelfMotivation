@@ -6,13 +6,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class SettingsActivity extends AppCompatActivity {
+import com.google.firebase.auth.FirebaseAuth;
+
+public class SettingsActivity extends AppCompatActivity{
+
+    private FirebaseAuth firebaseAuth;
+    private Button logout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        firebaseAuth = FirebaseAuth.getInstance();
 
         if ( ((Guest) this.getApplication()).getGuest()){
             View button= findViewById(R.id.logout);
@@ -22,11 +29,12 @@ public class SettingsActivity extends AppCompatActivity {
             button.setVisibility(View.GONE);
         }
 
-        final Button logout = (Button) findViewById(R.id.logout);
+        logout = (Button) findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
-
+                firebaseAuth.signOut();
+                finish();
                 Intent activityChangeIntent = new Intent(SettingsActivity.this, StartScreenActivity.class);
                 startActivity(activityChangeIntent);
             }
@@ -44,7 +52,14 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
 
-
-
     }
+
+//    @Override
+//    public void onClick(View view) {
+//        if(view == logout){
+//            firebaseAuth.signOut();
+//            finish();
+//            startActivity(new Intent(this, LoginScreenActivity.class));
+//        }
+//    }
 }

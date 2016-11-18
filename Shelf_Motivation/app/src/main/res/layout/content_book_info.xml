@@ -29,7 +29,7 @@
                 android:layout_width="167dp"
                 android:layout_height="match_parent"
                 app:srcCompat="@mipmap/book_icon"
-                android:id="@+id/imageView4"
+                android:id="@+id/bookImage"
                 android:layout_row="0"
                 android:layout_column="0"
                 android:layout_alignParentStart="true"
@@ -99,7 +99,7 @@
             android:layout_height="78dp"
             android:id="@+id/recommendButton"
             android:layout_alignTop="@+id/recommendBook"
-            android:layout_toEndOf="@+id/imageView4" />
+            android:layout_toEndOf="@+id/bookImage" />
 
     </LinearLayout>
 

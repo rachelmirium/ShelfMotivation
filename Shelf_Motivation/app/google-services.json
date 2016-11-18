@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "855137898419",
+    "firebase_url": "https://shelf-motivation-4ffe7.firebaseio.com",
+    "project_id": "shelf-motivation-4ffe7",
+    "storage_bucket": "shelf-motivation-4ffe7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855137898419:android:99b19c467c7bfa25",
+        "android_client_info": {
+          "package_name": "com.a201csci.shelf_motivation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "855137898419-i81oobmcjjhgtifhm05s28cqn96qgmst.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-mCkaFdQlFo6ppNEYT5A2ZuNLsdF43wI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

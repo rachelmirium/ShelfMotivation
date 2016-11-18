@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.RadioButton;
 
 import java.util.ArrayList;
 
@@ -90,15 +91,40 @@ public class Search extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
         if (id == R.id.nav_search) {
-            // Handle the camera action
+            Intent intent = new Intent(this, Search.class);
+            startActivity(intent);
+            BooksAPI.getBookByID(this, "zyTCAlFPjgYC");
         } else if (id == R.id.nav_bookshelf) {
+            Intent intent = new Intent(this, BookshelfActivity.class);
+            startActivity(intent);
+
         } else if (id == R.id.nav_bookclubs) {
+
+            if ( ((Guest) this.getApplication()).getGuest()){
+                Intent intent = new Intent(this, GuestError.class);
+                startActivity(intent);
+            }else {
+                Intent intent = new Intent(this, BookclubActivity.class);
+                startActivity(intent);
+            }
         } else if (id == R.id.nav_notifications) {
+            if (((Guest) this.getApplication()).getGuest()) {
+                Intent intent = new Intent(this, GuestError.class);
+                startActivity(intent);
+            } else{
+
+            }
         } else if (id == R.id.nav_goals) {
-        } else if (id == R.id.nav_share) {
-        } else if (id == R.id.nav_send) {
+            Intent intent = new Intent(this, Goals.class);
+            startActivity(intent);
+
+        } else if (id == R.id.nav_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
         }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -106,11 +132,14 @@ public class Search extends AppCompatActivity
 
     public void search(){
 
-        //create array of search results
-        ArrayList<String> bookIDs = new ArrayList<String>();
+        //create array of search results depending on whether author or book is selected
+       // boolean authorSelected = ((RadioButton) findViewById(R.id.authorButton)).isSelected();
+       // boolean bookSelected = ((RadioButton) findViewById(R.id.bookButton)).isSelected();
 
-        Intent activityChangeIntent = new Intent(Search.this, SearchResults.class);
-        activityChangeIntent.putExtra("results", bookIDs);
+     //   ArrayList<String> bookIDs = new ArrayList<String>();
+
+        Intent activityChangeIntent = new Intent(this, SearchResults.class);
+        //activityChangeIntent.putExtra("results", bookIDs);
         startActivity(activityChangeIntent);
     }
 }
