@@ -41,18 +41,11 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
 
         firebaseAuth = FirebaseAuth.getInstance();
         if(firebaseAuth.getCurrentUser() != null){
-<<<<<<< HEAD
-            //the user login already
-            //firebaseAuth.signOut();
-=======
             // Sign out the user if still logged in
             Log.d("USER", firebaseAuth.getCurrentUser().getEmail());
             firebaseAuth.signOut();
             return;
->>>>>>> origin/master
 
-//            finish();
-//            startActivity(new Intent(getApplicationContext(), BookshelfActivity.class));
         }
         progressDialog = new ProgressDialog(this);
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -88,9 +81,6 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
                         if(task.isSuccessful()){
-<<<<<<< HEAD
-                            Log.d("USER EMAIL", firebaseAuth.getCurrentUser().getEmail());
-=======
 
                             // Check if user is in database, update last login date if so
                             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -107,7 +97,6 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) { }
                             });
->>>>>>> origin/master
 
                             notGuest();
                             finish();
