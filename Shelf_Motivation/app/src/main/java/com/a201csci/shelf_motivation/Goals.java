@@ -20,16 +20,28 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 
 public class Goals extends AppCompatActivity  {
 
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference databaseReference;
+
     Vector<CheckBox> goals;
+    List<goal> goalsDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +60,7 @@ public class Goals extends AppCompatActivity  {
         final LinearLayout mLayout = (LinearLayout) findViewById(R.id.goalsCheckboxes);
 
         goals = new Vector<CheckBox>();
+        goalsDB = new ArrayList<goal>();
         Cleaner cl = new Cleaner(goals, mLayout);
 
         Log.i("Goals_Activity","App Running");
@@ -85,14 +98,21 @@ public class Goals extends AppCompatActivity  {
             ((TextView) findViewById(R.id.goalsAlertLabel)).setText("Required fields cannot be left empty.");
             return null;
         }
-//        if(userLibrary.bookExists(bookttitle)) {
-            GoalCheckBox checkBox = new GoalCheckBox(bookTitle, dateTitle, this);
-            return checkBox.getCheckBox();
-//        }
-//        else{
-//            ((TextView) findViewById(R.id.goalsAlertLabel)).setText("Book not found in your bookshelf.");
-//            return null;
-//        }
+
+        // Add goal to user's data in database if not a guest
+        goal newGoal = new goal(bookTitle, dateTitle);
+        goalsDB.add(newGoal);
+        if (!((Guest) this.getApplication()).getGuest()) {
+            firebaseAuth = FirebaseAuth.getInstance();
+            databaseReference = FirebaseDatabase.getInstance().getReference();
+            String userUID = firebaseAuth.getCurrentUser().getUid();
+            databaseReference.child(userUID).child("goals").setValue(goalsDB);
+        }
+
+        // Create checkbox
+        GoalCheckBox checkBox = new GoalCheckBox(bookTitle, dateTitle, this);
+        return checkBox.getCheckBox();
+
     }
 
     @Override
