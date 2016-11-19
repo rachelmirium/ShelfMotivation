@@ -104,6 +104,12 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
                             finish();
                             startActivity(new Intent(getApplicationContext(), BookshelfActivity.class));
                         }
+                        else {
+                            // Error with log in
+                            Toast.makeText(LoginScreenActivity.this, "Invalid Login", Toast.LENGTH_SHORT);
+                            finish();
+                            startActivity(new Intent(getApplicationContext(), LoginScreenActivity.class));
+                        }
 
 
                     }

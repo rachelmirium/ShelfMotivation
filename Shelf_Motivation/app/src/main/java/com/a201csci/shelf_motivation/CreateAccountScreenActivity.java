@@ -85,20 +85,19 @@ public class CreateAccountScreenActivity extends AppCompatActivity implements Vi
             return;
         }
 
-        // Check if user is already registered, prevent registration if so
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (dataSnapshot.hasChild(user.getUid())) {
-//                    if (databaseReference.child(user.getUid()).child(""))
-                    Toast.makeText(CreateAccountScreenActivity.this, "User already exists", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) { }
-        });
+//        // Check if user is already registered, prevent registration if so
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                FirebaseUser user = firebaseAuth.getCurrentUser();
+//                if (user!=null && dataSnapshot.hasChild(user.getUid())) {
+//                    Toast.makeText(CreateAccountScreenActivity.this, "User already exists", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) { }
+//        });
 
         progressDialog.setMessage("Registering user...");
         progressDialog.show();
