@@ -15,9 +15,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class BookshelfActivity extends AppCompatActivity
@@ -26,6 +30,8 @@ public class BookshelfActivity extends AppCompatActivity
 
     private ArrayList<ImageButton> buttons;
     private ArrayList<String> bookIDs;
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +81,15 @@ public class BookshelfActivity extends AppCompatActivity
             String URL = b.getString("URL");
             if (bookID!=null){
                 bookIDs.add(bookID);
+
+                // Add book to user's database
+                if (!((Guest) this.getApplication()).getGuest()) {
+                    firebaseAuth = FirebaseAuth.getInstance();
+                    databaseReference = FirebaseDatabase.getInstance().getReference();
+                    String userUID = firebaseAuth.getCurrentUser().getUid();
+                    databaseReference.child(userUID).child("bookshelf").setValue(bookIDs);
+                }
+
                 ImageButton imageButton= buttons.get(Integer.parseInt(bookID));
                 final String id= bookIDs.get(Integer.parseInt(bookID));
                 imageButton.setOnClickListener(new View.OnClickListener(){

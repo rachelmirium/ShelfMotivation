@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 public class BookInfo extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -152,6 +154,7 @@ public class BookInfo extends AppCompatActivity
 
     public void addBook(){
 
+        // Change intent
         Intent activityChangeIntent = new Intent(BookInfo.this, BookshelfActivity.class);
         activityChangeIntent.putExtra("add", bookID);
         activityChangeIntent.putExtra("URL", bookURL);

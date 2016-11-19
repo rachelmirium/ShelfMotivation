@@ -28,11 +28,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Vector;
 
 public class Goals extends AppCompatActivity  {
@@ -41,7 +38,7 @@ public class Goals extends AppCompatActivity  {
     private DatabaseReference databaseReference;
 
     Vector<CheckBox> goals;
-    List<goal> goalsDB;
+    ArrayList<goal> goalsDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
