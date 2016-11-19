@@ -10,14 +10,33 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BookclubActivity extends Activity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private Button send;
+    private ListView msgList;
+    private EditText msgToSend;
+    private ArrayAdapter<String> chatArrayAdapter;
+    private ArrayList<String> chatMsgList = new ArrayList<>();
+
+    private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +72,26 @@ public class BookclubActivity extends Activity
                 R.drawable.ic_menu_send,
                 R.drawable.ic_menu_manage
         };
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getListView().getContext(), android.R.layout.simple_list_item_1, usernames);
-//        getListView().setAdapter(adapter);
         ListView lv = (ListView) findViewById(R.id.userlist);
         lv.setAdapter(new CustomAdapter(this, usernamess, imageIdss));
+
+
+        send = (Button) findViewById(R.id.send);
+        msgList = (ListView) findViewById(R.id.msgListview);
+        msgToSend = (EditText) findViewById(R.id.msg);
+        chatArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, chatMsgList);
+        msgList.setAdapter(chatArrayAdapter);
+
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put(msgToSend.getText().toString(), "");
+                Log.d("HI ", msgToSend.getText().toString());
+                root.updateChildren(map);
+                Log.d("HI ", msgToSend.getText().toString());
+            }
+        });
 
     }
 

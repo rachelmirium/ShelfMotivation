@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,7 +35,7 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
         firebaseAuth = FirebaseAuth.getInstance();
         if(firebaseAuth.getCurrentUser() != null){
             //the user login already
-            firebaseAuth.signOut();
+            //firebaseAuth.signOut();
 
             //Log.d("user", firebaseAuth.getCurrentUser().getEmail());
 
@@ -74,9 +75,10 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
                         if(task.isSuccessful()){
+                            Log.d("USER EMAIL", firebaseAuth.getCurrentUser().getEmail());
+
                             notGuest();
                             finish();
-                            //Log.d("USER EMAIL", firebaseAuth.getCurrentUser().getEmail());
                             startActivity(new Intent(getApplicationContext(), BookshelfActivity.class));
                         }
                     }
