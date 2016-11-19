@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -31,12 +32,14 @@ public class BookclubActivity extends Activity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Button send;
-    private ListView msgList;
+    private TextView conversation;
     private EditText msgToSend;
     private ArrayAdapter<String> chatArrayAdapter;
     private ArrayList<String> chatMsgList = new ArrayList<>();
+    private String username;
 
     private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +80,9 @@ public class BookclubActivity extends Activity
 
 
         send = (Button) findViewById(R.id.send);
-        msgList = (ListView) findViewById(R.id.msgListview);
+        conversation = (TextView) findViewById(R.id.msgList);
         msgToSend = (EditText) findViewById(R.id.msg);
-        chatArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, chatMsgList);
-        msgList.setAdapter(chatArrayAdapter);
+        username = getIntent().getExtras().get("user_name").toString();
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +145,7 @@ public class BookclubActivity extends Activity
                 Intent intent = new Intent(this, GuestError.class);
                 startActivity(intent);
             }else {
-                Intent intent = new Intent(this, BookclubActivity.class);
+                Intent intent = new Intent(this, BookclubOverview.class);
                 startActivity(intent);
             }
         } else if (id == R.id.nav_notifications) {

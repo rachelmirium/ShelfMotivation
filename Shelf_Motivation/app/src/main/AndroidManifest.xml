@@ -32,7 +32,6 @@
         </activity>
         <activity android:name=".CreateAccountScreenActivity" />
         <activity android:name=".LoginScreenActivity" />
-
         <activity android:name=".GuestError" />
         <activity android:name=".SettingsActivity" />
         <activity
@@ -50,7 +49,8 @@
             android:name=".BookclubActivity"
             android:label="@string/title_activity_bookclub"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".BookClubSignup"></activity>
+        <activity android:name=".BookClubSignup" />
+        <activity android:name=".BookclubOverview"></activity>
     </application>
 
 </manifest>
