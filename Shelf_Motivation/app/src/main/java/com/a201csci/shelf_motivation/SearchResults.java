@@ -117,7 +117,7 @@ public class SearchResults extends AppCompatActivity
                 Intent intent = new Intent(this, GuestError.class);
                 startActivity(intent);
             }else {
-                Intent intent = new Intent(this, BookclubActivity.class);
+                Intent intent = new Intent(this, BookclubOverview.class);
                 startActivity(intent);
             }
         } else if (id == R.id.nav_notifications) {

@@ -10,17 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.a201csci.shelf_motivation.BookClubSignup">
 
-    <TextView
-        android:text="Bookclub name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="75dp"
-        android:id="@+id/textView6"
-        android:textColorLink="@color/colorPrimaryDark" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,25 +20,6 @@
         android:id="@+id/editText2" />
 
     <TextView
-        android:text="Add users"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView9"
-        android:layout_alignBottom="@+id/button2"
-        android:layout_alignStart="@+id/textView8" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/editText3"
-        android:singleLine="false"
-        android:layout_below="@+id/textView6"
-        android:layout_toEndOf="@+id/textView6"
-        android:layout_marginTop="17dp"
-        android:layout_height="120dp" />
-
-    <TextView
         android:text="Description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,12 +27,53 @@
         android:layout_alignTop="@+id/editText3"
         android:layout_alignStart="@+id/textView6" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/editText3"
+        android:singleLine="false"
+        android:layout_marginTop="15dp"
+        android:layout_height="120dp"
+        android:layout_below="@+id/editText2"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="Bookclub name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="69dp"
+        android:id="@+id/textView6"
+        android:textColorLink="@color/colorPrimaryDark"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
     <Button
         android:text="+"
         android:layout_width="@android:dimen/app_icon_size"
         android:layout_height="@android:dimen/app_icon_size"
         android:id="@+id/button2"
-        android:layout_marginTop="11dp"
-        android:layout_below="@+id/editText3"
-        android:layout_alignStart="@+id/editText2" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="185dp" />
+
+    <TextView
+        android:text="Add users by email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView9"
+        android:layout_alignStart="@+id/textView8"
+        android:layout_above="@+id/editText" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:layout_alignBottom="@+id/button2"
+        android:layout_toEndOf="@+id/textView6" />
 </RelativeLayout>

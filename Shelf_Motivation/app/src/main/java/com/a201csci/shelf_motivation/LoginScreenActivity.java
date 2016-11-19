@@ -80,10 +80,7 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
                         if(task.isSuccessful()){
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
                             // Check if user is in database, update last login date if so
                             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
@@ -99,10 +96,7 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) { }
                             });
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
                             notGuest();
                             finish();
                             startActivity(new Intent(getApplicationContext(), BookshelfActivity.class));

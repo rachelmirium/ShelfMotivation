@@ -11,7 +11,7 @@
     tools:context="com.a201csci.shelf_motivation.BookclubOverview">
 
     <Button
-        android:text="Create your own club"
+        android:text="Create your own bookclub"
         android:layout_height="wrap_content"
         android:id="@+id/createClub"
         android:layout_width="500dp"
