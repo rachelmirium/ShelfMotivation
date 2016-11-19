@@ -42,7 +42,6 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
         firebaseAuth = FirebaseAuth.getInstance();
         if(firebaseAuth.getCurrentUser() != null){
             // Sign out the user if still logged in
-            Log.d("USER", firebaseAuth.getCurrentUser().getEmail());
             firebaseAuth.signOut();
             return;
 
@@ -83,7 +82,6 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
                         if(task.isSuccessful()){
-
                             // Check if user is in database, update last login date if so
                             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
@@ -99,7 +97,6 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) { }
                             });
-
                             notGuest();
                             finish();
                             startActivity(new Intent(getApplicationContext(), BookshelfActivity.class));
