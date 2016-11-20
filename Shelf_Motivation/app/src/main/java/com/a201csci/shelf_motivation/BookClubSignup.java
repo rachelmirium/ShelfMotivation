@@ -82,7 +82,7 @@ public class BookClubSignup extends AppCompatActivity {
 
                 Calendar cal = Calendar.getInstance(Locale.US);
                 Map<String, Object> timeCreate = new HashMap<String, Object>();
-                timeCreate.put("Created", cal.getTime());
+                timeCreate.put("Created", cal.getTime().toString());
 //                timeCreate.put("Created", (new Date()).getMonth()+"/"+(new Date()).getDate()+"/"+(new Date()).getYear());
                 databaseReference.child("bookclubs").child(bookclubName).updateChildren(timeCreate);
 
@@ -97,6 +97,12 @@ public class BookClubSignup extends AppCompatActivity {
                 Map<String, Object> chatroom = new HashMap<String, Object>();
                 chatroom.put("chatroom", "");
                 databaseReference.child("bookclubs").child(bookclubName).updateChildren(chatroom);
+
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                FirebaseUser currUser = firebaseAuth.getCurrentUser();
+                Map<String, Object> bookclubInUser = new HashMap<String, Object>();
+                bookclubInUser.put(bookclubName, "");
+                databaseReference.child("userInfo").child(currUser.getUid()).child("bookclubs").updateChildren(bookclubInUser);
 
 
                 Intent intent = new Intent(getApplicationContext(), BookclubActivity.class);
