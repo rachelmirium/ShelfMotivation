@@ -59,7 +59,7 @@ public class BooksAPI{
                         ArrayList<Book> books = new ArrayList<Book>();
                         try {
                             JSONArray booksArray = (JSONArray) response.get("items");
-                            for(int i=0;i<10;i++){
+                            for(int i=0;i<booksArray.length();i++){
                                 books.add(new Book(booksArray.optJSONObject(i)));
                                 System.out.println(booksArray.optJSONObject(i));
                             }
@@ -97,7 +97,7 @@ public class BooksAPI{
                         ArrayList<Book> books = new ArrayList<Book>();
                         try {
                             JSONArray booksArray = (JSONArray) response.get("items");
-                            for(int i=0;i<10;i++){
+                            for(int i=0;i<booksArray.length();i++){
                                 books.add(new Book(booksArray.optJSONObject(i)));
                                 System.out.println(booksArray.optJSONObject(i));
                             }

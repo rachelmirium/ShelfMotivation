@@ -14,15 +14,6 @@
     tools:showIn="@layout/app_bar_search_results"
     android:background="#f4e5d7">
 
-    <Button
-        android:text="Back to Search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="17dp"
-        android:id="@+id/backToSearch" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,7 +23,17 @@
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/searchResults" />
     </ScrollView>
+
+    <Button
+        android:text="Back to Search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="17dp"
+        android:id="@+id/backToSearch" />
+
 </RelativeLayout>

@@ -42,14 +42,14 @@ public class BookInfo extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -71,7 +71,7 @@ public class BookInfo extends AppCompatActivity
         recommendButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 TextView tv = (TextView) findViewById(R.id.recommendBook);
-                recommend((String) tv.getText());
+                recommend(tv.getText().toString());
             }
         });
 
@@ -196,10 +196,12 @@ public class BookInfo extends AppCompatActivity
         bookURL = book.getImageURL();
         ImageView i = (ImageView) findViewById(R.id.bookImage);
         Picasso.with(this).load(book.getImageURL()).into(i);
+
         TextView title = (TextView) findViewById(R.id.bookTitle);
         title.setText(book.getTitle());
+
         TextView author = (TextView) findViewById(R.id.bookAuthor);
-        title.setText(book.getAuthors().get(0));
+        author.setText(book.getAuthors().get(0));
     }
 
     @Override

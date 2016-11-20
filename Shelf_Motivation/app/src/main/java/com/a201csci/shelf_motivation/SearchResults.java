@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 public class SearchResults extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     ArrayList<String> bookIDs;
+    ArrayList<String> bookTitles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +57,26 @@ public class SearchResults extends AppCompatActivity
         Bundle b = getIntent().getExtras();
         if(b != null) {
             bookIDs = b.getStringArrayList("results");
-            String[] data = new String[bookIDs.size()];
-            for(int i = 0; i < bookIDs.size(); i++){
-                data[i] = bookIDs.get(i);
+            bookTitles = b.getStringArrayList("titles");
+            String[] data = new String[bookTitles.size()];
+            for(int i = 0; i < bookTitles.size(); i++){
+                data[i] = bookTitles.get(i);
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_list_item_1, data);
             ListView listView = (ListView) findViewById(R.id.searchResults);
             listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+            {
+                // argument position gives the index of item which is clicked
+                public void onItemClick(AdapterView<?> arg0, View v,int position, long arg3)
+                {
+                    String id =bookIDs.get(position);
+                    Intent activityChangeIntent= new Intent (SearchResults.this, BookInfo.class);
+                    activityChangeIntent.putExtra("init", id);
+                    startActivity(activityChangeIntent);
+                }
+            });
         }
     }
 
