@@ -3,16 +3,22 @@ package com.a201csci.shelf_motivation;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,16 +57,60 @@ public class BookClubSignup extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference();
         firebaseAuth = FirebaseAuth.getInstance();
 
+        invitedUserList.add(firebaseAuth.getCurrentUser().getEmail());
+
         inviteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final TextView textView = new TextView(getApplicationContext());
-                LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT);
-                textView.setLayoutParams(lparams);
-                textView.setText(inputUsername.getText().toString());
-                showAllInvitedUsers.addView(textView);
-                invitedUserList.add(inputUsername.getText().toString());
+                final String invitedUser = inputUsername.getText().toString();
+
+                // Check if user exists, add to invited list if found
+                    databaseReference.child("userInfo").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            Log.e("Count: " ,""+snapshot.getChildrenCount());
+                            boolean foundUser = false;
+                            for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                                String emailString = (String) dataSnapshot.child("email").getValue();
+                                Log.e("Email", emailString);
+                                if (invitedUser.equals(emailString)) {
+                                    Log.e("INVITE", "Added user " + emailString);
+                                    invitedUserList.add(invitedUser);
+                                    foundUser = true;
+
+                                    // Update user's profile in db
+                                    Map<String, Object> map = new HashMap<String, Object>();
+                                    map.put(name.getText().toString(), "");
+                                    String uid = dataSnapshot.getKey();
+                                    databaseReference.child("userInfo").child(uid).child("bookclubs").updateChildren(map);
+
+
+                                    // Show list on screen
+                                    LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                                            LinearLayout.LayoutParams.WRAP_CONTENT);
+                                    textView.setLayoutParams(lparams);
+                                    textView.setText(invitedUser);
+                                    showAllInvitedUsers.addView(textView);
+                                    break;
+                                }
+                            }
+                            if (!foundUser) {
+                                Toast.makeText(BookClubSignup.this, "Invalid user", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) { }
+                    });
+
+
+
+
+
+
+
+
+
             }
         });
 
