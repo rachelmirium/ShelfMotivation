@@ -89,6 +89,7 @@ public class BookshelfActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot snapshot) {
                 numberOfSavedBooks = 0;
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                    if(numberOfSavedBooks >= 9) return;
                     final String bookID = dataSnapshot.getKey();
                     final String bookURL = dataSnapshot.getValue().toString();
 //                    newBook(bookID, bookURL);
@@ -99,18 +100,14 @@ public class BookshelfActivity extends AppCompatActivity
                     Picasso.with(BookshelfActivity.this).load(bookURL).into(imageButton);
                     bookIDs.add(bookID);
                     numberOfSavedBooks++;
-//
-//
-//
-//                    ImageButton imageButton= buttons.get(numberOfSavedBooks);
-//                    Picasso.with(BookshelfActivity.this).load(bookURL).into(imageButton);
-//                    imageButton.setOnClickListener(new View.OnClickListener(){
-//                        public void onClick(View view){
-//                            Intent activityChangeIntent= new Intent (BookshelfActivity.this, BookInfo.class);
-//                            activityChangeIntent.putExtra("init", bookID);
-//                            startActivity(activityChangeIntent);
-//                        }
-//                    });
+
+                     imageButton.setOnClickListener(new View.OnClickListener(){
+                        public void onClick(View view){
+                            Intent activityChangeIntent= new Intent (BookshelfActivity.this, BookInfo.class);
+                            activityChangeIntent.putExtra("init", bookID);
+                            startActivity(activityChangeIntent);
+                        }
+                    });
                 }
                 fixVisibility();
             }
@@ -122,7 +119,7 @@ public class BookshelfActivity extends AppCompatActivity
         if (b!= null){
             final String bookID= b.getString("add");
             final String URL = b.getString("URL");
-            if (bookID!=null){
+            if (bookID!=null && numberOfSavedBooks < 9){
                 bookIDs.add(bookID);
 
                 ImageButton imageButton= buttons.get(numberOfSavedBooks);
@@ -223,13 +220,13 @@ public class BookshelfActivity extends AppCompatActivity
 
 
 
-    public void newBook(String bookID, String URL){
+    /*public void newBook(String bookID, String URL){
         ImageButton button = buttons.get(((Guest) this.getApplication()).getNumberOfBooks());
         Picasso.with(this).load(URL).into(button);
         //bookIDs.set(numberOfSavedBooks, bookID);
         ((Guest) this.getApplication()).setNumberOfBooks(((Guest) this.getApplication()).getNumberOfBooks()+1);
         fixVisibility();
-    }
+    }*/
 
     private void fixVisibility() {
         for (int i = 0; i < 9; i++) {
