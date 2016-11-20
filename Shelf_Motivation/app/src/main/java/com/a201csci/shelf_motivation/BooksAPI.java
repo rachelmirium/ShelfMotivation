@@ -28,7 +28,7 @@ public class BooksAPI{
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        System.out.println("Response: " + response.toString());
+                        //System.out.println("Response: " + response.toString());
                         Book book = new Book(response);
                         access.gotBookByID(book);
                     }
@@ -54,7 +54,7 @@ public class BooksAPI{
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        System.out.println("Response: " + response.toString());
+                        //System.out.println("Response: " + response.toString());
                         //process the response
                         ArrayList<Book> books = new ArrayList<Book>();
                         try {
@@ -92,7 +92,7 @@ public class BooksAPI{
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        System.out.println("Response: " + response.toString());
+                        //System.out.println("Response: " + response.toString());
                         //process the response
                         ArrayList<Book> books = new ArrayList<Book>();
                         try {
