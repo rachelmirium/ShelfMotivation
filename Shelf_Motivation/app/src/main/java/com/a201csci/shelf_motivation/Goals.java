@@ -3,6 +3,7 @@ package com.a201csci.shelf_motivation;
 //leoleo
 //rachel
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -57,11 +58,26 @@ public class Goals extends AppCompatActivity  {
                         .setAction("Action", null).show();
             }
         });
+
+
         final LinearLayout mLayout = (LinearLayout) findViewById(R.id.goalsCheckboxes);
 
         goals = new Vector<CheckBox>();
         goalsDB = new ArrayList<goal>();
         Cleaner cl = new Cleaner(goals, mLayout);
+
+        //get data from database
+        //create checkboxes
+        //loop through all goals
+//        GoalCheckBox checkBox = new GoalCheckBox(bookTitleString, dateTitleString, this);
+//        mLayout.addView(checkBox.getCheckBox());
+//        goals.add(checkBox.getCheckBox());
+//        checkBox.getCheckBox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                checkBox.getCheckBox().setText("Goal Accomplished!");
+//            }});
+        ////
 
         Log.i("Goals_Activity","App Running");
         Button button1 = (Button) findViewById(R.id.goalsAddButton);
@@ -204,14 +220,17 @@ public class Goals extends AppCompatActivity  {
                     @Override
                     public void run() {
                         long diff= cal.getTimeInMillis() - (new Date()).getTime();
-
+                        if(diff<=0){
+                            checkBox.setText(bookTitle+"Date Passed!");
+                            checkBox.setTextColor(getResources().getColor(R.color.error));
+                        }
                         long diffSeconds = diff / 1000 % 60;
                         long diffMinutes = diff / (60 * 1000) % 60;
                         long diffHours = diff / (60 * 60 * 1000) % 24;
                         long diffDays = diff / (24 * 60 * 60 * 1000);
 
                         checkBox.setText(bookTitle+"   "+
-                                Long.toString(diffDays)+"Days "+
+                                Long.toString(diffDays)+" Days "+
                                 Long.toString(diffHours)+":"+
                                 Long.toString(diffMinutes)+":"
                                 +Long.toString(diffSeconds));

@@ -5,5 +5,5 @@
     <color name="colorPrimary">#22300b</color>
     <color name="colorPrimaryDark">#456016</color>
     <color name="colorAccent">#524240</color>
-
+    <color name="error">#ff0000</color>
 </resources>
