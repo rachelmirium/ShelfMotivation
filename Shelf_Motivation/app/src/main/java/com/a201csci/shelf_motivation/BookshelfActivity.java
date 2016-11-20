@@ -90,7 +90,6 @@ public class BookshelfActivity extends AppCompatActivity
             final String URL = b.getString("URL");
             if (bookID!=null){
                 bookIDs.add(bookID);
-<<<<<<< HEAD
 
                 // Add book to user's database and load shelf
 //                if (!((Guest) this.getApplication()).getGuest()) {
@@ -117,16 +116,7 @@ public class BookshelfActivity extends AppCompatActivity
 //                        public void onCancelled(DatabaseError databaseError) { }
 //                    });
 //                }
-=======
-                newBook(bookID, URL);
-                // Add book to user's database
-                if (!((Guest) this.getApplication()).getGuest()) {
-                    firebaseAuth = FirebaseAuth.getInstance();
-                    databaseReference = FirebaseDatabase.getInstance().getReference();
-                    String userUID = firebaseAuth.getCurrentUser().getUid();
-                    databaseReference.child(userUID).child("bookshelf").setValue(bookIDs);
-                }
->>>>>>> 2ccddd9a9cd26e39f9d022e79955f33be9ab2d61
+
 
                 ImageButton imageButton= buttons.get(Integer.parseInt(bookID));
                 final String id= bookIDs.get(Integer.parseInt(bookID));
