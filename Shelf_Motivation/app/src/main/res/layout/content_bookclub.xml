@@ -61,14 +61,14 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:text="Date of Creation:"
+                    android:text="date_of_creation:"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView3"
                     android:textSize="18sp" />
 
                 <TextView
-                    android:text="date_of_creation"
+                    android:text="description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView4"

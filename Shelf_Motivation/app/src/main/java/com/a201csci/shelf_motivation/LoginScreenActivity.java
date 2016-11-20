@@ -80,7 +80,6 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
                         if(task.isSuccessful()){
-
                             // Check if user is in database, update last login date if so
                             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override

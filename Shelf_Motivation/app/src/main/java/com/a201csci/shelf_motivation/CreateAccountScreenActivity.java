@@ -142,6 +142,8 @@ public class CreateAccountScreenActivity extends AppCompatActivity implements Vi
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(name, editTextEmail.getText().toString().trim());
         databaseReferenceUsers.updateChildren(map);
+
+//        databaseReference.child("userInfo").updateChildren(map);
     }
 
     public class databaseUser {
