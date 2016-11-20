@@ -237,9 +237,10 @@ public class BookclubActivity extends Activity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_bookshelf) {
+        if (id == R.id.nav_search) {
+            Intent intent = new Intent(this, Search.class);
+            startActivity(intent);
+        }  else if (id == R.id.nav_bookshelf) {
             Intent intent = new Intent(this, BookshelfActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_bookclubs) {
@@ -251,7 +252,13 @@ public class BookclubActivity extends Activity
                 startActivity(intent);
             }
         } else if (id == R.id.nav_notifications) {
-
+            if (((Guest) this.getApplication()).getGuest()) {
+                Intent intent = new Intent(this, GuestError.class);
+                startActivity(intent);
+            } else{
+                Intent intent = new Intent(this, NotificationActivity.class);
+                startActivity(intent);
+            }
         } else if (id == R.id.nav_goals) {
             Intent intent = new Intent(this, GoalActivity.class);
             startActivity(intent);

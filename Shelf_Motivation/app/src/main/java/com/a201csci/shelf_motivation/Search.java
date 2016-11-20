@@ -117,7 +117,8 @@ public class Search extends AppCompatActivity
                 Intent intent = new Intent(this, GuestError.class);
                 startActivity(intent);
             } else{
-
+                Intent intent = new Intent(this, NotificationActivity.class);
+                startActivity(intent);
             }
         } else if (id == R.id.nav_goals) {
             Intent intent = new Intent(this, GoalActivity.class);

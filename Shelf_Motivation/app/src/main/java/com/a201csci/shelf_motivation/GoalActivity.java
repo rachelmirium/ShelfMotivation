@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.api.client.util.Data;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -79,55 +80,64 @@ public class GoalActivity extends AppCompatActivity
             @Override
             public void onClick(View arg0)
             {
-                final CheckBox cb = createNewCheckBox();
-                if(cb!=null) {
-                    ((TextView) findViewById(R.id.goalsAlertLabel)).setText("Goal Added!");
-                    mLayout.addView(cb);
-                    goals.add(cb);
-                    cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            cb.setText("Goal Accomplished!");
-                        }});
-                }
-                else{
-                    Log.i("error","Could not parse date");
-                }
+            final CheckBox cb = createNewCheckBox();
+            if(cb!=null) {
+                ((TextView) findViewById(R.id.goalsAlertLabel)).setText("Goal Added!");
+                mLayout.addView(cb);
+                goals.add(cb);
+                cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        cb.setText("Goal Accomplished!");
+                    }});
+            }
+            else{
+                Log.i("error","Could not parse date");
+            }
             }
         });
 
-        // Grab user's goals
-        if (!((Guest) this.getApplication()).getGuest()) {
-            firebaseAuth = FirebaseAuth.getInstance();
-            databaseReference = FirebaseDatabase.getInstance().getReference();
-            String userUID = firebaseAuth.getCurrentUser().getUid();
-            databaseReference.child("userInfo").child(userUID).child("goals").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot snapshot) {
-                    Log.e("Count: " ,""+snapshot.getChildrenCount());
-                    for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
-                        String bookTitleString = (String) dataSnapshot.child("bookTitle").getValue();
-                        String dateTitleString = (String) dataSnapshot.child("goalDate").getValue();
-                        goal mGoal = new goal(bookTitleString, dateTitleString);
-                        Log.e("Title", mGoal.getBookTitle());
-                        Log.e("Date", mGoal.getGoalDate());
-                        goalsDB.add(mGoal);
+        firebaseAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
-                        final GoalActivity.GoalCheckBox checkBox = new GoalActivity.GoalCheckBox(bookTitleString, dateTitleString, GoalActivity.this);
-                        mLayout.addView(checkBox.getCheckBox());
-                        goals.add(checkBox.getCheckBox());
-                        checkBox.getCheckBox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                            @Override
-                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                checkBox.getCheckBox().setText("Goal Accomplished!");
-                                checkBox.getCheckBox().setEnabled(false);
-                            }});
-                    }
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) { }
-            });
+        // Grab user's goals
+        DatabaseReference databaseReferenceUserGoals = databaseReference.child("userInfo");
+        if (!((Guest) this.getApplication()).getGuest()) {
+            String userUID = firebaseAuth.getCurrentUser().getUid();
+            databaseReferenceUserGoals = databaseReferenceUserGoals.child(userUID).child("goals");
         }
+        else {
+            // use guest account
+            databaseReferenceUserGoals = databaseReferenceUserGoals.child("guest").child("goals");
+        }
+
+        databaseReferenceUserGoals.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Log.e("Count: " ,""+snapshot.getChildrenCount());
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                    String bookTitleString = (String) dataSnapshot.child("bookTitle").getValue();
+                    String dateTitleString = (String) dataSnapshot.child("goalDate").getValue();
+                    goal mGoal = new goal(bookTitleString, dateTitleString);
+                    Log.e("Title", mGoal.getBookTitle());
+                    Log.e("Date", mGoal.getGoalDate());
+                    goalsDB.add(mGoal);
+
+                    final GoalActivity.GoalCheckBox checkBox = new GoalActivity.GoalCheckBox(bookTitleString, dateTitleString, GoalActivity.this);
+                    mLayout.addView(checkBox.getCheckBox());
+                    goals.add(checkBox.getCheckBox());
+                    checkBox.getCheckBox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            checkBox.getCheckBox().setText("Goal Accomplished!");
+                            checkBox.getCheckBox().setEnabled(false);
+                        }});
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
+
 
     }
 
@@ -142,12 +152,16 @@ public class GoalActivity extends AppCompatActivity
         // Add goal to user's data in database if not a guest
         goal newGoal = new goal(bookTitle, dateTitle);
         goalsDB.add(newGoal);
+        DatabaseReference databaseReferenceUserGoals = databaseReference.child("userInfo");
+
         if (!((Guest) this.getApplication()).getGuest()) {
             firebaseAuth = FirebaseAuth.getInstance();
             databaseReference = FirebaseDatabase.getInstance().getReference();
             String userUID = firebaseAuth.getCurrentUser().getUid();
-            databaseReference.child("userInfo").child(userUID).child("goals").setValue(goalsDB);
+//            databaseReferenceUserGoals =
         }
+
+//        databaseReference.child("userInfo").child(userUID).child("goals").setValue(goalsDB);
 
         // Create checkbox
         GoalActivity.GoalCheckBox checkBox = new GoalActivity.GoalCheckBox(bookTitle, dateTitle, this);
@@ -214,7 +228,8 @@ public class GoalActivity extends AppCompatActivity
                 Intent intent = new Intent(this, GuestError.class);
                 startActivity(intent);
             } else{
-
+                Intent intent = new Intent(this, NotificationActivity.class);
+                startActivity(intent);
             }
         } else if (id == R.id.nav_goals) {
             Intent intent = new Intent(this, GoalActivity.class);

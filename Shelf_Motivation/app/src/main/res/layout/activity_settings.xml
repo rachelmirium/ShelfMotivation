@@ -28,7 +28,8 @@
                 android:layout_height="139dp"
                 app:srcCompat="@drawable/gear"
                 android:id="@+id/imageView3"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_marginTop="40dp" />
 
         </LinearLayout>
 
@@ -47,9 +48,10 @@
                 android:layout_width="229dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/logout"
-                android:background="#32684f"
+                android:background="@color/colorPrimaryDark"
                 android:textColor="#ffffff"
-                android:layout_weight="0.42" />
+                android:layout_weight="0.42"
+                android:layout_marginTop="40dp" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -79,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/createaccount"
                 android:layout_weight="0.39"
-                android:background="#32684f"
+                android:background="@color/colorPrimaryDark"
                 android:textColor="#ffffff" />
 
             <Space

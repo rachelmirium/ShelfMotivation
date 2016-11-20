@@ -96,8 +96,11 @@ public class Navigation_Menu extends AppCompatActivity
                 startActivity(intent);
             }
         } else if (id == R.id.nav_notifications) {
-            if ( ((Guest) this.getApplication()).getGuest()){
+            if (((Guest) this.getApplication()).getGuest()) {
                 Intent intent = new Intent(this, GuestError.class);
+                startActivity(intent);
+            } else{
+                Intent intent = new Intent(this, NotificationActivity.class);
                 startActivity(intent);
             }
         } else if (id == R.id.nav_goals) {
