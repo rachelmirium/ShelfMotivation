@@ -153,7 +153,7 @@ public class BookclubActivity extends Activity
                 DatabaseReference message_root = chatroom.child(temp_key);
                 Map<String, Object> map2 = new HashMap<String, Object>();
                 map2.put("name", firebaseAuth.getCurrentUser().getEmail());
-                map2.put("msg", msgToSend.getText());
+                map2.put("msg", msgToSend.getText().toString());
                 message_root.updateChildren(map2);
             }
         });
