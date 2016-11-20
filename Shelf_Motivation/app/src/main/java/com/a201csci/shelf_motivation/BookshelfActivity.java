@@ -87,6 +87,7 @@ public class BookshelfActivity extends AppCompatActivity
         databaseReferenceShelf.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
+                numberOfSavedBooks = 0;
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     final String bookID = dataSnapshot.getKey();
                     final String bookURL = dataSnapshot.getValue().toString();
@@ -94,7 +95,10 @@ public class BookshelfActivity extends AppCompatActivity
                     Log.e("SHELF", bookID+ " and " + bookURL);
                     Log.e("SHELF", "number of books " + numberOfSavedBooks);
 
-//                    bookIDs.add(bookID);
+                    ImageButton imageButton= buttons.get(numberOfSavedBooks);
+                    Picasso.with(BookshelfActivity.this).load(bookURL).into(imageButton);
+                    bookIDs.add(bookID);
+                    numberOfSavedBooks++;
 //
 //
 //
@@ -107,9 +111,8 @@ public class BookshelfActivity extends AppCompatActivity
 //                            startActivity(activityChangeIntent);
 //                        }
 //                    });
-//                    fixVisibility();
-//                    numberOfSavedBooks++;
                 }
+                fixVisibility();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) { }
