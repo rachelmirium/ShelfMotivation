@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.a201csci.shelf_motivation.BookclubOverview">
+    tools:context="com.a201csci.shelf_motivation.BookclubOverview"
+    android:background="@color/background">
 
     <Button
         android:text="Create your own bookclub"
@@ -18,7 +19,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="26dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@color/colorPrimaryDark" />
 
     <ListView
         android:layout_width="match_parent"
@@ -26,5 +28,6 @@
         android:id="@+id/clubList"
         android:layout_below="@+id/createClub"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="14dp" />
+        android:layout_marginTop="14dp"
+        android:background="@color/lighterBackground" />
 </RelativeLayout>

@@ -50,7 +50,8 @@
         <activity
             android:name=".GoalActivity"
             android:label="@string/title_activity_goal"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".NotificationActivity"></activity>
     </application>
 
 </manifest>
