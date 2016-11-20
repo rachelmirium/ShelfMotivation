@@ -13,5 +13,6 @@
     <string name="title_activity_search_results">SearchResults</string>
 
     <string name="title_activity_bookclub">BookclubActivity</string>
+    <string name="title_activity_goal">GoalActivity</string>
 
 </resources>

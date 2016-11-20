@@ -118,7 +118,7 @@ public class Search extends AppCompatActivity
 
             }
         } else if (id == R.id.nav_goals) {
-            Intent intent = new Intent(this, Goals.class);
+            Intent intent = new Intent(this, GoalActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_settings) {
