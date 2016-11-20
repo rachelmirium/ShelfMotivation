@@ -15,8 +15,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class BookClubSignup extends AppCompatActivity {
@@ -78,8 +80,10 @@ public class BookClubSignup extends AppCompatActivity {
                 host1.put("host", host);
                 databaseReference.child("bookclubs").child(bookclubName).updateChildren(host1);
 
+                Calendar cal = Calendar.getInstance(Locale.US);
                 Map<String, Object> timeCreate = new HashMap<String, Object>();
-                timeCreate.put("Created", (new Date()).getTime());
+                timeCreate.put("Created", cal.getTime());
+//                timeCreate.put("Created", (new Date()).getMonth()+"/"+(new Date()).getDate()+"/"+(new Date()).getYear());
                 databaseReference.child("bookclubs").child(bookclubName).updateChildren(timeCreate);
 
                 Map<String, Object> memberList = new HashMap<String, Object>();
@@ -90,6 +94,9 @@ public class BookClubSignup extends AppCompatActivity {
                 description.put("description", des);
                 databaseReference.child("bookclubs").child(bookclubName).updateChildren(description);
 
+                Map<String, Object> chatroom = new HashMap<String, Object>();
+                chatroom.put("chatroom", "");
+                databaseReference.child("bookclubs").child(bookclubName).updateChildren(chatroom);
 
 
                 Intent intent = new Intent(getApplicationContext(), BookclubActivity.class);
