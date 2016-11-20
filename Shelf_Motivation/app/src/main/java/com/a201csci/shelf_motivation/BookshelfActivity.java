@@ -10,14 +10,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -32,6 +37,8 @@ public class BookshelfActivity extends AppCompatActivity
     private ArrayList<String> bookIDs;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
+    private ArrayList<bookData> bookDataDB;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +71,8 @@ public class BookshelfActivity extends AppCompatActivity
 
         bookIDs = new ArrayList<String>(9);
 
+        bookDataDB = new ArrayList<bookData>();
+
         buttons.add((ImageButton)(findViewById(R.id.book0)));
         buttons.add((ImageButton)(findViewById(R.id.book1)));
         buttons.add((ImageButton)(findViewById(R.id.book2)));
@@ -77,18 +86,36 @@ public class BookshelfActivity extends AppCompatActivity
 
         Bundle b = getIntent().getExtras();
         if (b!= null){
-            String bookID= b.getString("add");
-            String URL = b.getString("URL");
+            final String bookID= b.getString("add");
+            final String URL = b.getString("URL");
             if (bookID!=null){
                 bookIDs.add(bookID);
 
-                // Add book to user's database
-                if (!((Guest) this.getApplication()).getGuest()) {
-                    firebaseAuth = FirebaseAuth.getInstance();
-                    databaseReference = FirebaseDatabase.getInstance().getReference();
-                    String userUID = firebaseAuth.getCurrentUser().getUid();
-                    databaseReference.child(userUID).child("bookshelf").setValue(bookIDs);
-                }
+                // Add book to user's database and load shelf
+//                if (!((Guest) this.getApplication()).getGuest()) {
+//                    bookDataDB.add(new bookData(bookID, URL));
+//
+//                    firebaseAuth = FirebaseAuth.getInstance();
+//                    String userUID = firebaseAuth.getCurrentUser().getUid();
+//
+//                    databaseReference = FirebaseDatabase.getInstance().getReference();
+//                    DatabaseReference databaseReferenceBookshelf = databaseReference.child("userInfo").child(userUID).child("bookshelf");
+//                    databaseReferenceBookshelf.setValue(bookDataDB);
+//
+//                    databaseReferenceBookshelf.addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(DataSnapshot snapshot) {
+//                            Log.e("Count: " ,""+snapshot.getChildrenCount());
+//                            for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+//                                String bookID = dataSnapshot.child("id").getValue().toString();
+//                                String bookURL = dataSnapshot.child("url").getValue().toString();
+//                                newBook(bookID, bookURL);
+//                            }
+//                        }
+//                        @Override
+//                        public void onCancelled(DatabaseError databaseError) { }
+//                    });
+//                }
 
                 ImageButton imageButton= buttons.get(Integer.parseInt(bookID));
                 final String id= bookIDs.get(Integer.parseInt(bookID));
@@ -214,6 +241,17 @@ public class BookshelfActivity extends AppCompatActivity
     }
     public void gotError(){
 
+    }
+
+    public class bookData {
+
+        public String id;
+        public String url;
+
+        public bookData(String id, String url) {
+            this.id = id;
+            this.url = url;
+        }
     }
 
 

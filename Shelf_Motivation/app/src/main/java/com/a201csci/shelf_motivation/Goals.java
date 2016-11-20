@@ -92,22 +92,7 @@ public class Goals extends AppCompatActivity  {
             }
         });
 
-
-        //get data from database
-        //create checkboxes
-        //loop through all goals
-//        GoalCheckBox checkBox = new GoalCheckBox(bookTitleString, dateTitleString, this);
-//        mLayout.addView(checkBox.getCheckBox());
-//        goals.add(checkBox.getCheckBox());
-//        checkBox.getCheckBox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                checkBox.getCheckBox().setText("Goal Accomplished!");
-//            }});
-        ////
-
-
-        // Grab user's goals
+        // Grab user's goals and populate goal screen
         if (!((Guest) this.getApplication()).getGuest()) {
             firebaseAuth = FirebaseAuth.getInstance();
             databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -120,8 +105,6 @@ public class Goals extends AppCompatActivity  {
                         String bookTitleString = (String) dataSnapshot.child("bookTitle").getValue();
                         String dateTitleString = (String) dataSnapshot.child("goalDate").getValue();
                         goal mGoal = new goal(bookTitleString, dateTitleString);
-                        Log.e("Title", mGoal.getBookTitle());
-                        Log.e("Date", mGoal.getGoalDate());
                         goalsDB.add(mGoal);
 
                         final GoalCheckBox checkBox = new GoalCheckBox(bookTitleString, dateTitleString, Goals.this);

@@ -17,15 +17,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BookInfo extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     String bookID;
     String bookURL;
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +160,18 @@ public class BookInfo extends AppCompatActivity
     }
 
     public void addBook(){
+
+        // Add book information to database if user is registered
+//        if (!((Guest) this.getApplication()).getGuest()) {
+//            firebaseAuth = FirebaseAuth.getInstance();
+//            String userUID = firebaseAuth.getCurrentUser().getUid();
+//            databaseReference = FirebaseDatabase.getInstance().getReference().child("userInfo").child(userUID).child("bookshelf");
+//            Map<String, Object> userMap = new HashMap<String, Object>();
+//            userMap.put(bookID, "");
+//            databaseReference.updateChildren(userMap);
+//
+//
+//        }
 
         // Change intent
         Intent activityChangeIntent = new Intent(BookInfo.this, BookshelfActivity.class);
