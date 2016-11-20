@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class CreateAccountScreenActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -34,6 +35,7 @@ public class CreateAccountScreenActivity extends AppCompatActivity implements Vi
     private FirebaseAuth firebaseAuth;
     private TextView loginTextView;
     private DatabaseReference databaseReference;
+    private DatabaseReference databaseReferenceUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class CreateAccountScreenActivity extends AppCompatActivity implements Vi
         setContentView(R.layout.activity_create_account_screen);
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReferenceUsers = databaseReference.child("users");
 
         progressDialog = new ProgressDialog(this);
         buttonSignup = (Button) findViewById(R.id.createAccount);
@@ -135,6 +138,10 @@ public class CreateAccountScreenActivity extends AppCompatActivity implements Vi
 
 
 
+        //store the new user to database along with the username
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(name, editTextEmail.getText().toString().trim());
+        databaseReferenceUsers.updateChildren(map);
     }
 
     public class databaseUser {
