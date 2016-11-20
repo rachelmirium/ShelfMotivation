@@ -63,7 +63,7 @@ public class BookClubSignup extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final TextView textView = new TextView(getApplicationContext());
-                final String invitedUser = inputUsername.getText().toString();
+                final String invitedUser = inputUsername.getText().toString().trim();
 
                 // Check if user exists, add to invited list if found
                     databaseReference.child("userInfo").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -73,9 +73,17 @@ public class BookClubSignup extends AppCompatActivity {
                             boolean foundUser = false;
                             for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
                                 String emailString = (String) dataSnapshot.child("email").getValue();
-                                Log.e("Email", emailString);
-                                if (invitedUser.equals(emailString)) {
-                                    Log.e("INVITE", "Added user " + emailString);
+                                if (invitedUser.equals(firebaseAuth.getCurrentUser().getEmail())) {
+                                    Toast.makeText(BookClubSignup.this, "Cannot add self to book club", Toast.LENGTH_SHORT).show();
+                                    foundUser = true;
+                                    break;
+                                }
+                                else if (invitedUserList.contains(invitedUser)) {
+                                    Toast.makeText(BookClubSignup.this, "User already in book club", Toast.LENGTH_SHORT).show();
+                                    foundUser = true;
+                                    break;
+                                }
+                                else if (invitedUser.equals(emailString)) {
                                     invitedUserList.add(invitedUser);
                                     foundUser = true;
 
@@ -102,14 +110,6 @@ public class BookClubSignup extends AppCompatActivity {
                         @Override
                         public void onCancelled(DatabaseError databaseError) { }
                     });
-
-
-
-
-
-
-
-
 
             }
         });

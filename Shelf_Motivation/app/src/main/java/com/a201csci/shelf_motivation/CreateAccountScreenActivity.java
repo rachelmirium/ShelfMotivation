@@ -70,7 +70,8 @@ public class CreateAccountScreenActivity extends AppCompatActivity implements Vi
         }
     }
     private void registerUser(){
-        String email = editTextEmail.getText().toString().trim();
+        final String name = editTextName.getText().toString().trim();
+        final String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
         // Check that all fields have been filled out
@@ -80,6 +81,14 @@ public class CreateAccountScreenActivity extends AppCompatActivity implements Vi
         }
         if(TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Please enter a password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(TextUtils.isEmpty(name)){
+            Toast.makeText(this, "Please enter a name", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else if (name.contains(".") || name.contains("$") || name.contains("[") || name.contains("]") || name.contains("#")) {
+            Toast.makeText(this, "Cannot use '.$[]# in name", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -99,7 +108,7 @@ public class CreateAccountScreenActivity extends AppCompatActivity implements Vi
                 if(task.isSuccessful()){
                     Toast.makeText(CreateAccountScreenActivity.this, "You are registered!", Toast.LENGTH_SHORT).show();
                     notGuest();
-                    saveUserInformation();
+                    saveUserInformation(name, email);
                     progressDialog.dismiss();
                     finish();
                     startActivity(new Intent(getApplicationContext(), BookshelfActivity.class));
@@ -118,14 +127,7 @@ public class CreateAccountScreenActivity extends AppCompatActivity implements Vi
         ((Guest) this.getApplication()).setGuest(false);
     }
 
-    private void saveUserInformation() {
-        // Get user's inputted name
-        final String name = editTextName.getText().toString().trim();
-        final String email = editTextEmail.getText().toString().trim();
-        if(TextUtils.isEmpty(name)){
-            Toast.makeText(this, "Please enter a name", Toast.LENGTH_SHORT).show();
-            return;
-        }
+    private void saveUserInformation(final String name, final String email) {
 
         // Create user and populate in database
         final FirebaseUser user = firebaseAuth.getCurrentUser();
