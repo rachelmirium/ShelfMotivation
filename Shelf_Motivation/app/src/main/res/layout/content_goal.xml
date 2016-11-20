@@ -44,14 +44,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:elevation="10dp" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:id="@+id/goalsCheckboxes"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/goalsAddButton"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="12dp"></LinearLayout>
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -70,5 +63,21 @@
         android:hint="Book Title"
         android:layout_below="@+id/goalsAlertLabel"
         android:layout_centerHorizontal="true" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/goalsAddButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp">
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/goalsCheckboxes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

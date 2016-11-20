@@ -120,6 +120,7 @@ public class GoalActivity extends AppCompatActivity
                             @Override
                             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                 checkBox.getCheckBox().setText("Goal Accomplished!");
+                                checkBox.getCheckBox().setEnabled(false);
                             }});
                     }
                 }
@@ -240,6 +241,7 @@ public class GoalActivity extends AppCompatActivity
             this.bookTitle = bookTitle;
             DateFormat sdf = new SimpleDateFormat("MM/dd/yy");
             try {
+                sdf.setLenient(false);
                 targetDate = sdf.parse(time);
                 cal = Calendar.getInstance();
                 cal.setTime(targetDate);
@@ -273,6 +275,8 @@ public class GoalActivity extends AppCompatActivity
                     @Override
                     public void run() {
                         long diff= cal.getTimeInMillis() - (new Date()).getTime();
+                        long round = diff%1000;
+                        diff-=round;
                         if(diff<=0){
                             checkBox.setText(bookTitle+"Date Passed!");
                             checkBox.setTextColor(getResources().getColor(R.color.error));
@@ -294,7 +298,7 @@ public class GoalActivity extends AppCompatActivity
                     }
                 });
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

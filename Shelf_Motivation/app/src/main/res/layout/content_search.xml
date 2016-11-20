@@ -22,14 +22,14 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="67dp"
-            android:inputType="textPersonName"
-            android:text="Search For Something"
+            android:inputType="textNoSuggestions|textPersonName"
             android:ems="10"
             android:id="@+id/searchBar"
             android:layout_above="@+id/searchButton"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="14dp"
-            android:layout_marginBottom="42dp" />
+            android:layout_marginBottom="42dp"
+            android:hint="Search For Something" />
 
         <RadioGroup
             android:layout_width="match_parent"
