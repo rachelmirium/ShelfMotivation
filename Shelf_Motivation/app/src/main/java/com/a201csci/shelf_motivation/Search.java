@@ -14,9 +14,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+
+import java.util.ArrayList;
 
 public class Search extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AbsctractBooksAPI {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,14 +133,37 @@ public class Search extends AppCompatActivity
 
     public void search(){
 
-        //create array of search results depending on whether author or book is selected
-       // boolean authorSelected = ((RadioButton) findViewById(R.id.authorButton)).isSelected();
-       // boolean bookSelected = ((RadioButton) findViewById(R.id.bookButton)).isSelected();
+        boolean authorSelected = ((RadioButton) findViewById(R.id.authorButton)).isSelected();
+        boolean bookSelected = ((RadioButton) findViewById(R.id.bookButton)).isSelected();
+        String text = ((EditText) findViewById(R.id.searchBar)).getText().toString();
 
-     //   ArrayList<String> bookIDs = new ArrayList<String>();
+        if(authorSelected && text != null){
+            BooksAPI.getBookByAuthor(this, text, this);
+        }
 
+        else if(bookSelected && text != null){
+            BooksAPI.getBookByTitle(this, text, this);
+        }
+    }
+
+    @Override
+    public void gotBookByID(Book book) {
+
+    }
+
+    @Override
+    public void gotAllBooks(ArrayList<Book> books) {
+        ArrayList<String> bookIDs = new ArrayList<String>();
+        for (Book b : books){
+            bookIDs.add(b.getId());
+        }
         Intent activityChangeIntent = new Intent(this, SearchResults.class);
-        //activityChangeIntent.putExtra("results", bookIDs);
+        activityChangeIntent.putExtra("results", bookIDs);
         startActivity(activityChangeIntent);
+    }
+
+    @Override
+    public void gotError() {
+
     }
 }

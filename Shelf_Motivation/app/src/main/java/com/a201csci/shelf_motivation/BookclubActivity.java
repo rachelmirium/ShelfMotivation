@@ -21,6 +21,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class BookclubActivity extends Activity
@@ -37,14 +40,17 @@ public class BookclubActivity extends Activity
     private TextView bookclubTextView;
     private TextView creatorTextView;
     private TextView timeTextView;
+    private TextView desTextView;
     private Button send;
     private TextView conversation;
     private EditText msgToSend;
     private ArrayAdapter<String> chatArrayAdapter;
     private ArrayList<String> chatMsgList = new ArrayList<>();
     private String username;
+    private String temp_key;
 
     private DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +77,7 @@ public class BookclubActivity extends Activity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        String bookclub_name = getIntent().getStringExtra("bookclub_name");
+        final String bookclub_name = getIntent().getStringExtra("bookclub_name");
         bookclubTextView = (TextView) findViewById(R.id.textView5);
         bookclubTextView.setText(bookclub_name);
 
@@ -86,16 +92,36 @@ public class BookclubActivity extends Activity
         });
 
         timeTextView = (TextView) findViewById(R.id.textView3);
-        root.child("bookclubs").child(bookclub_name).child("created").addValueEventListener(new ValueEventListener() {
+        root.child("bookclubs").child(bookclub_name).child("Created").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+                timeTextView.setText(dataSnapshot.getValue().toString());
             }
-
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError) {}
+        });
 
+        desTextView = (TextView) findViewById(R.id.textView4);
+        root.child("bookclubs").child(bookclub_name).child("description").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                desTextView.setText(dataSnapshot.getValue().toString());
             }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+        final ArrayList<String> memberss = new ArrayList<>();
+        root.child("bookclubs").child(bookclub_name).child("members").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> members = (ArrayList<String>) dataSnapshot.getValue();
+                for(String s:members){
+                    memberss.add(s);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
         });
 
 
@@ -108,23 +134,66 @@ public class BookclubActivity extends Activity
                 R.drawable.ic_menu_manage
         };
         ListView lv = (ListView) findViewById(R.id.userlist);
-        lv.setAdapter(new CustomAdapter(this, usernamess, imageIdss));
+        lv.setAdapter(new CustomAdapter(this, memberss, imageIdss));
 
 
         send = (Button) findViewById(R.id.send);
         conversation = (TextView) findViewById(R.id.msgList);
         msgToSend = (EditText) findViewById(R.id.msg);
 
+        final DatabaseReference chatroom = root.child("bookclubs").child(bookclub_name).child("chatroom");
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Map<String, Object> map = new HashMap<String, Object>();
-//                map.put(msgToSend.getText().toString(), "");
-//                Log.d("HI ", msgToSend.getText().toString());
-//                root.updateChildren(map);
-//                Log.d("HI ", msgToSend.getText().toString());
+                Map<String, Object> map = new HashMap<String, Object>();
+
+                temp_key = chatroom.push().getKey();
+                chatroom.updateChildren(map);
+
+                DatabaseReference message_root = chatroom.child(temp_key);
+                Map<String, Object> map2 = new HashMap<String, Object>();
+                map2.put("name", firebaseAuth.getCurrentUser().getEmail());
+                map2.put("msg", msgToSend.getText());
+                message_root.updateChildren(map2);
             }
         });
+        chatroom.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                appendConversation(dataSnapshot);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                appendConversation(dataSnapshot);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private String chat_msg, chat_username;
+    private void appendConversation(DataSnapshot dataSnapshot) {
+        Iterator i = dataSnapshot.getChildren().iterator();
+        while(i.hasNext()){
+            chat_msg = (String) ((DataSnapshot)i.next()).getValue();
+            chat_username = (String) ((DataSnapshot)i.next()).getValue();
+            conversation.append(chat_username +" : " + chat_msg + "\n");
+        }
 
     }
 

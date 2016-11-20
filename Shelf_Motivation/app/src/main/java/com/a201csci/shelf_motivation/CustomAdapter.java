@@ -9,12 +9,15 @@ import android.content.Context;
         import android.widget.ImageView;
         import android.widget.TextView;
         import android.widget.Toast;
+
+import java.util.ArrayList;
+
 public class CustomAdapter extends BaseAdapter{
-    String [] result;
+    ArrayList<String> result;
     Context context;
     int [] imageId;
     private static LayoutInflater inflater=null;
-    public CustomAdapter(BookclubActivity mainActivity, String[] prgmNameList, int[] prgmImages) {
+    public CustomAdapter(BookclubActivity mainActivity, ArrayList<String> prgmNameList, int[] prgmImages) {
         // TODO Auto-generated constructor stub
         result=prgmNameList;
         context=mainActivity;
@@ -25,7 +28,7 @@ public class CustomAdapter extends BaseAdapter{
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return result.length;
+        return result.size();
     }
 
     @Override
@@ -53,13 +56,13 @@ public class CustomAdapter extends BaseAdapter{
         rowView = inflater.inflate(R.layout.bookclub_list_item, null);
         holder.tv=(TextView) rowView.findViewById(R.id.textView1);
         holder.img=(ImageView) rowView.findViewById(R.id.imageView1);
-        holder.tv.setText(result[position]);
+        holder.tv.setText(result.get(position));
         holder.img.setImageResource(imageId[position]);
         rowView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Toast.makeText(context, "You Clicked "+result[position], Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "You Clicked "+result.get(position), Toast.LENGTH_LONG).show();
             }
         });
         return rowView;

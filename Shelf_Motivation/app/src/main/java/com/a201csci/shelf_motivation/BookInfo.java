@@ -23,11 +23,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class BookInfo extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AbsctractBooksAPI {
 
     String bookID;
     String bookURL;
@@ -182,14 +183,31 @@ public class BookInfo extends AppCompatActivity
 
     public void initializeView(String bookID){
         this.bookID = bookID;
-        //set bookURL
-        ImageView i = (ImageView) findViewById(R.id.bookImage);
-        Picasso.with(this).load(bookURL).into(i);
-        //set title
-        //set author
+        BooksAPI.getBookByID(this, bookID, this);
     }
 
     public void recommend(String username){
         //send bookID to user
+    }
+
+    @Override
+    public void gotBookByID(Book book) {
+        bookURL = book.getImageURL();
+        ImageView i = (ImageView) findViewById(R.id.bookImage);
+        Picasso.with(this).load(book.getImageURL()).into(i);
+        TextView title = (TextView) findViewById(R.id.bookTitle);
+        title.setText(book.getTitle());
+        TextView author = (TextView) findViewById(R.id.bookAuthor);
+        title.setText(book.getAuthors().get(0));
+    }
+
+    @Override
+    public void gotAllBooks(ArrayList<Book> books) {
+
+    }
+
+    @Override
+    public void gotError() {
+
     }
 }
