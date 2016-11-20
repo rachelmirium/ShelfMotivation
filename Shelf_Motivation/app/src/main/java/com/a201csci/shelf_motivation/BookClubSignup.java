@@ -83,7 +83,6 @@ public class BookClubSignup extends AppCompatActivity {
                 Calendar cal = Calendar.getInstance(Locale.US);
                 Map<String, Object> timeCreate = new HashMap<String, Object>();
                 timeCreate.put("Created", cal.getTime().toString());
-//                timeCreate.put("Created", (new Date()).getMonth()+"/"+(new Date()).getDate()+"/"+(new Date()).getYear());
                 databaseReference.child("bookclubs").child(bookclubName).updateChildren(timeCreate);
 
                 Map<String, Object> memberList = new HashMap<String, Object>();

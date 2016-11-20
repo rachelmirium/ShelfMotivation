@@ -155,6 +155,8 @@ public class BookclubActivity extends Activity
                 map2.put("name", firebaseAuth.getCurrentUser().getEmail());
                 map2.put("msg", msgToSend.getText().toString());
                 message_root.updateChildren(map2);
+
+                msgToSend.setText("");
             }
         });
         chatroom.addChildEventListener(new ChildEventListener() {
