@@ -81,7 +81,7 @@ public class BookshelfActivity extends AppCompatActivity
             String URL = b.getString("URL");
             if (bookID!=null){
                 bookIDs.add(bookID);
-
+                newBook(bookID, URL);
                 // Add book to user's database
                 if (!((Guest) this.getApplication()).getGuest()) {
                     firebaseAuth = FirebaseAuth.getInstance();

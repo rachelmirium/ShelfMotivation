@@ -1,12 +1,4 @@
-BookshelfActivity
-	-make sure image is being correctly set (depends on bookInfo sending correct URL)
-
 BookInfo
-	-use API to implement initializeView()
 	-implement recommend() (networking??)
-
-Search
-	-call API and return result string of book IDs
-
 Search Result
 	-create scrollable list of ImageButtons

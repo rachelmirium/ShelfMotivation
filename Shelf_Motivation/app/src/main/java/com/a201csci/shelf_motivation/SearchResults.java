@@ -59,10 +59,10 @@ public class SearchResults extends AppCompatActivity
             }
         });
 
-        /*Bundle b = getIntent().getExtras();
+        Bundle b = getIntent().getExtras();
         if(b != null) {
             bookIDs = b.getStringArrayList("results");
-        }*/
+        }
     }
 
     @Override
