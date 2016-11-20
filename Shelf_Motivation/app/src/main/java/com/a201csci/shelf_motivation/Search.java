@@ -165,11 +165,14 @@ public class Search extends AppCompatActivity
     @Override
     public void gotAllBooks(ArrayList<Book> books) {
         ArrayList<String> bookIDs = new ArrayList<String>();
+        ArrayList<String> bookTitles = new ArrayList<String>();
         for (Book b : books){
             bookIDs.add(b.getId());
+            bookTitles.add(b.getTitle());
         }
         Intent activityChangeIntent = new Intent(this, SearchResults.class);
         activityChangeIntent.putExtra("results", bookIDs);
+        activityChangeIntent.putExtra("titles", bookTitles);
         startActivity(activityChangeIntent);
     }
 

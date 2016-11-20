@@ -34,10 +34,11 @@ public class BookshelfActivity extends AppCompatActivity
 
 
     private ArrayList<ImageButton> buttons;
-    private ArrayList<String> bookIDs;
+    private ArrayList<String> bookIDs = new ArrayList<String>(9);
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
     private ArrayList<bookData> bookDataDB;
+    private int numberOfSavedBooks = 0;
 
 
     @Override
@@ -68,8 +69,6 @@ public class BookshelfActivity extends AppCompatActivity
         ((Guest) this.getApplication()).setNumberOfBooks(0);
 
         buttons = new ArrayList<ImageButton>(9);
-
-        bookIDs = new ArrayList<String>(9);
 
         bookDataDB = new ArrayList<bookData>();
 
@@ -118,15 +117,17 @@ public class BookshelfActivity extends AppCompatActivity
 //                }
 
 
-                ImageButton imageButton= buttons.get(Integer.parseInt(bookID));
-                final String id= bookIDs.get(Integer.parseInt(bookID));
+                ImageButton imageButton= buttons.get(numberOfSavedBooks);
+                Picasso.with(this).load(URL).into(imageButton);
                 imageButton.setOnClickListener(new View.OnClickListener(){
                     public void onClick(View view){
                         Intent activityChangeIntent= new Intent (BookshelfActivity.this, BookInfo.class);
-                        activityChangeIntent.putExtra("init", id);
+                        activityChangeIntent.putExtra("init", bookID);
                         startActivity(activityChangeIntent);
                     }
                 });
+                fixVisibility();
+                numberOfSavedBooks++;
             }
         }
 
@@ -225,7 +226,7 @@ public class BookshelfActivity extends AppCompatActivity
 
     private void fixVisibility() {
         for (int i = 0; i < 9; i++) {
-            if ( ((Guest) this.getApplication()).getNumberOfBooks() - 1 < i) {
+            if (numberOfSavedBooks <= i) {
                 buttons.get(i).setVisibility(View.INVISIBLE);
             } else {
                 buttons.get(i).setVisibility(View.VISIBLE);
