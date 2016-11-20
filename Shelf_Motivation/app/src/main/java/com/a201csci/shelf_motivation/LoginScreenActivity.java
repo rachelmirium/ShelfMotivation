@@ -86,8 +86,6 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
                             finish();
                             startActivity(new Intent(getApplicationContext(), LoginScreenActivity.class));
                         }
-
-
                     }
                 });
 

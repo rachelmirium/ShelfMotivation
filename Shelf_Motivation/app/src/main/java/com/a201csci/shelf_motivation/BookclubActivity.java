@@ -21,8 +21,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +34,9 @@ import java.util.Map;
 public class BookclubActivity extends Activity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private TextView bookclubTextView;
+    private TextView creatorTextView;
+    private TextView timeTextView;
     private Button send;
     private TextView conversation;
     private EditText msgToSend;
@@ -38,8 +44,7 @@ public class BookclubActivity extends Activity
     private ArrayList<String> chatMsgList = new ArrayList<>();
     private String username;
 
-    private DatabaseReference root = FirebaseDatabase.getInstance().getReference().getRoot();
-
+    private DatabaseReference root = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +71,33 @@ public class BookclubActivity extends Activity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        String bookclub_name = getIntent().getStringExtra("bookclub_name");
+        bookclubTextView = (TextView) findViewById(R.id.textView5);
+        bookclubTextView.setText(bookclub_name);
+
+        creatorTextView = (TextView) findViewById(R.id.textView2);
+        root.child("bookclubs").child(bookclub_name).child("host").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                creatorTextView.setText(dataSnapshot.getValue().toString());
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+        timeTextView = (TextView) findViewById(R.id.textView3);
+        root.child("bookclubs").child(bookclub_name).child("created").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         String[] usernamess = {"Leo", "Anish", "Katie", "Rachel", "Julianne"};
         int[] imageIdss = {
@@ -82,16 +114,15 @@ public class BookclubActivity extends Activity
         send = (Button) findViewById(R.id.send);
         conversation = (TextView) findViewById(R.id.msgList);
         msgToSend = (EditText) findViewById(R.id.msg);
-        username = getIntent().getExtras().get("user_name").toString();
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put(msgToSend.getText().toString(), "");
-                Log.d("HI ", msgToSend.getText().toString());
-                root.updateChildren(map);
-                Log.d("HI ", msgToSend.getText().toString());
+//                Map<String, Object> map = new HashMap<String, Object>();
+//                map.put(msgToSend.getText().toString(), "");
+//                Log.d("HI ", msgToSend.getText().toString());
+//                root.updateChildren(map);
+//                Log.d("HI ", msgToSend.getText().toString());
             }
         });
 

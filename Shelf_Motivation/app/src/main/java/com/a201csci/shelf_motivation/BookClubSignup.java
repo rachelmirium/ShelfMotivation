@@ -1,5 +1,6 @@
 package com.a201csci.shelf_motivation;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,8 +71,16 @@ public class BookClubSignup extends AppCompatActivity {
 
                 String host = user.getEmail();
                 Map<String, Object> map = new HashMap<String, Object>();
-                map.put(bookclubName, host);
+                map.put(bookclubName, "");
                 databaseReference.child("bookclubs").updateChildren(map);
+
+                Map<String, Object> host1 = new HashMap<String, Object>();
+                host1.put("host", host);
+                databaseReference.child("bookclubs").child(bookclubName).updateChildren(host1);
+
+                Map<String, Object> timeCreate = new HashMap<String, Object>();
+                timeCreate.put("Created", (new Date()).getTime());
+                databaseReference.child("bookclubs").child(bookclubName).updateChildren(timeCreate);
 
                 Map<String, Object> memberList = new HashMap<String, Object>();
                 memberList.put("members", invitedUserList);
@@ -79,6 +89,12 @@ public class BookClubSignup extends AppCompatActivity {
                 Map<String, Object> description = new HashMap<String, Object>();
                 description.put("description", des);
                 databaseReference.child("bookclubs").child(bookclubName).updateChildren(description);
+
+
+
+                Intent intent = new Intent(getApplicationContext(), BookclubActivity.class);
+                intent.putExtra("bookclub_name", bookclubName);
+                startActivity(intent);
 
             }
         });
