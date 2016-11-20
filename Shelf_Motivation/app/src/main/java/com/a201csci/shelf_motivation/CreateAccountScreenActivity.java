@@ -136,6 +136,7 @@ public class CreateAccountScreenActivity extends AppCompatActivity implements Vi
         databaseReferenceUserInfo.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
+
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     if (dataSnapshot.getKey().equals(user.getUid())) {
                         Map<String, Object> userMap = new HashMap<String, Object>();

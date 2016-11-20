@@ -43,7 +43,8 @@
                 android:layout_below="@+id/authorButton"
                 android:layout_alignStart="@+id/authorButton"
                 android:layout_marginTop="21dp"
-                android:id="@+id/bookButton" />
+                android:id="@+id/bookButton"
+                android:checked="true" />
 
             <RadioButton
                 android:text="Author"

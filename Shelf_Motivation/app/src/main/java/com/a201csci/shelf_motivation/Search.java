@@ -10,12 +10,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -133,17 +135,26 @@ public class Search extends AppCompatActivity
 
     public void search(){
 
-        boolean authorSelected = ((RadioButton) findViewById(R.id.authorButton)).isSelected();
-        boolean bookSelected = ((RadioButton) findViewById(R.id.bookButton)).isSelected();
-        String text = ((EditText) findViewById(R.id.searchBar)).getText().toString();
+        boolean authorSelected = ((RadioButton) findViewById(R.id.authorButton)).isChecked();
+        boolean bookSelected = ((RadioButton) findViewById(R.id.bookButton)).isChecked();
+        String text = ((EditText) findViewById(R.id.searchBar)).getText().toString().trim();
 
-        if(authorSelected && text != null){
-            BooksAPI.getBookByAuthor(this, text, this);
+        if (!text.isEmpty()) {
+            if(authorSelected){
+                BooksAPI.getBookByAuthor(this, text, this);
+                Log.e("SEARCH", "Author Getting search results for " + text);
+            }
+
+            else if(bookSelected){
+                BooksAPI.getBookByTitle(this, text, this);
+                Log.e("SEARCH", "Title Getting search results for " + text);
+            }
+        }
+        else {
+            Toast.makeText(this, "Please enter search query", Toast.LENGTH_SHORT).show();
+
         }
 
-        else if(bookSelected && text != null){
-            BooksAPI.getBookByTitle(this, text, this);
-        }
     }
 
     @Override

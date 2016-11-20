@@ -82,7 +82,7 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
                         }
                         else {
                             // Error with log in
-                            Toast.makeText(LoginScreenActivity.this, "Invalid Login", Toast.LENGTH_LONG);
+                            Toast.makeText(LoginScreenActivity.this, "Invalid Login", Toast.LENGTH_LONG).show();
                             finish();
                             startActivity(new Intent(getApplicationContext(), LoginScreenActivity.class));
                         }
