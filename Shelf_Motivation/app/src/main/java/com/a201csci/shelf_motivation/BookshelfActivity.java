@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.google.api.client.util.Data;
 import com.google.firebase.auth.FirebaseAuth;
@@ -97,6 +98,7 @@ public class BookshelfActivity extends AppCompatActivity
                     Log.e("SHELF", "number of books " + numberOfSavedBooks);
 
                     ImageButton imageButton= buttons.get(numberOfSavedBooks);
+                    imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
                     Picasso.with(BookshelfActivity.this).load(bookURL).into(imageButton);
                     bookIDs.add(bookID);
                     numberOfSavedBooks++;
@@ -123,6 +125,7 @@ public class BookshelfActivity extends AppCompatActivity
                 bookIDs.add(bookID);
 
                 ImageButton imageButton= buttons.get(numberOfSavedBooks);
+                imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
                 Picasso.with(this).load(URL).into(imageButton);
                 imageButton.setOnClickListener(new View.OnClickListener(){
                     public void onClick(View view){
