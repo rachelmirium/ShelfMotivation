@@ -15,7 +15,7 @@ public class userInformation {
     private List<goal> goals;
     private List<String> bookclubs;
 
-    public userInformation(String name, String email, long login) {
+    public userInformation(String name, long login) {
         this.name = name;
         doNotDisturb = false;
         lastLogin = login;

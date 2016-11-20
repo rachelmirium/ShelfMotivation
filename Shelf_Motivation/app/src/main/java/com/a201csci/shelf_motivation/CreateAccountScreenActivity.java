@@ -18,8 +18,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +38,7 @@ public class CreateAccountScreenActivity extends AppCompatActivity implements Vi
     private FirebaseAuth firebaseAuth;
     private TextView loginTextView;
     private DatabaseReference databaseReference;
-    private DatabaseReference databaseReferenceUsers;
+    private DatabaseReference databaseReferenceUserInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +46,7 @@ public class CreateAccountScreenActivity extends AppCompatActivity implements Vi
         setContentView(R.layout.activity_create_account_screen);
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReferenceUsers = databaseReference.child("users");
+        databaseReferenceUserInfo = databaseReference.child("userInfo");
 
         progressDialog = new ProgressDialog(this);
         buttonSignup = (Button) findViewById(R.id.createAccount);
@@ -117,48 +120,45 @@ public class CreateAccountScreenActivity extends AppCompatActivity implements Vi
 
     private void saveUserInformation() {
         // Get user's inputted name
-        String name = editTextName.getText().toString().trim();
-        String email = editTextEmail.getText().toString().trim();
+        final String name = editTextName.getText().toString().trim();
+        final String email = editTextEmail.getText().toString().trim();
         if(TextUtils.isEmpty(name)){
             Toast.makeText(this, "Please enter a name", Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Create user and populate in database
-//        long timeStamp = System.currentTimeMillis();
-//        FirebaseUser user = firebaseAuth.getCurrentUser();
-//        userInformation newUser = new userInformation(name, email, timeStamp);
-//        Map<String, Object> userMap = new HashMap<String, Object>();
-//        userMap.put(user.getEmail().toString(), user.getUid().toString());
-//        databaseReference.child("users").updateChildren(userMap);
-
-//        Log.e("DB", "Added to database");
-//        Log.e("DB", ""+databaseReference.child("userInfo").getKey());
-
-
-
-
-        //store the new user to database along with the username
+        final FirebaseUser user = firebaseAuth.getCurrentUser();
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(name, editTextEmail.getText().toString().trim());
-        databaseReferenceUsers.updateChildren(map);
+        map.put(user.getUid(), "");
+        databaseReferenceUserInfo.updateChildren(map);
+
+        databaseReferenceUserInfo.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                    if (dataSnapshot.getKey().equals(user.getUid())) {
+                        Map<String, Object> userMap = new HashMap<String, Object>();
+                        userMap.put("email", email);
+                        userMap.put("name", name);
+                        userMap.put("bookshelf", "");
+                        userMap.put("goals", "");
+                        userMap.put("bookclubs", "");
+                        databaseReferenceUserInfo.child(user.getUid()).updateChildren(userMap);
+
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
+
+//        //store the new user to database along with the username
+//        Map<String, Object> map = new HashMap<String, Object>();
+//        map.put(name, editTextEmail.getText().toString().trim());
+//        databaseReferenceUsers.updateChildren(map);
     }
-
-    public class databaseUser {
-        private String email;
-        private userInformation userInfo;
-
-        public databaseUser(String UID, String name, String email, long login) {
-            this.email = UID;
-            this.userInfo = new userInformation(name, email, login);
-        }
-
-        public void setEmail(String u) { email = u; }
-        public String getEmail() { return email; }
-        public void setUserInfo(userInformation ui) { userInfo = ui; }
-        public userInformation getUserInfo() { return userInfo; }
-    }
-
 }
 
 

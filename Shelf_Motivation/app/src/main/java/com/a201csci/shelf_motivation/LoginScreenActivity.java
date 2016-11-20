@@ -17,12 +17,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class LoginScreenActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -80,23 +76,6 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
                         if(task.isSuccessful()){
-
-                            // Check if user is in database, update last login date if so
-                            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                                    if (dataSnapshot.hasChild(user.getUid())) {
-                                        Log.d("DBCHECK", "Updating last login time!");
-                                        long timeStamp = System.currentTimeMillis();
-                                        databaseReference.child(user.getUid()).child("lastLogin").setValue(timeStamp);
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) { }
-                            });
-
                             notGuest();
                             finish();
                             startActivity(new Intent(getApplicationContext(), BookshelfActivity.class));

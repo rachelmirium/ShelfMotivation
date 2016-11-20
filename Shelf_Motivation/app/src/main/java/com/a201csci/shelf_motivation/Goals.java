@@ -94,7 +94,8 @@ public class Goals extends AppCompatActivity  {
 
             firebaseAuth = FirebaseAuth.getInstance();
             databaseReference = FirebaseDatabase.getInstance().getReference();
-            databaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("goals").addValueEventListener(new ValueEventListener() {
+            String userUID = firebaseAuth.getCurrentUser().getUid();
+            databaseReference.child("userInfo").child(userUID).child("goals").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     Log.e("Count: " ,""+snapshot.getChildrenCount());
@@ -102,7 +103,9 @@ public class Goals extends AppCompatActivity  {
                         String title = (String) dataSnapshot.child("bookTitle").getValue();
                         String date = (String) dataSnapshot.child("goalDate").getValue();
                         goal mGoal = new goal(title, date);
-                        goalsDB.add(mGoal);
+                        Log.e("Title", mGoal.getBookTitle());
+                        Log.e("Date", mGoal.getGoalDate());
+//                        goalsDB.add(mGoal);
 
                     }
                 }
@@ -128,7 +131,7 @@ public class Goals extends AppCompatActivity  {
             firebaseAuth = FirebaseAuth.getInstance();
             databaseReference = FirebaseDatabase.getInstance().getReference();
             String userUID = firebaseAuth.getCurrentUser().getUid();
-            databaseReference.child(userUID).child("goals").setValue(goalsDB);
+            databaseReference.child("userInfo").child(userUID).child("goals").setValue(goalsDB);
         }
 
         // Create checkbox
