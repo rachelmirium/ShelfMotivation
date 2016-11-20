@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.text.TextUtils;
@@ -19,6 +20,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreateAccountScreenActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -111,18 +115,41 @@ public class CreateAccountScreenActivity extends AppCompatActivity implements Vi
     private void saveUserInformation() {
         // Get user's inputted name
         String name = editTextName.getText().toString().trim();
+        String email = editTextEmail.getText().toString().trim();
         if(TextUtils.isEmpty(name)){
             Toast.makeText(this, "Please enter a name", Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Create user and populate in database
-        long timeStamp = System.currentTimeMillis();
-        userInformation newUser = new userInformation(name, timeStamp);
+//        long timeStamp = System.currentTimeMillis();
+//        FirebaseUser user = firebaseAuth.getCurrentUser();
+//        userInformation newUser = new userInformation(name, email, timeStamp);
+//        Map<String, Object> userMap = new HashMap<String, Object>();
+//        userMap.put(user.getEmail().toString(), user.getUid().toString());
+//        databaseReference.child("users").updateChildren(userMap);
 
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        databaseReference.child(user.getUid()).setValue(newUser);
+//        Log.e("DB", "Added to database");
+//        Log.e("DB", ""+databaseReference.child("userInfo").getKey());
 
+
+
+
+    }
+
+    public class databaseUser {
+        private String email;
+        private userInformation userInfo;
+
+        public databaseUser(String UID, String name, String email, long login) {
+            this.email = UID;
+            this.userInfo = new userInformation(name, email, login);
+        }
+
+        public void setEmail(String u) { email = u; }
+        public String getEmail() { return email; }
+        public void setUserInfo(userInformation ui) { userInfo = ui; }
+        public userInformation getUserInfo() { return userInfo; }
     }
 
 }

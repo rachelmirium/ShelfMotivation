@@ -21,8 +21,11 @@ import android.widget.TextView;
 
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -85,6 +88,28 @@ public class Goals extends AppCompatActivity  {
                 }
             }
         });
+
+        // Grab user's goals
+        if (!((Guest) this.getApplication()).getGuest()) {
+
+            firebaseAuth = FirebaseAuth.getInstance();
+            databaseReference = FirebaseDatabase.getInstance().getReference();
+            databaseReference.child(firebaseAuth.getCurrentUser().getUid()).child("goals").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    Log.e("Count: " ,""+snapshot.getChildrenCount());
+                    for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                        String title = (String) dataSnapshot.child("bookTitle").getValue();
+                        String date = (String) dataSnapshot.child("goalDate").getValue();
+                        goal mGoal = new goal(title, date);
+                        goalsDB.add(mGoal);
+
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) { }
+            });
+        }
 
     }
 

@@ -15,8 +15,8 @@ public class goal {
     }
 
     // Getters and setters
-    public void setBookID(String id) { bookTitle = id; }
-    public String getBookID() { return bookTitle; }
+    public void setBookTitle(String id) { bookTitle = id; }
+    public String getBookTitle() { return bookTitle; }
 
     public void setGoalDate(String d) { date = d; }
     public String getGoalDate() { return date; }
