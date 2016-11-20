@@ -163,17 +163,19 @@ public class BookInfo extends AppCompatActivity
 
     public void addBook(){
 
-        // Add book information to database if user is registered
-//        if (!((Guest) this.getApplication()).getGuest()) {
-//            firebaseAuth = FirebaseAuth.getInstance();
-//            String userUID = firebaseAuth.getCurrentUser().getUid();
-//            databaseReference = FirebaseDatabase.getInstance().getReference().child("userInfo").child(userUID).child("bookshelf");
-//            Map<String, Object> userMap = new HashMap<String, Object>();
-//            userMap.put(bookID, "");
-//            databaseReference.updateChildren(userMap);
-//
-//
-//        }
+        //Add book information to database if user is registered
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference databaseReferenceUserInfo = databaseReference.child("userInfo");
+        Map<String, Object> bookMap = new HashMap<String, Object>();
+        bookMap.put(bookID, bookURL);
+        if (!((Guest) this.getApplication()).getGuest()) {
+            firebaseAuth = FirebaseAuth.getInstance();
+            String userUID = firebaseAuth.getCurrentUser().getUid();
+            databaseReferenceUserInfo.child(userUID).child("bookshelf").updateChildren(bookMap);
+        }
+        else {
+            databaseReferenceUserInfo.child("guest").child("bookshelf").updateChildren(bookMap);
+        }
 
         // Change intent
         Intent activityChangeIntent = new Intent(BookInfo.this, BookshelfActivity.class);

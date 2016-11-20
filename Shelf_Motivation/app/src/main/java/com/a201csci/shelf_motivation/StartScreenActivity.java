@@ -61,7 +61,7 @@ public class StartScreenActivity extends AppCompatActivity {
                 map.put("guest", "");
                 databaseReference.child("userInfo").updateChildren(map);
 
-                databaseReference.child("userInfo").child("guest").addValueEventListener(new ValueEventListener() {
+                databaseReference.child("userInfo").child("guest").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         Map<String, Object> userMap = new HashMap<String, Object>();

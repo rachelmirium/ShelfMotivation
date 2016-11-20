@@ -152,16 +152,19 @@ public class GoalActivity extends AppCompatActivity
         // Add goal to user's data in database if not a guest
         goal newGoal = new goal(bookTitle, dateTitle);
         goalsDB.add(newGoal);
+        databaseReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference databaseReferenceUserGoals = databaseReference.child("userInfo");
 
         if (!((Guest) this.getApplication()).getGuest()) {
             firebaseAuth = FirebaseAuth.getInstance();
-            databaseReference = FirebaseDatabase.getInstance().getReference();
             String userUID = firebaseAuth.getCurrentUser().getUid();
-//            databaseReferenceUserGoals =
+            databaseReferenceUserGoals = databaseReferenceUserGoals.child(userUID).child("goals");
         }
-
-//        databaseReference.child("userInfo").child(userUID).child("goals").setValue(goalsDB);
+        else {
+            databaseReferenceUserGoals = databaseReferenceUserGoals.child("guest").child("goals");
+            databaseReferenceUserGoals.setValue("TEST");
+        }
+        databaseReferenceUserGoals.setValue(goalsDB);
 
         // Create checkbox
         GoalActivity.GoalCheckBox checkBox = new GoalActivity.GoalCheckBox(bookTitle, dateTitle, this);
