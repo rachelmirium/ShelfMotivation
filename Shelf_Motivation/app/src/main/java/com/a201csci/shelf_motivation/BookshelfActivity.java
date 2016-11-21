@@ -90,6 +90,9 @@ public class BookshelfActivity extends AppCompatActivity
         fixVisibility();
     }
 
+
+
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
