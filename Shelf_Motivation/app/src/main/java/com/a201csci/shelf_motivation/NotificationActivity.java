@@ -70,43 +70,49 @@ public class NotificationActivity extends AppCompatActivity
         String uid = firebaseAuth.getCurrentUser().getUid();
         DatabaseReference notiRef = databaseReference.child("userInfo").child(uid).child("notifications");
 
-        notiRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                makeAList(dataSnapshot);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                makeAList(dataSnapshot);
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        //notiRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            //@Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                ArrayList<String> notifications = new ArrayList<>();
-//                for (DataSnapshot ds: dataSnapshot.getChildren()) {
-//                    notifications.add(ds.getKey().toString());
-//                }
-//                arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, notifications);
-//                notificationListView.setAdapter(arrayAdapter);
+//        notiRef.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                makeAList(dataSnapshot);
+//            }
 //
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//                makeAList(dataSnapshot);
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+
+        notiRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> notifications = new ArrayList<>();
+                for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                    DataSnapshot dss = dataSnapshot.child(ds.getKey().toString());
+                    String temp = "";
+                    for(DataSnapshot element: dss.getChildren()) {
+                        String temptemp = element.getValue().toString();
+                        temp += temptemp +" ";
+                    }
+                    notifications.add(temp);
+                }
+                arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, notifications);
+                notificationListView.setAdapter(arrayAdapter);
+
 //                notificationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //                    @Override
 //                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -116,13 +122,13 @@ public class NotificationActivity extends AppCompatActivity
 //                        }
 //                    }
 //                });
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
