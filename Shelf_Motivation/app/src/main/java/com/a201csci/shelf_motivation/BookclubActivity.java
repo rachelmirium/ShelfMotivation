@@ -80,6 +80,16 @@ public class BookclubActivity extends Activity
         final String bookclub_name = getIntent().getStringExtra("bookclub_name");
         bookclubTextView = (TextView) findViewById(R.id.textView5);
         bookclubTextView.setText(bookclub_name);
+        String uid = firebaseAuth.getCurrentUser().getUid();
+        root.child("userInfo").child(uid).child("name").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                username = dataSnapshot.getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
 
         creatorTextView = (TextView) findViewById(R.id.textView2);
         root.child("bookclubs").child(bookclub_name).child("host").addValueEventListener(new ValueEventListener() {
@@ -125,7 +135,6 @@ public class BookclubActivity extends Activity
         });
 
 
-        String[] usernamess = {"Leo", "Anish", "Katie", "Rachel", "Julianne"};
         int[] imageIdss = {
                 R.drawable.ic_menu_camera,
                 R.drawable.ic_menu_gallery,
@@ -194,7 +203,7 @@ public class BookclubActivity extends Activity
         while(i.hasNext()){
             chat_msg = (String) ((DataSnapshot)i.next()).getValue();
             chat_username = (String) ((DataSnapshot)i.next()).getValue();
-            conversation.append(chat_username +" : " + chat_msg + "\n");
+            conversation.append(username +" : " + chat_msg + "\n");
         }
 
     }

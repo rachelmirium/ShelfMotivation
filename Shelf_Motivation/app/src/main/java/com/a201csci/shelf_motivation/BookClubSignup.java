@@ -93,6 +93,17 @@ public class BookClubSignup extends AppCompatActivity {
                                     String uid = dataSnapshot.getKey();
                                     databaseReference.child("userInfo").child(uid).child("bookclubs").updateChildren(map);
 
+                                    //update notifications on this user
+                                    DatabaseReference notiRef = databaseReference.child("userInfo").child(uid).child("notifications");
+                                    Map<String, Object> map2 = new HashMap<String, Object>();
+                                    String temp_Key = notiRef.push().getKey();
+                                    notiRef.updateChildren(map2);
+                                    DatabaseReference eachNotifRef = notiRef.child(temp_Key);
+                                    map2.put("sendBy", firebaseAuth.getCurrentUser().getEmail());
+                                    map2.put("type", "invitation");
+                                    map2.put("message", name.getText().toString());
+                                    eachNotifRef.updateChildren(map2);
+
 
                                     // Show list on screen
                                     LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -147,11 +158,11 @@ public class BookClubSignup extends AppCompatActivity {
                 chatroom.put("chatroom", "");
                 databaseReference.child("bookclubs").child(bookclubName).updateChildren(chatroom);
 
-                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                FirebaseUser currUser = firebaseAuth.getCurrentUser();
+//                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+//                FirebaseUser currUser = firebaseAuth.getCurrentUser();
                 Map<String, Object> bookclubInUser = new HashMap<String, Object>();
                 bookclubInUser.put(bookclubName, "");
-                databaseReference.child("userInfo").child(currUser.getUid()).child("bookclubs").updateChildren(bookclubInUser);
+                databaseReference.child("userInfo").child(user.getUid()).child("bookclubs").updateChildren(bookclubInUser);
 
 
                 Intent intent = new Intent(getApplicationContext(), BookclubActivity.class);
