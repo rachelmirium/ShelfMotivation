@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -38,6 +39,8 @@ public class NotificationActivity extends AppCompatActivity
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
 
+    private ArrayList<String> notifications;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +58,12 @@ public class NotificationActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         notificationListView = (ListView) findViewById(R.id.notificationView);
+
+        notifications = new ArrayList<>();
+
+
+
+
 
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -118,14 +127,12 @@ public class NotificationActivity extends AppCompatActivity
     }
 
     public void makeAList(DataSnapshot dataSnapshot){
-        Iterator i = dataSnapshot.getChildren().iterator();
-        ArrayList<String> notifications = new ArrayList<>();
-        while(i.hasNext()){
-            String sendBy = (String) ((DataSnapshot)i.next()).getValue();
-            String type = (String) ((DataSnapshot)i.next()).getValue();
-            String message = (String) ((DataSnapshot)i.next()).getValue();
-            notifications.add(sendBy + " " +type+ " " +message);
+        String notificationString = "";
+        for(DataSnapshot d : dataSnapshot.getChildren()) {
+            notificationString += d.getValue().toString().trim();
         }
+        notifications.add(0, notificationString);
+
         arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, notifications);
         notificationListView.setAdapter(arrayAdapter);
 
