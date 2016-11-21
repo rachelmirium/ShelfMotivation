@@ -128,6 +128,8 @@ public class NotificationActivity extends AppCompatActivity
                             temp = username + " invited you to "+ message +".";
                             Log.d("XOXOXOXO", temp);
                             notifications.add(0, temp);
+                            arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, notifications);
+                            notificationListView.setAdapter(arrayAdapter);
                         }
                         else{
 
@@ -145,8 +147,7 @@ public class NotificationActivity extends AppCompatActivity
 //        notificationString = message + " " + senderEmail + " " + type;
 //        notifications.add(0, notificationString);
 
-        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, notifications);
-        notificationListView.setAdapter(arrayAdapter);
+
 
 
         notificationListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
