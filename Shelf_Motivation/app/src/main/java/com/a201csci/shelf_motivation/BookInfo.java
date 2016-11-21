@@ -10,16 +10,22 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -71,7 +77,7 @@ public class BookInfo extends AppCompatActivity
         recommendButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 TextView tv = (TextView) findViewById(R.id.recommendBook);
-                recommend(tv.getText().toString());
+                recommend(tv.getText().toString().trim());
             }
         });
 
@@ -81,6 +87,8 @@ public class BookInfo extends AppCompatActivity
             if(bookID != null) initializeView(bookID);
         }
 
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        firebaseAuth = FirebaseAuth.getInstance();
 
     }
 
@@ -164,12 +172,10 @@ public class BookInfo extends AppCompatActivity
     public void addBook(){
 
         //Add book information to database if user is registered
-        databaseReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference databaseReferenceUserInfo = databaseReference.child("userInfo");
         Map<String, Object> bookMap = new HashMap<String, Object>();
         bookMap.put(bookID, bookURL);
         if (!((Guest) this.getApplication()).getGuest()) {
-            firebaseAuth = FirebaseAuth.getInstance();
             String userUID = firebaseAuth.getCurrentUser().getUid();
             databaseReferenceUserInfo.child(userUID).child("bookshelf").updateChildren(bookMap);
         }
@@ -189,8 +195,36 @@ public class BookInfo extends AppCompatActivity
         BooksAPI.getBookByID(this, bookID, this);
     }
 
-    public void recommend(String username){
+    public void recommend(final String username){
         //send bookID to user
+        databaseReference.child("userInfo").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                boolean foundUser = false;
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                    String emailString = (String) dataSnapshot.child("email").getValue();
+                    if (username.equals(firebaseAuth.getCurrentUser().getEmail())) {
+                        Toast.makeText(BookInfo.this, "Cannot recommend to self", Toast.LENGTH_SHORT).show();
+                        foundUser = true;
+                        break;
+                    }
+                    else if (username.equals(emailString)) {
+                        foundUser = true;
+
+                        // Send recommendation notification
+
+                        Toast.makeText(BookInfo.this, "Recommendation sent!", Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(new Intent(getApplicationContext(), BookshelfActivity.class));
+                    }
+                }
+                if (!foundUser) {
+                    Toast.makeText(BookInfo.this, "Unable to find user", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
     }
 
     @Override
