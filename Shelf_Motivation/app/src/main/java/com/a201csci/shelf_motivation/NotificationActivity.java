@@ -61,10 +61,6 @@ public class NotificationActivity extends AppCompatActivity
 
         notifications = new ArrayList<>();
 
-
-
-
-
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
         String uid = firebaseAuth.getCurrentUser().getUid();
@@ -96,47 +92,20 @@ public class NotificationActivity extends AppCompatActivity
 
             }
         });
-
-//        notiRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                ArrayList<String> notifications = new ArrayList<>();
-//                for (DataSnapshot ds: dataSnapshot.getChildren()) {
-//                    DataSnapshot dss = dataSnapshot.child(ds.getKey().toString());
-//                    String temp = "";
-//                    for(DataSnapshot element: dss.getChildren()) {
-//                        String temptemp = element.getValue().toString();
-//                        temp += temptemp +" ";
-//                    }
-//                    notifications.add(temp);
-//                }
-//                arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, notifications);
-//                notificationListView.setAdapter(arrayAdapter);
-
-//                notificationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                        String content = (String) notificationListView.getItemAtPosition(position);
-//                        if(content.contains("invitation")){
-//
-//                        }
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-
     }
 
     public void makeAList(DataSnapshot dataSnapshot){
+
         String notificationString = "";
+        String message = null;
+        String senderEmail = null;
+        String type = null;
         for(DataSnapshot d : dataSnapshot.getChildren()) {
-            notificationString += d.getValue().toString().trim();
+            if (message == null) { message = d.getValue().toString().trim(); }
+            else if (senderEmail == null) { senderEmail = d.getValue().toString().trim(); }
+            else if (type == null) { type = d.getValue().toString().trim(); }
         }
+        notificationString = message + " " + senderEmail + " " + type;
         notifications.add(0, notificationString);
 
         arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, notifications);
