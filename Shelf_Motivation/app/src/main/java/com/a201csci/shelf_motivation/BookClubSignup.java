@@ -113,14 +113,15 @@ public class BookClubSignup extends AppCompatActivity {
                                     showAllInvitedUsers.addView(textView);
                                     break;
                                 }
+
                             }
                             if (!foundUser) {
-                                Toast.makeText(BookClubSignup.this, "Invalid user", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(BookClubSignup.this, "Unable to find user", Toast.LENGTH_SHORT).show();
                             }
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) { }
-                    });
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) { }
+                });
 
             }
         });

@@ -147,6 +147,7 @@ public class CreateAccountScreenActivity extends AppCompatActivity implements Vi
                         userMap.put("bookshelf", "");
                         userMap.put("goals", "");
                         userMap.put("bookclubs", "");
+                        userMap.put("notifications", "");
                         databaseReferenceUserInfo.child(user.getUid()).updateChildren(userMap);
 
                         break;

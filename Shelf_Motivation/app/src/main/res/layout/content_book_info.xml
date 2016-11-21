@@ -50,7 +50,10 @@
                     android:id="@+id/bookTitle"
                     android:layout_alignBottom="@+id/recommendBook"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="12dp" />
+                    android:layout_marginEnd="12dp"
+                    android:textColor="#000"
+                    android:textSize="19dp"
+                    android:layout_marginTop="12dp"/>
 
                 <TextView
                     android:text="Book Author"
@@ -59,7 +62,9 @@
                     android:layout_below="@+id/bookTitle"
                     android:layout_alignStart="@+id/bookTitle"
                     android:layout_marginTop="26dp"
-                    android:id="@+id/bookAuthor" />
+                    android:id="@+id/bookAuthor"
+                    android:textColor="#000"
+                    android:textSize="16dp"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -88,13 +93,13 @@
             android:layout_width="match_parent"
             android:layout_height="99dp"
             android:inputType="textPersonName"
-            android:text="Type Username"
+            android:text="Enter user email"
             android:ems="10"
             android:layout_below="@+id/addToBookshelf"
             android:layout_marginTop="39dp"
             android:id="@+id/recommendBook"
             android:layout_alignParentStart="true"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
 
         <Button
             android:text="Recommend"
