@@ -92,24 +92,63 @@ public class NotificationActivity extends AppCompatActivity
 
             }
         });
+
     }
 
     public void makeAList(DataSnapshot dataSnapshot){
 
         String notificationString = "";
-        String message = null;
-        String senderEmail = null;
-        String type = null;
-        for(DataSnapshot d : dataSnapshot.getChildren()) {
-            if (message == null) { message = d.getValue().toString().trim(); }
-            else if (senderEmail == null) { senderEmail = d.getValue().toString().trim(); }
-            else if (type == null) { type = d.getValue().toString().trim(); }
-        }
-        notificationString = message + " " + senderEmail + " " + type;
-        notifications.add(0, notificationString);
+        final String message;
+        final String senderEmail;
+        final String type;
+
+        message = dataSnapshot.child("message").getValue().toString();
+        Log.e("mes", message);
+        senderEmail = dataSnapshot.child("sendBy").getValue().toString();
+        Log.e("email", senderEmail);
+        type =dataSnapshot.child("type").getValue().toString();
+        Log.e("type",type);
+//        for(DataSnapshot d : dataSnapshot.getChildren()) {
+//            if (message == null) { message = d.getValue().toString().trim(); }
+//            else if (senderEmail == null) { senderEmail = d.getValue().toString().trim(); }
+//            else if (type == null) { type = d.getValue().toString().trim(); }
+//        }
+
+        databaseReference.child("userInfo").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot2) {
+                String username = "";
+                String temp = "";
+                for (DataSnapshot ds: dataSnapshot2.getChildren()) {
+                    Log.e("ds", ds.child("email")+"");
+                    if(ds.child("email").getValue().toString().equals(senderEmail)){
+                        username = ds.child("name").getValue().toString();
+                        if(type.equals("invitation")){
+                            Log.d("YOYOY", username);
+                            temp = username + " invited you to "+ message +".";
+                            Log.d("XOXOXOXO", temp);
+                            notifications.add(0, temp);
+                        }
+                        else{
+
+                            temp = username + "recommended you a book.";
+                            notifications.add(0, temp);
+                        }
+                    }
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+//
+//        notificationString = message + " " + senderEmail + " " + type;
+//        notifications.add(0, notificationString);
 
         arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, notifications);
         notificationListView.setAdapter(arrayAdapter);
+
+
 
     }
 

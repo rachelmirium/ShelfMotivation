@@ -65,8 +65,12 @@ public class StartScreenActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         Map<String, Object> userMap = new HashMap<String, Object>();
+                        userMap.put("email", "guest@g.com");
+                        userMap.put("name", "");
                         userMap.put("bookshelf", "");
                         userMap.put("goals", "");
+                        userMap.put("bookclubs", "");
+                        userMap.put("notifications", "");
                         databaseReference.child("userInfo").child("guest").updateChildren(userMap);
 
                     }
