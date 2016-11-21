@@ -66,46 +66,58 @@ public class BookClubSignup extends AppCompatActivity {
                 final String invitedUser = inputUsername.getText().toString().trim();
 
                 // Check if user exists, add to invited list if found
-                databaseReference.child("userInfo").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        Log.e("Count: " ,""+snapshot.getChildrenCount());
-                        boolean foundUser = false;
-                        for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
-                            String emailString = (String) dataSnapshot.child("email").getValue();
-                            if (invitedUser.equals(firebaseAuth.getCurrentUser().getEmail())) {
-                                Toast.makeText(BookClubSignup.this, "Cannot add self to book club", Toast.LENGTH_SHORT).show();
-                                foundUser = true;
-                                break;
-                            }
-                            else if (invitedUserList.contains(invitedUser)) {
-                                Toast.makeText(BookClubSignup.this, "User already in book club", Toast.LENGTH_SHORT).show();
-                                foundUser = true;
-                                break;
-                            }
-                            else if (invitedUser.equals(emailString)) {
-                                invitedUserList.add(invitedUser);
-                                foundUser = true;
+                    databaseReference.child("userInfo").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            Log.e("Count: " ,""+snapshot.getChildrenCount());
+                            boolean foundUser = false;
+                            for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                                String emailString = (String) dataSnapshot.child("email").getValue();
+                                if (invitedUser.equals(firebaseAuth.getCurrentUser().getEmail())) {
+                                    Toast.makeText(BookClubSignup.this, "Cannot add self to book club", Toast.LENGTH_SHORT).show();
+                                    foundUser = true;
+                                    break;
+                                }
+                                else if (invitedUserList.contains(invitedUser)) {
+                                    Toast.makeText(BookClubSignup.this, "User already in book club", Toast.LENGTH_SHORT).show();
+                                    foundUser = true;
+                                    break;
+                                }
+                                else if (invitedUser.equals(emailString)) {
+                                    invitedUserList.add(invitedUser);
+                                    foundUser = true;
 
-                                // Update user's profile in db
-                                Map<String, Object> map = new HashMap<String, Object>();
-                                map.put(name.getText().toString(), "");
-                                String uid = dataSnapshot.getKey();
-                                databaseReference.child("userInfo").child(uid).child("bookclubs").updateChildren(map);
+                                    // Update user's profile in db
+                                    Map<String, Object> map = new HashMap<String, Object>();
+                                    map.put(name.getText().toString(), "");
+                                    String uid = dataSnapshot.getKey();
+                                    databaseReference.child("userInfo").child(uid).child("bookclubs").updateChildren(map);
+
+                                    //update notifications on this user
+                                    DatabaseReference notiRef = databaseReference.child("userInfo").child(uid).child("notifications");
+                                    Map<String, Object> map2 = new HashMap<String, Object>();
+                                    String temp_Key = notiRef.push().getKey();
+                                    notiRef.updateChildren(map2);
+                                    DatabaseReference eachNotifRef = notiRef.child(temp_Key);
+                                    map2.put("sendBy", firebaseAuth.getCurrentUser().getEmail());
+                                    map2.put("type", "invitation");
+                                    map2.put("message", name.getText().toString());
+                                    eachNotifRef.updateChildren(map2);
 
 
-                                // Show list on screen
-                                LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                                        LinearLayout.LayoutParams.WRAP_CONTENT);
-                                textView.setLayoutParams(lparams);
-                                textView.setText(invitedUser);
-                                showAllInvitedUsers.addView(textView);
-                                break;
+                                    // Show list on screen
+                                    LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                                            LinearLayout.LayoutParams.WRAP_CONTENT);
+                                    textView.setLayoutParams(lparams);
+                                    textView.setText(invitedUser);
+                                    showAllInvitedUsers.addView(textView);
+                                    break;
+                                }
+
                             }
-                        }
-                        if (!foundUser) {
-                            Toast.makeText(BookClubSignup.this, "Unable to find user", Toast.LENGTH_SHORT).show();
-                        }
+                            if (!foundUser) {
+                                Toast.makeText(BookClubSignup.this, "Unable to find user", Toast.LENGTH_SHORT).show();
+                            }
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) { }
@@ -147,11 +159,11 @@ public class BookClubSignup extends AppCompatActivity {
                 chatroom.put("chatroom", "");
                 databaseReference.child("bookclubs").child(bookclubName).updateChildren(chatroom);
 
-                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                FirebaseUser currUser = firebaseAuth.getCurrentUser();
+//                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+//                FirebaseUser currUser = firebaseAuth.getCurrentUser();
                 Map<String, Object> bookclubInUser = new HashMap<String, Object>();
                 bookclubInUser.put(bookclubName, "");
-                databaseReference.child("userInfo").child(currUser.getUid()).child("bookclubs").updateChildren(bookclubInUser);
+                databaseReference.child("userInfo").child(user.getUid()).child("bookclubs").updateChildren(bookclubInUser);
 
 
                 Intent intent = new Intent(getApplicationContext(), BookclubActivity.class);
