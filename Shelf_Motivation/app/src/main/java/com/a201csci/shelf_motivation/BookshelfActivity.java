@@ -39,7 +39,7 @@ public class BookshelfActivity extends AppCompatActivity
     private ArrayList<String> bookIDs = new ArrayList<String>(9);
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
-    private int numberOfSavedBooks = 0;
+    private static int numberOfSavedBooks = 0;
 
 
     @Override
@@ -90,26 +90,24 @@ public class BookshelfActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot snapshot) {
                 numberOfSavedBooks = 0;
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
-                    if(numberOfSavedBooks >= 9) return;
-                    final String bookID = dataSnapshot.getKey();
-                    final String bookURL = dataSnapshot.getValue().toString();
-//                    newBook(bookID, bookURL);
-                    Log.e("SHELF", bookID+ " and " + bookURL);
-                    Log.e("SHELF", "number of books " + numberOfSavedBooks);
+                    if(numberOfSavedBooks < 9) {
+                        final String bookID = dataSnapshot.getKey();
+                        final String bookURL = dataSnapshot.getValue().toString();
 
-                    ImageButton imageButton= buttons.get(numberOfSavedBooks);
-                    imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
-                    Picasso.with(BookshelfActivity.this).load(bookURL).into(imageButton);
-                    bookIDs.add(bookID);
-                    numberOfSavedBooks++;
+                        ImageButton imageButton = buttons.get(numberOfSavedBooks);
+                        imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
+                        Picasso.with(BookshelfActivity.this).load(bookURL).into(imageButton);
+                        bookIDs.add(bookID);
+                        numberOfSavedBooks++;
 
-                     imageButton.setOnClickListener(new View.OnClickListener(){
-                        public void onClick(View view){
-                            Intent activityChangeIntent= new Intent (BookshelfActivity.this, BookInfo.class);
-                            activityChangeIntent.putExtra("init", bookID);
-                            startActivity(activityChangeIntent);
-                        }
-                    });
+                        imageButton.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View view) {
+                                Intent activityChangeIntent = new Intent(BookshelfActivity.this, BookInfo.class);
+                                activityChangeIntent.putExtra("init", bookID);
+                                startActivity(activityChangeIntent);
+                            }
+                        });
+                    }
                 }
                 fixVisibility();
             }
@@ -183,7 +181,6 @@ public class BookshelfActivity extends AppCompatActivity
         if (id == R.id.nav_search) {
             Intent intent = new Intent(this, Search.class);
             startActivity(intent);
-            BooksAPI.getBookByID(this, "zyTCAlFPjgYC", this);
         } else if (id == R.id.nav_bookshelf) {
             Intent intent = new Intent(this, BookshelfActivity.class);
             startActivity(intent);
@@ -261,6 +258,10 @@ public class BookshelfActivity extends AppCompatActivity
             this.id = id;
             this.url = url;
         }
+    }
+
+    public static int getNumberOfSavedBooks(){
+        return numberOfSavedBooks;
     }
 
 

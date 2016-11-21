@@ -170,24 +170,25 @@ public class BookInfo extends AppCompatActivity
     }
 
     public void addBook(){
+        if(BookshelfActivity.getNumberOfSavedBooks() < 9){
+            //Add book information to database if user is registered
+            DatabaseReference databaseReferenceUserInfo = databaseReference.child("userInfo");
+            Map<String, Object> bookMap = new HashMap<String, Object>();
+            bookMap.put(bookID, bookURL);
+            if (!((Guest) this.getApplication()).getGuest()) {
+                String userUID = firebaseAuth.getCurrentUser().getUid();
+                databaseReferenceUserInfo.child(userUID).child("bookshelf").updateChildren(bookMap);
+            }
+            else {
+                databaseReferenceUserInfo.child("guest").child("bookshelf").updateChildren(bookMap);
+            }
 
-        //Add book information to database if user is registered
-        DatabaseReference databaseReferenceUserInfo = databaseReference.child("userInfo");
-        Map<String, Object> bookMap = new HashMap<String, Object>();
-        bookMap.put(bookID, bookURL);
-        if (!((Guest) this.getApplication()).getGuest()) {
-            String userUID = firebaseAuth.getCurrentUser().getUid();
-            databaseReferenceUserInfo.child(userUID).child("bookshelf").updateChildren(bookMap);
+            // Change intent
+            Intent activityChangeIntent = new Intent(BookInfo.this, BookshelfActivity.class);
+            activityChangeIntent.putExtra("add", bookID);
+            activityChangeIntent.putExtra("URL", bookURL);
+            startActivity(activityChangeIntent);
         }
-        else {
-            databaseReferenceUserInfo.child("guest").child("bookshelf").updateChildren(bookMap);
-        }
-
-        // Change intent
-        Intent activityChangeIntent = new Intent(BookInfo.this, BookshelfActivity.class);
-        activityChangeIntent.putExtra("add", bookID);
-        activityChangeIntent.putExtra("URL", bookURL);
-        startActivity(activityChangeIntent);
     }
 
     public void initializeView(String bookID){

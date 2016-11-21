@@ -111,6 +111,16 @@ public class NotificationActivity extends AppCompatActivity
         arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, notifications);
         notificationListView.setAdapter(arrayAdapter);
 
+        notificationListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            public void onItemClick(AdapterView<?> arg0, View v,int position, long arg3)
+            {
+                String id = notifications.get(position).substring(0, notifications.get(position).indexOf(' '));
+                Intent activityChangeIntent= new Intent (NotificationActivity.this, BookInfo.class);
+                activityChangeIntent.putExtra("init", id);
+                startActivity(activityChangeIntent);
+            }
+        });
     }
 
     @Override
