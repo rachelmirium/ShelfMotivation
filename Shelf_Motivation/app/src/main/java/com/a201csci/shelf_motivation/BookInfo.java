@@ -204,6 +204,7 @@ public class BookInfo extends AppCompatActivity
                 boolean foundUser = false;
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     String emailString = (String) dataSnapshot.child("email").getValue();
+                    String uid = dataSnapshot.getKey();
                     if (username.equals(firebaseAuth.getCurrentUser().getEmail())) {
                         Toast.makeText(BookInfo.this, "Cannot recommend to self", Toast.LENGTH_SHORT).show();
                         foundUser = true;
@@ -213,6 +214,15 @@ public class BookInfo extends AppCompatActivity
                         foundUser = true;
 
                         // Send recommendation notification
+                        DatabaseReference notiRef = databaseReference.child("userInfo").child(uid).child("notifications");
+                        Map<String, Object> map2 = new HashMap<String, Object>();
+                        String temp_Key = notiRef.push().getKey();
+                        notiRef.updateChildren(map2);
+                        DatabaseReference eachNotifRef = notiRef.child(temp_Key);
+                        map2.put("sendBy", firebaseAuth.getCurrentUser().getEmail());
+                        map2.put("type", "recommendation");
+                        map2.put("message", bookID);
+                        eachNotifRef.updateChildren(map2);
 
                         Toast.makeText(BookInfo.this, "Recommendation sent!", Toast.LENGTH_SHORT).show();
                         finish();

@@ -145,6 +145,8 @@ public class NotificationActivity extends AppCompatActivity
 //        notificationString = message + " " + senderEmail + " " + type;
 //        notifications.add(0, notificationString);
 
+        Log.e("NOTIF", notifications.size()+"");
+
         arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, notifications);
         notificationListView.setAdapter(arrayAdapter);
 
