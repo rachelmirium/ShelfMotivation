@@ -124,9 +124,7 @@ public class NotificationActivity extends AppCompatActivity
                     if(ds.child("email").getValue().toString().equals(senderEmail)){
                         username = ds.child("name").getValue().toString();
                         if(type.equals("invitation")){
-                            Log.d("YOYOY", username);
                             temp = username + " invited you to "+ message;
-                            Log.d("XOXOXOXO", temp);
                             notifications.add(0, temp);
                         }
                         else{

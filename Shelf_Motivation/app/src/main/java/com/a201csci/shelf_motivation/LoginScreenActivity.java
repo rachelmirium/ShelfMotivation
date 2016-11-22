@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class LoginScreenActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginScreenActivity extends AppCompatActivity  {
 
     private Button buttonRegister;
     private EditText editTextEmail;
@@ -50,8 +50,19 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
         editTextPassword = (EditText) findViewById(R.id.password);
         signupTextView = (TextView) findViewById(R.id.textViewSignup);
 
-        buttonRegister.setOnClickListener(this);
-        signupTextView.setOnClickListener(this);
+        buttonRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userLogin();
+            }
+        });
+        signupTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                startActivity(new Intent(getApplicationContext(), CreateAccountScreenActivity.class));
+            }
+        });
     }
 
     private void userLogin(){
@@ -92,16 +103,7 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
     }
 
 
-    @Override
-    public void onClick(View view) {
-        if(view == buttonRegister){
-            userLogin();
-        }
-        else if(view == signupTextView){
-            finish();
-            startActivity(new Intent(this, CreateAccountScreenActivity.class));
-        }
-    }
+
 
 
     private void notGuest(){
