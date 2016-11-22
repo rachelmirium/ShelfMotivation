@@ -11,12 +11,15 @@
             android:title="Bookshelf" />
         <item
             android:id="@+id/nav_bookclubs"
+            android:icon="@drawable/ic_menu_bookclub"
             android:title="Book Clubs" />
         <item
             android:id="@+id/nav_notifications"
+            android:icon="@android:drawable/sym_action_chat"
             android:title="Notifications" />
         <item
             android:id="@+id/nav_goals"
+            android:icon="@android:drawable/btn_star"
             android:title="Goals" />
         <item
             android:id="@+id/nav_settings"
