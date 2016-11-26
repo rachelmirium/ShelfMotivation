@@ -24,8 +24,8 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="127dp"
-            android:layout_weight="0.30">
+            android:layout_weight="0.02"
+            android:layout_height="100dp">
 
             <ImageView
                 android:layout_width="167dp"
@@ -47,7 +47,7 @@
                 <TextView
                     android:text="Book Title"
                     android:layout_width="match_parent"
-                    android:layout_height="59dp"
+                    android:layout_height="65dp"
                     android:id="@+id/bookTitle"
                     android:layout_alignBottom="@+id/recommendBook"
                     android:layout_alignParentEnd="true"
@@ -59,7 +59,7 @@
                 <TextView
                     android:text="Book Author"
                     android:layout_width="match_parent"
-                    android:layout_height="34dp"
+                    android:layout_height="match_parent"
                     android:layout_below="@+id/bookTitle"
                     android:layout_alignStart="@+id/bookTitle"
                     android:layout_marginTop="26dp"
@@ -67,13 +67,37 @@
                     android:textColor="#000"
                     android:textSize="16dp"/>
 
+                <TextView
+                    android:text="Genre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bookGenre" />
+
             </LinearLayout>
         </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="78dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:text="Description"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/bookDescription" />
+            </LinearLayout>
+        </ScrollView>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="64dp">
+            android:layout_height="64dp"
+            android:layout_weight="0.01">
 
             <Button
                 android:text="Add to Bookshelf"
@@ -92,20 +116,19 @@
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="99dp"
+            android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
             android:layout_below="@+id/addToBookshelf"
             android:layout_marginTop="39dp"
             android:id="@+id/recommendBook"
             android:layout_alignParentStart="true"
-            android:layout_weight="0.05"
             android:hint="Enter user email" />
 
         <Button
             android:text="Recommend"
             android:layout_width="match_parent"
-            android:layout_height="78dp"
+            android:layout_height="31dp"
             android:id="@+id/recommendButton"
             android:layout_alignTop="@+id/recommendBook"
             android:layout_toEndOf="@+id/bookImage"

@@ -239,6 +239,7 @@ public class BookInfo extends AppCompatActivity
     public void gotBookByID(Book book) {
         bookURL = book.getImageURL();
         ImageView i = (ImageView) findViewById(R.id.bookImage);
+        i.setScaleType(ImageView.ScaleType.FIT_XY);
         Picasso.with(this).load(book.getImageURL()).into(i);
 
         TextView title = (TextView) findViewById(R.id.bookTitle);
@@ -246,6 +247,9 @@ public class BookInfo extends AppCompatActivity
 
         TextView author = (TextView) findViewById(R.id.bookAuthor);
         author.setText(book.getAuthors().get(0));
+
+        TextView description = (TextView) findViewById(R.id.bookDescription);
+        description.setText(book.getDescription());
     }
 
     @Override

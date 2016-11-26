@@ -1,5 +1,6 @@
 package com.a201csci.shelf_motivation;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -167,6 +168,9 @@ public class Search extends AppCompatActivity
             bookIDs.add(b.getId());
             bookTitles.add(b.getTitle());
         }
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Searching...");
+        progressDialog.show();
         Intent activityChangeIntent = new Intent(this, SearchResults.class);
         activityChangeIntent.putExtra("results", bookIDs);
         activityChangeIntent.putExtra("titles", bookTitles);
