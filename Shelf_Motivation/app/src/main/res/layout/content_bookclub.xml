@@ -35,7 +35,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    app:srcCompat="?android:attr/actionModeCopyDrawable"
+                    app:srcCompat="@drawable/bookclubimg"
                     android:id="@+id/imageView5"
                     android:layout_weight="0.74" />
             </LinearLayout>

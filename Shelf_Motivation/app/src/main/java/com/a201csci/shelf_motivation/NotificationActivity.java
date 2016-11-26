@@ -97,7 +97,7 @@ public class NotificationActivity extends AppCompatActivity
 
     public void makeAList(DataSnapshot dataSnapshot){
 
-        String notificationString = "";
+        final String notificationString = "";
         final String message;
         final String senderEmail;
         final String type;
@@ -124,30 +124,42 @@ public class NotificationActivity extends AppCompatActivity
                     if(ds.child("email").getValue().toString().equals(senderEmail)){
                         username = ds.child("name").getValue().toString();
                         if(type.equals("invitation")){
-                            Log.d("YOYOY", username);
-                            temp = username + " invited you to "+ message +".";
-                            Log.d("XOXOXOXO", temp);
+                            temp = username + " invited you to "+ message;
                             notifications.add(0, temp);
                         }
                         else{
 
-                            temp = username + "recommended you a book.";
+                            temp = username + " recommended book #" + message +" to you";
                             notifications.add(0, temp);
                         }
                     }
                 }
+                arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, notifications);
+                notificationListView.setAdapter(arrayAdapter);
+                notificationListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String  content    = (String) notificationListView.getItemAtPosition(position);
+                        if(content.contains("invite")){
+                            Intent intent = new Intent(getApplicationContext(), BookclubActivity.class);
+                            String[] segs= content.split(" invited you to ");
+                            intent.putExtra("bookclub_name", segs[1]);
+                            startActivity(intent);
+                        }
+                        else {
+                            Intent intent = new Intent(getApplicationContext(), BookInfo.class);
+                            String[] segs= content.split(" recommended book #");
+                            segs[1].replace(" to you", "");
+                            intent.putExtra("bookclub_name", segs[1]);
+                            startActivity(intent);
+                        }
+                    }
+                });
 
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
-//
-//        notificationString = message + " " + senderEmail + " " + type;
-//        notifications.add(0, notificationString);
-
-        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, notifications);
-        notificationListView.setAdapter(arrayAdapter);
-
 
         notificationListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -174,7 +186,6 @@ public class NotificationActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.notification, menu);
         return true;
     }
 
@@ -186,9 +197,6 @@ public class NotificationActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }

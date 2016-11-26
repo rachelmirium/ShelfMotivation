@@ -1,5 +1,6 @@
 package com.a201csci.shelf_motivation;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -70,7 +71,6 @@ public class Search extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.search, menu);
         return true;
     }
 
@@ -82,9 +82,6 @@ public class Search extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -171,6 +168,9 @@ public class Search extends AppCompatActivity
             bookIDs.add(b.getId());
             bookTitles.add(b.getTitle());
         }
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Searching...");
+        progressDialog.show();
         Intent activityChangeIntent = new Intent(this, SearchResults.class);
         activityChangeIntent.putExtra("results", bookIDs);
         activityChangeIntent.putExtra("titles", bookTitles);

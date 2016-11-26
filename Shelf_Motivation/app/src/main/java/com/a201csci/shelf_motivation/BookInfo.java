@@ -105,7 +105,6 @@ public class BookInfo extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.book_info, menu);
         return true;
     }
 
@@ -117,9 +116,7 @@ public class BookInfo extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -204,6 +201,7 @@ public class BookInfo extends AppCompatActivity
                 boolean foundUser = false;
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     String emailString = (String) dataSnapshot.child("email").getValue();
+                    String uid = dataSnapshot.getKey();
                     if (username.equals(firebaseAuth.getCurrentUser().getEmail())) {
                         Toast.makeText(BookInfo.this, "Cannot recommend to self", Toast.LENGTH_SHORT).show();
                         foundUser = true;
@@ -213,6 +211,15 @@ public class BookInfo extends AppCompatActivity
                         foundUser = true;
 
                         // Send recommendation notification
+                        DatabaseReference notiRef = databaseReference.child("userInfo").child(uid).child("notifications");
+                        Map<String, Object> map2 = new HashMap<String, Object>();
+                        String temp_Key = notiRef.push().getKey();
+                        notiRef.updateChildren(map2);
+                        DatabaseReference eachNotifRef = notiRef.child(temp_Key);
+                        map2.put("sendBy", firebaseAuth.getCurrentUser().getEmail());
+                        map2.put("type", "recommendation");
+                        map2.put("message", bookID);
+                        eachNotifRef.updateChildren(map2);
 
                         Toast.makeText(BookInfo.this, "Recommendation sent!", Toast.LENGTH_SHORT).show();
                         finish();
@@ -232,6 +239,7 @@ public class BookInfo extends AppCompatActivity
     public void gotBookByID(Book book) {
         bookURL = book.getImageURL();
         ImageView i = (ImageView) findViewById(R.id.bookImage);
+        i.setScaleType(ImageView.ScaleType.FIT_XY);
         Picasso.with(this).load(book.getImageURL()).into(i);
 
         TextView title = (TextView) findViewById(R.id.bookTitle);
@@ -239,6 +247,9 @@ public class BookInfo extends AppCompatActivity
 
         TextView author = (TextView) findViewById(R.id.bookAuthor);
         author.setText(book.getAuthors().get(0));
+
+        TextView description = (TextView) findViewById(R.id.bookDescription);
+        description.setText(book.getDescription());
     }
 
     @Override
