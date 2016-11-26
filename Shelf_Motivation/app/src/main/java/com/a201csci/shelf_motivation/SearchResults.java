@@ -13,13 +13,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 
 public class SearchResults extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     ArrayList<String> bookIDs;
+    ArrayList<String> bookTitles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +31,6 @@ public class SearchResults extends AppCompatActivity
         setContentView(R.layout.activity_search_results);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -59,10 +54,30 @@ public class SearchResults extends AppCompatActivity
             }
         });
 
-        /*Bundle b = getIntent().getExtras();
+        Bundle b = getIntent().getExtras();
         if(b != null) {
             bookIDs = b.getStringArrayList("results");
-        }*/
+            bookTitles = b.getStringArrayList("titles");
+            String[] data = new String[bookTitles.size()];
+            for(int i = 0; i < bookTitles.size(); i++){
+                data[i] = bookTitles.get(i);
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_1, data);
+            ListView listView = (ListView) findViewById(R.id.searchResults);
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+            {
+                // argument position gives the index of item which is clicked
+                public void onItemClick(AdapterView<?> arg0, View v,int position, long arg3)
+                {
+                    String id =bookIDs.get(position);
+                    Intent activityChangeIntent= new Intent (SearchResults.this, BookInfo.class);
+                    activityChangeIntent.putExtra("init", id);
+                    startActivity(activityChangeIntent);
+                }
+            });
+        }
     }
 
     @Override
@@ -117,7 +132,7 @@ public class SearchResults extends AppCompatActivity
                 Intent intent = new Intent(this, GuestError.class);
                 startActivity(intent);
             }else {
-                Intent intent = new Intent(this, BookclubActivity.class);
+                Intent intent = new Intent(this, BookclubOverview.class);
                 startActivity(intent);
             }
         } else if (id == R.id.nav_notifications) {
@@ -125,10 +140,11 @@ public class SearchResults extends AppCompatActivity
                 Intent intent = new Intent(this, GuestError.class);
                 startActivity(intent);
             } else{
-
+                Intent intent = new Intent(this, NotificationActivity.class);
+                startActivity(intent);
             }
         } else if (id == R.id.nav_goals) {
-            Intent intent = new Intent(this, Goals.class);
+            Intent intent = new Intent(this, GoalActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_settings) {

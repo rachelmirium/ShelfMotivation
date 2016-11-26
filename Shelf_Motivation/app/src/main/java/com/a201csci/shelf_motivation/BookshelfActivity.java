@@ -10,14 +10,25 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
+import com.google.api.client.util.Data;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class BookshelfActivity extends AppCompatActivity
@@ -25,7 +36,11 @@ public class BookshelfActivity extends AppCompatActivity
 
 
     private ArrayList<ImageButton> buttons;
-    private ArrayList<String> bookIDs;
+    private ArrayList<String> bookIDs = new ArrayList<String>(9);
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference databaseReference;
+    private static int numberOfSavedBooks = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +48,6 @@ public class BookshelfActivity extends AppCompatActivity
         setContentView(R.layout.activity_bookshelf);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -56,8 +62,6 @@ public class BookshelfActivity extends AppCompatActivity
 
         buttons = new ArrayList<ImageButton>(9);
 
-        bookIDs = new ArrayList<String>(9);
-
         buttons.add((ImageButton)(findViewById(R.id.book0)));
         buttons.add((ImageButton)(findViewById(R.id.book1)));
         buttons.add((ImageButton)(findViewById(R.id.book2)));
@@ -68,22 +72,68 @@ public class BookshelfActivity extends AppCompatActivity
         buttons.add((ImageButton)(findViewById(R.id.book7)));
         buttons.add((ImageButton)(findViewById(R.id.book8)));
 
+        // Check db to see if we need to pre-populate bookshelf
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference databaseReferenceShelf;
+        // Get correct database reference
+        if (!((Guest) this.getApplication()).getGuest()) {
+            firebaseAuth = FirebaseAuth.getInstance();
+            String userUID = firebaseAuth.getCurrentUser().getUid();
+            databaseReferenceShelf = databaseReference.child("userInfo").child(userUID).child("bookshelf");
+        }
+        else {
+            databaseReferenceShelf = databaseReference.child("userInfo").child("guest").child("bookshelf");
+        }
+        // Populate shelf
+        databaseReferenceShelf.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                numberOfSavedBooks = 0;
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                    if(numberOfSavedBooks < 9) {
+                        final String bookID = dataSnapshot.getKey();
+                        final String bookURL = dataSnapshot.getValue().toString();
+
+                        ImageButton imageButton = buttons.get(numberOfSavedBooks);
+                        imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
+                        Picasso.with(BookshelfActivity.this).load(bookURL).into(imageButton);
+                        bookIDs.add(bookID);
+                        numberOfSavedBooks++;
+
+                        imageButton.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View view) {
+                                Intent activityChangeIntent = new Intent(BookshelfActivity.this, BookInfo.class);
+                                activityChangeIntent.putExtra("init", bookID);
+                                startActivity(activityChangeIntent);
+                            }
+                        });
+                    }
+                }
+                fixVisibility();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
 
         Bundle b = getIntent().getExtras();
         if (b!= null){
-            String bookID= b.getString("add");
-            String URL = b.getString("URL");
-            if (bookID!=null){
+            final String bookID= b.getString("add");
+            final String URL = b.getString("URL");
+            if (bookID!=null && numberOfSavedBooks < 9){
                 bookIDs.add(bookID);
-                ImageButton imageButton= buttons.get(Integer.parseInt(bookID));
-                final String id= bookIDs.get(Integer.parseInt(bookID));
+
+                ImageButton imageButton= buttons.get(numberOfSavedBooks);
+                imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
+                Picasso.with(this).load(URL).into(imageButton);
                 imageButton.setOnClickListener(new View.OnClickListener(){
                     public void onClick(View view){
                         Intent activityChangeIntent= new Intent (BookshelfActivity.this, BookInfo.class);
-                        activityChangeIntent.putExtra("init", id);
+                        activityChangeIntent.putExtra("init", bookID);
                         startActivity(activityChangeIntent);
                     }
                 });
+                fixVisibility();
+                numberOfSavedBooks++;
             }
         }
 
@@ -134,7 +184,6 @@ public class BookshelfActivity extends AppCompatActivity
         if (id == R.id.nav_search) {
             Intent intent = new Intent(this, Search.class);
             startActivity(intent);
-            BooksAPI.getBookByID(this, "zyTCAlFPjgYC", this);
         } else if (id == R.id.nav_bookshelf) {
             Intent intent = new Intent(this, BookshelfActivity.class);
             startActivity(intent);
@@ -145,7 +194,7 @@ public class BookshelfActivity extends AppCompatActivity
                 Intent intent = new Intent(this, GuestError.class);
                 startActivity(intent);
             }else {
-                Intent intent = new Intent(this, BookclubActivity.class);
+                Intent intent = new Intent(this, BookclubOverview.class);
                 startActivity(intent);
             }
         } else if (id == R.id.nav_notifications) {
@@ -153,10 +202,11 @@ public class BookshelfActivity extends AppCompatActivity
                 Intent intent = new Intent(this, GuestError.class);
                 startActivity(intent);
             } else{
-
+                Intent intent = new Intent(this, NotificationActivity.class);
+                startActivity(intent);
             }
         } else if (id == R.id.nav_goals) {
-            Intent intent = new Intent(this, Goals.class);
+            Intent intent = new Intent(this, GoalActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_settings) {
@@ -173,19 +223,17 @@ public class BookshelfActivity extends AppCompatActivity
 
 
 
-    public void newBook(String bookID, String URL){
+    /*public void newBook(String bookID, String URL){
         ImageButton button = buttons.get(((Guest) this.getApplication()).getNumberOfBooks());
         Picasso.with(this).load(URL).into(button);
         //bookIDs.set(numberOfSavedBooks, bookID);
         ((Guest) this.getApplication()).setNumberOfBooks(((Guest) this.getApplication()).getNumberOfBooks()+1);
         fixVisibility();
-
-
-    }
+    }*/
 
     private void fixVisibility() {
         for (int i = 0; i < 9; i++) {
-            if ( ((Guest) this.getApplication()).getNumberOfBooks() - 1 < i) {
+            if (numberOfSavedBooks <= i) {
                 buttons.get(i).setVisibility(View.INVISIBLE);
             } else {
                 buttons.get(i).setVisibility(View.VISIBLE);
@@ -202,6 +250,21 @@ public class BookshelfActivity extends AppCompatActivity
     }
     public void gotError(){
 
+    }
+
+    public class bookData {
+
+        public String id;
+        public String url;
+
+        public bookData(String id, String url) {
+            this.id = id;
+            this.url = url;
+        }
+    }
+
+    public static int getNumberOfSavedBooks(){
+        return numberOfSavedBooks;
     }
 
 

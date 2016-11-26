@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_goals"
+    android:id="@+id/content_goal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -10,8 +10,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.a201csci.shelf_motivation.Goals"
-    tools:showIn="@layout/activity_goals">
+    tools:context="com.a201csci.shelf_motivation.GoalActivity"
+    tools:showIn="@layout/app_bar_goal">
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,7 +25,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="date"
+        android:inputType="text"
         android:ems="10"
         android:layout_below="@+id/goalsBookTitle"
         android:layout_alignStart="@+id/goalsBookTitle"
@@ -44,14 +44,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:elevation="10dp" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:id="@+id/goalsCheckboxes"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/goalsAddButton"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="12dp"></LinearLayout>
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -70,5 +63,21 @@
         android:hint="Book Title"
         android:layout_below="@+id/goalsAlertLabel"
         android:layout_centerHorizontal="true" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/goalsAddButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp">
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/goalsCheckboxes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

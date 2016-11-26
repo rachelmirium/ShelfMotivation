@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginScreenActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -25,6 +28,7 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
     private TextView signupTextView;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +37,13 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
 
         firebaseAuth = FirebaseAuth.getInstance();
         if(firebaseAuth.getCurrentUser() != null){
-            //the user login already
+            // Sign out the user if still logged in
             firebaseAuth.signOut();
+            return;
 
-            //Log.d("user", firebaseAuth.getCurrentUser().getEmail());
-
-            finish();
-            startActivity(new Intent(getApplicationContext(), BookshelfActivity.class));
         }
         progressDialog = new ProgressDialog(this);
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         buttonRegister = (Button) findViewById(R.id.login);
         editTextEmail = (EditText) findViewById(R.id.username);
@@ -76,8 +78,13 @@ public class LoginScreenActivity extends AppCompatActivity implements View.OnCli
                         if(task.isSuccessful()){
                             notGuest();
                             finish();
-                            //Log.d("USER EMAIL", firebaseAuth.getCurrentUser().getEmail());
                             startActivity(new Intent(getApplicationContext(), BookshelfActivity.class));
+                        }
+                        else {
+                            // Error with log in
+                            Toast.makeText(LoginScreenActivity.this, "Invalid Login", Toast.LENGTH_LONG).show();
+                            finish();
+                            startActivity(new Intent(getApplicationContext(), LoginScreenActivity.class));
                         }
                     }
                 });

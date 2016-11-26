@@ -14,25 +14,27 @@
     tools:showIn="@layout/app_bar_search_results"
     android:background="#f4e5d7">
 
-    <Button
-        android:text="Back to Search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="17dp"
-        android:id="@+id/backToSearch" />
-
-    <ScrollView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/backToSearch"
-        android:layout_alignParentEnd="true">
+        android:weightSum="1">
 
         <ListView
             android:layout_width="match_parent"
+            android:layout_height="364dp"
+            android:id="@+id/searchResults"
+            android:layout_weight="0.78" />
+
+        <Button
+            android:text="Back to Search"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/searchResults" />
-    </ScrollView>
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="17dp"
+            android:id="@+id/backToSearch" />
+
+    </LinearLayout>
+
 </RelativeLayout>

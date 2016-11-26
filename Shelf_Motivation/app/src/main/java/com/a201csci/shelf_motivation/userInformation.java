@@ -13,6 +13,7 @@ public class userInformation {
     private long lastLogin;
     private List<String> bookshelf;
     private List<goal> goals;
+    private List<String> bookclubs;
 
     public userInformation(String name, long login) {
         this.name = name;
@@ -20,6 +21,7 @@ public class userInformation {
         lastLogin = login;
         bookshelf = null;
         goals = null;
+        bookclubs = null;
     }
 
     // Getters and setters
@@ -37,5 +39,8 @@ public class userInformation {
 
     public void setGoals(List<goal> g) { goals = g; }
     public List<goal> getGoals() { return goals; }
+
+    public void setBookclubs(List<String> bcs) { bookclubs = bcs; }
+    public List<String> getBookclubs() { return bookclubs; }
 
 }

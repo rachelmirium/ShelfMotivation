@@ -25,7 +25,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="141dp">
+            android:layout_height="109dp">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -61,14 +61,14 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:text="Date of Creation:"
+                    android:text="date_of_creation:"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView3"
                     android:textSize="18sp" />
 
                 <TextView
-                    android:text="date_of_creation"
+                    android:text="description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView4"
@@ -106,27 +106,30 @@
                 android:background="#f4e5d7" />
         </LinearLayout>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
+            android:id="@+id/chat_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#f4e5d7"
             android:orientation="vertical"
-            tools:context=".MainActivity">
+            tools:context=".MainActivity"
+            android:weightSum="1">
 
-            <ListView
-                android:id="@+id/msgview"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2.87"
-                android:background="@null"
-                android:divider="@null"
-                android:stackFromBottom="true"
-                android:transcriptMode="alwaysScroll"></ListView>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_weight="1.04">
+
+                <TextView
+                    android:text=""
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/msgList" />
+            </ScrollView>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="37dp"
                 android:orientation="horizontal"
                 android:weightSum="3">
 

@@ -28,7 +28,7 @@ public class BooksAPI{
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        System.out.println("Response: " + response.toString());
+                        //System.out.println("Response: " + response.toString());
                         Book book = new Book(response);
                         access.gotBookByID(book);
                     }
@@ -54,12 +54,12 @@ public class BooksAPI{
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        System.out.println("Response: " + response.toString());
+                        //System.out.println("Response: " + response.toString());
                         //process the response
                         ArrayList<Book> books = new ArrayList<Book>();
                         try {
                             JSONArray booksArray = (JSONArray) response.get("items");
-                            for(int i=0;i<10;i++){
+                            for(int i=0;i<booksArray.length();i++){
                                 books.add(new Book(booksArray.optJSONObject(i)));
                                 System.out.println(booksArray.optJSONObject(i));
                             }
@@ -92,12 +92,12 @@ public class BooksAPI{
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        System.out.println("Response: " + response.toString());
+                        //System.out.println("Response: " + response.toString());
                         //process the response
                         ArrayList<Book> books = new ArrayList<Book>();
                         try {
                             JSONArray booksArray = (JSONArray) response.get("items");
-                            for(int i=0;i<10;i++){
+                            for(int i=0;i<booksArray.length();i++){
                                 books.add(new Book(booksArray.optJSONObject(i)));
                                 System.out.println(booksArray.optJSONObject(i));
                             }
