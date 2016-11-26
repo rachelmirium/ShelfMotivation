@@ -18,9 +18,10 @@
         android:layout_height="wrap_content"
         android:text="GOALS"
         android:id="@+id/goalsTitle"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:textAppearance="@android:style/TextAppearance.Material.Display2"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -33,18 +34,6 @@
         android:id="@+id/goalsDateTitle"
         android:hint="Date (mm/dd/yyyy)" />
 
-    <Button
-        android:text="ADD"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/goalsDateTitle"
-        android:layout_alignStart="@+id/goalsTitle"
-        android:layout_marginStart="12dp"
-        android:id="@+id/goalsAddButton"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:elevation="10dp" />
-
-
 
     <TextView
         android:layout_width="wrap_content"
@@ -53,16 +42,6 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/goalsAlertLabel"
         android:textColor="@android:color/holo_red_dark" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/goalsBookTitle"
-        android:hint="Book Title"
-        android:layout_below="@+id/goalsAlertLabel"
-        android:layout_centerHorizontal="true" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -79,5 +58,27 @@
             android:layout_height="match_parent">
         </LinearLayout>
     </ScrollView>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/goalsBookTitle"
+        android:hint="Book Title"
+        android:layout_below="@+id/goalsAlertLabel"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="ADD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/goalsAddButton"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:elevation="10dp"
+        android:background="@color/colorPrimaryDark"
+        android:layout_below="@+id/goalsDateTitle"
+        android:layout_alignStart="@+id/goalsTitle"
+        android:textColor="#ffffff" />
 
 </RelativeLayout>

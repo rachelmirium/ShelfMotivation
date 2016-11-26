@@ -37,6 +37,13 @@
             android:layout_weight="0.29">
 
             <RadioButton
+                android:text="Author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/authorButton"
+                android:layout_weight="1" />
+
+            <RadioButton
                 android:text="Book"
                 android:layout_width="144dp"
                 android:layout_height="79dp"
@@ -45,13 +52,6 @@
                 android:layout_marginTop="21dp"
                 android:id="@+id/bookButton"
                 android:checked="true" />
-
-            <RadioButton
-                android:text="Author"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/authorButton"
-                android:layout_weight="1" />
 
         </RadioGroup>
 

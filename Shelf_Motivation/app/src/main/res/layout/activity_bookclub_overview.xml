@@ -20,7 +20,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="26dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textColor="@color/colorPrimaryDark" />
+        android:textColor="#ffffff"
+        android:background="@color/colorPrimaryDark" />
 
     <ListView
         android:layout_width="match_parent"

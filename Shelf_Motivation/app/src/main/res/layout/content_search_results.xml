@@ -18,7 +18,9 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <ListView
             android:layout_width="match_parent"
@@ -33,7 +35,9 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="17dp"
-            android:id="@+id/backToSearch" />
+            android:id="@+id/backToSearch"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="#ffffff" />
 
     </LinearLayout>
 

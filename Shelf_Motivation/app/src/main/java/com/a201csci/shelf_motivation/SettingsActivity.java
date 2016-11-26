@@ -22,8 +22,8 @@ public class SettingsActivity extends AppCompatActivity{
         firebaseAuth = FirebaseAuth.getInstance();
 
         if ( ((Guest) this.getApplication()).getGuest()){
-            View button= findViewById(R.id.logout);
-            button.setVisibility(View.GONE);
+//            View button= findViewById(R.id.logout);
+//            button.setVisibility(View.GONE);
         }else{
             View button= findViewById(R.id.createaccount);
             button.setVisibility(View.GONE);
