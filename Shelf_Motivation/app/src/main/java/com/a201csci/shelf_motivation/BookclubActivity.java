@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -134,6 +135,8 @@ public class BookclubActivity extends Activity
             public void onCancelled(DatabaseError databaseError) {}
         });
 
+        ImageView img = (ImageView) findViewById(R.id.imageView5);
+        img.setImageResource(R.drawable.bookclubimg);
 
         int[] imageIdss = {
                 R.drawable.ic_menu_camera,
