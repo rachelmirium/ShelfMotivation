@@ -188,6 +188,30 @@ public class BookInfo extends AppCompatActivity
         }
     }
 
+    public void removeBook() {
+
+        // Get reference to correct bookshelf
+        DatabaseReference databaseReferenceUserInfo = databaseReference.child("userInfo");
+        DatabaseReference databaseReferenceShelf;
+        if (!((Guest) this.getApplication()).getGuest()) {
+            String userUID = firebaseAuth.getCurrentUser().getUid();
+            databaseReferenceShelf = databaseReferenceUserInfo.child(userUID).child("bookshelf");
+        }
+        else {
+            databaseReferenceShelf = databaseReferenceUserInfo.child("guest").child("bookshelf");
+        }
+
+        // Remove book from database
+        databaseReferenceShelf.child(bookID).removeValue();
+
+        // Change intent
+        // Not really sure if this is the right way to do this???? probably don't add the "add" extra???
+        Intent activityChangeIntent = new Intent(BookInfo.this, BookshelfActivity.class);
+        activityChangeIntent.putExtra("add", bookID);
+        activityChangeIntent.putExtra("URL", bookURL);
+        startActivity(activityChangeIntent);
+    }
+
     public void initializeView(String bookID){
         this.bookID = bookID;
         BooksAPI.getBookByID(this, bookID, this);
