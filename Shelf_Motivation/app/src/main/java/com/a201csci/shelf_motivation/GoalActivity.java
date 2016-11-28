@@ -35,6 +35,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 public class GoalActivity extends AppCompatActivity
@@ -74,7 +76,13 @@ public class GoalActivity extends AppCompatActivity
         Log.i("Goals_Activity","App Running");
         Button button1 = (Button) findViewById(R.id.goalsAddButton);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
+
+
+
+        // Listeners for interaction with goal interface
         button1.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -97,10 +105,7 @@ public class GoalActivity extends AppCompatActivity
             }
         });
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-
-        // Grab user's goals
+        // Get reference to user's goals
         DatabaseReference databaseReferenceUserGoals = databaseReference.child("userInfo");
         if (!((Guest) this.getApplication()).getGuest()) {
             String userUID = firebaseAuth.getCurrentUser().getUid();
@@ -111,6 +116,7 @@ public class GoalActivity extends AppCompatActivity
             databaseReferenceUserGoals = databaseReferenceUserGoals.child("guest").child("goals");
         }
 
+        // Grab user's existing goals
         databaseReferenceUserGoals.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -131,6 +137,48 @@ public class GoalActivity extends AppCompatActivity
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             checkBox.getCheckBox().setText("Goal Accomplished!");
                             checkBox.getCheckBox().setEnabled(false);
+
+                            // Remove goal from goals and goalsDB data structures
+                            for (CheckBox cb : goals) {
+                                // Not sure how to do this
+                            }
+//                            for (goal g : goalsDB) {
+//                                if (g.getBookTitle().equals(checkBox.bookTitle)) {
+//                                    goalsDB.remove(new goal(g.getBookTitle(), g.getGoalDate()));
+//                                    Log.e("GOALS", "removed from goalsDB");
+//                                }
+//                            }
+//
+//
+//
+//                            // Delete goal from database
+//                            final String userID = firebaseAuth.getCurrentUser().getUid();
+//
+//                            databaseReference.child("userInfo").child(userID).child("goals").addListenerForSingleValueEvent(new ValueEventListener() {
+//                                @Override
+//                                public void onDataChange(DataSnapshot snapshot) {
+//                                    long numGoals = snapshot.getChildrenCount();
+//                                    Log.e("GOAL", ""+numGoals);
+//                                    for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+//                                        // Check if correct goal entry
+//                                        Log.e("GOAL", ""+dataSnapshot.child("bookTitle").getValue());
+//                                        if(dataSnapshot.child("bookTitle").getValue().equals(checkBox.bookTitle)) {
+//                                            Log.e("GOAL", "Found "+checkBox.bookTitle);
+//                                            dataSnapshot.getRef().removeValue();
+//                                            if (numGoals == 1) {
+//                                                Map<String, Object> userMap = new HashMap<String, Object>();
+//                                                userMap.put("goals", "");
+//                                                databaseReference.child("userInfo").child(userID).updateChildren(userMap);
+//                                            }
+//                                            break;
+//
+//                                        }
+//                                    }
+//                                }
+//                                @Override
+//                                public void onCancelled(DatabaseError databaseError) { }
+//                            });
+
                         }});
                 }
             }
