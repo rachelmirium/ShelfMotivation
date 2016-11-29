@@ -1,6 +1,5 @@
 package com.a201csci.shelf_motivation;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,24 +13,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class Navigation_Menu extends AppCompatActivity
+public class ErrorActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation__menu);
+        setContentView(R.layout.activity_error);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Error");
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -65,48 +56,18 @@ public class Navigation_Menu extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-
         return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_search) {
-            Intent intent = new Intent(this, Search.class);
-            startActivity(intent);
-        }  else if (id == R.id.nav_bookshelf) {
-            Intent intent = new Intent(this, BookshelfActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_bookclubs) {
-            if ( ((Guest) this.getApplication()).getGuest()){
-                Intent intent = new Intent(this, ErrorActivity.class);
-                startActivity(intent);
-            }else {
-                Intent intent = new Intent(this, BookclubOverview.class);
-                startActivity(intent);
-            }
-        } else if (id == R.id.nav_notifications) {
-            if (((Guest) this.getApplication()).getGuest()) {
-                Intent intent = new Intent(this, ErrorActivity.class);
-                startActivity(intent);
-            } else{
-                Intent intent = new Intent(this, NotificationActivity.class);
-                startActivity(intent);
-            }
-        } else if (id == R.id.nav_goals) {
-            Intent intent = new Intent(this, GoalActivity.class);
-            startActivity(intent);
-        }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

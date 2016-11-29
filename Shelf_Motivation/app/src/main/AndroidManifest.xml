@@ -28,7 +28,6 @@
         </activity>
         <activity android:name=".CreateAccountScreenActivity" />
         <activity android:name=".LoginScreenActivity" />
-        <activity android:name=".GuestError" />
         <activity android:name=".SettingsActivity" />
         <activity
             android:name=".BookInfo"
@@ -54,14 +53,18 @@
         <activity
             android:name=".NotificationActivity"
             android:label="@string/title_activity_notification"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
 
-        <!--<service-->
-            <!--android:name=".MyFirebaseMessagingService">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.google.firebase.MESSAGING_EVENT"/>-->
-            <!--</intent-filter>-->
-        <!--</service>-->
+        <!-- <service -->
+        <!-- android:name=".MyFirebaseMessagingService"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.google.firebase.MESSAGING_EVENT"/> -->
+        <!-- </intent-filter> -->
+        <!-- </service> -->
+        <activity
+            android:name=".ErrorActivity"
+            android:label="@string/title_activity_error"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

@@ -109,6 +109,7 @@ public class SearchResults extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
+
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
@@ -116,15 +117,12 @@ public class SearchResults extends AppCompatActivity
         if (id == R.id.nav_search) {
             Intent intent = new Intent(this, Search.class);
             startActivity(intent);
-            //BooksAPI.getBookByID(this, "zyTCAlFPjgYC");
-        } else if (id == R.id.nav_bookshelf) {
+        }  else if (id == R.id.nav_bookshelf) {
             Intent intent = new Intent(this, BookshelfActivity.class);
             startActivity(intent);
-
         } else if (id == R.id.nav_bookclubs) {
-
             if ( ((Guest) this.getApplication()).getGuest()){
-                Intent intent = new Intent(this, GuestError.class);
+                Intent intent = new Intent(this, ErrorActivity.class);
                 startActivity(intent);
             }else {
                 Intent intent = new Intent(this, BookclubOverview.class);
@@ -132,7 +130,7 @@ public class SearchResults extends AppCompatActivity
             }
         } else if (id == R.id.nav_notifications) {
             if (((Guest) this.getApplication()).getGuest()) {
-                Intent intent = new Intent(this, GuestError.class);
+                Intent intent = new Intent(this, ErrorActivity.class);
                 startActivity(intent);
             } else{
                 Intent intent = new Intent(this, NotificationActivity.class);
@@ -141,14 +139,10 @@ public class SearchResults extends AppCompatActivity
         } else if (id == R.id.nav_goals) {
             Intent intent = new Intent(this, GoalActivity.class);
             startActivity(intent);
-
-        } else if (id == R.id.nav_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

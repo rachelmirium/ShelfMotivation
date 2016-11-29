@@ -24,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginScreenActivity extends Activity {
+public class LoginScreenActivity extends Activity implements View.OnClickListener{
 
     private Button buttonRegister;
     private EditText editTextEmail;
@@ -112,5 +112,15 @@ public class LoginScreenActivity extends Activity {
 
     private void notGuest(){
         ((Guest) this.getApplication()).setGuest(false);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v == buttonRegister){
+            userLogin();
+        }else if(v == signupTextView){
+            finish();
+            startActivity(new Intent(getApplicationContext(), CreateAccountScreenActivity.class));
+        }
     }
 }

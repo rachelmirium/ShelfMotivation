@@ -197,22 +197,43 @@ public class GoalActivity extends AppCompatActivity
             return null;
         }
 
-        // Add goal to user's data in database if not a guest
+        // Get reference to user's goals in database
         goal newGoal = new goal(bookTitle, dateTitle);
         goalsDB.add(newGoal);
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference databaseReferenceUserGoals = databaseReference.child("userInfo");
+        DatabaseReference databaseReferenceUser = databaseReference.child("userInfo");
 
         if (!((Guest) this.getApplication()).getGuest()) {
             firebaseAuth = FirebaseAuth.getInstance();
             String userUID = firebaseAuth.getCurrentUser().getUid();
-            databaseReferenceUserGoals = databaseReferenceUserGoals.child(userUID).child("goals");
+            databaseReferenceUser = databaseReferenceUser.child(userUID);
         }
         else {
-            databaseReferenceUserGoals = databaseReferenceUserGoals.child("guest").child("goals");
-            databaseReferenceUserGoals.setValue("TEST");
+            databaseReferenceUser = databaseReferenceUser.child("guest");
         }
-        databaseReferenceUserGoals.setValue(goalsDB);
+
+        // Check to make sure entered book title is in the user's bookshelf
+        databaseReferenceUser.child("bookshelf").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e("GOAL", ""+ dataSnapshot);
+
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    // Make api call to get book title from bookID (ds.getKey
+                    // check if ds.getKey equals the book title entered by the user
+                    // if equals, add goal to user's db
+                }
+
+                // otherwise did not find book, do not add goal to user's db and display error toast
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        databaseReferenceUser.child("goals").setValue(goalsDB);
 
         // Create checkbox
         GoalActivity.GoalCheckBox checkBox = new GoalActivity.GoalCheckBox(bookTitle, dateTitle, this);
@@ -250,6 +271,7 @@ public class GoalActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
+
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
@@ -257,14 +279,12 @@ public class GoalActivity extends AppCompatActivity
         if (id == R.id.nav_search) {
             Intent intent = new Intent(this, Search.class);
             startActivity(intent);
-        } else if (id == R.id.nav_bookshelf) {
+        }  else if (id == R.id.nav_bookshelf) {
             Intent intent = new Intent(this, BookshelfActivity.class);
             startActivity(intent);
-
         } else if (id == R.id.nav_bookclubs) {
-
             if ( ((Guest) this.getApplication()).getGuest()){
-                Intent intent = new Intent(this, GuestError.class);
+                Intent intent = new Intent(this, ErrorActivity.class);
                 startActivity(intent);
             }else {
                 Intent intent = new Intent(this, BookclubOverview.class);
@@ -272,7 +292,7 @@ public class GoalActivity extends AppCompatActivity
             }
         } else if (id == R.id.nav_notifications) {
             if (((Guest) this.getApplication()).getGuest()) {
-                Intent intent = new Intent(this, GuestError.class);
+                Intent intent = new Intent(this, ErrorActivity.class);
                 startActivity(intent);
             } else{
                 Intent intent = new Intent(this, NotificationActivity.class);
@@ -281,13 +301,7 @@ public class GoalActivity extends AppCompatActivity
         } else if (id == R.id.nav_goals) {
             Intent intent = new Intent(this, GoalActivity.class);
             startActivity(intent);
-
-        } else if (id == R.id.nav_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
         }
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
