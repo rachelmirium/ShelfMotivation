@@ -19,10 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="66dp" />
-
         <TextView
             android:text="Sorry, but you cannot access this feature."
             android:layout_width="match_parent"
@@ -30,11 +26,17 @@
             android:id="@+id/cantaccess"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/book"
-            android:id="@+id/imageView2" />
+            app:srcCompat="@drawable/shelfmotivation_480"
+            android:id="@+id/imageView2"
+            android:scaleX="1.5"
+            android:scaleY="1.3"
+            android:layout_height="220dp" />
 
         <TextView
             android:text="Create an account to get access!"
