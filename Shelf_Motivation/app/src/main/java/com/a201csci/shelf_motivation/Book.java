@@ -26,7 +26,7 @@ public class Book {
             JSONObject volumeInfo = (JSONObject)bookInfo.get("volumeInfo");
             //set title and description
             this.title = volumeInfo.get("title").toString();
-            if(volumeInfo.has(description))
+            if(volumeInfo.has("description"))
                 this.description = volumeInfo.get("description").toString();
             else
                 this.description = "Sorry, no description available for this title.";
