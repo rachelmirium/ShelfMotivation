@@ -253,7 +253,7 @@ public class BookclubActivity extends Activity
             startActivity(intent);
         } else if (id == R.id.nav_bookclubs) {
             if ( ((Guest) this.getApplication()).getGuest()){
-                Intent intent = new Intent(this, GuestError.class);
+                Intent intent = new Intent(this, ErrorActivity.class);
                 startActivity(intent);
             }else {
                 Intent intent = new Intent(this, BookclubOverview.class);
@@ -261,7 +261,7 @@ public class BookclubActivity extends Activity
             }
         } else if (id == R.id.nav_notifications) {
             if (((Guest) this.getApplication()).getGuest()) {
-                Intent intent = new Intent(this, GuestError.class);
+                Intent intent = new Intent(this, ErrorActivity.class);
                 startActivity(intent);
             } else{
                 Intent intent = new Intent(this, NotificationActivity.class);
@@ -271,15 +271,6 @@ public class BookclubActivity extends Activity
             Intent intent = new Intent(this, GoalActivity.class);
             startActivity(intent);
         }
-//        else if (id == R.id.nav_logout) {
-//            Intent intent= new Intent (this, StartScreenActivity.class);
-//            startActivity(intent);
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
