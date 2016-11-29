@@ -9,25 +9,27 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="30dp" />
+        android:layout_height="40dp" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+        <Space
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.27" />
 
         <ImageView
-            android:layout_width="278dp"
-            android:layout_height="181dp"
-            app:srcCompat="@drawable/book"
+            android:layout_width="285dp"
+            android:layout_height="200dp"
+            app:srcCompat="@drawable/shelfmotivation_480"
             android:id="@+id/imageView4"
-            android:layout_weight="1" />
+            android:cropToPadding="false"
+            android:scaleType="centerCrop" />
     </LinearLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_weight="0.12" />
 
     <LinearLayout
         android:orientation="horizontal"
