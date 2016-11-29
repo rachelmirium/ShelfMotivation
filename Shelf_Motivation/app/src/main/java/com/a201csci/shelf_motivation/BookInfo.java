@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.api.client.util.Data;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,6 +41,7 @@ public class BookInfo extends AppCompatActivity
     String bookURL;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
+    private DatabaseReference databaseReferenceUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,42 @@ public class BookInfo extends AppCompatActivity
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         firebaseAuth = FirebaseAuth.getInstance();
+
+        // Get reference to user's database entry
+        DatabaseReference databaseReferenceUserInfo = databaseReference.child("userInfo");
+        final DatabaseReference databaseReferenceUser;
+        if (!((Guest) this.getApplication()).getGuest()) {
+            String userUID = firebaseAuth.getCurrentUser().getUid();
+            databaseReferenceUser = databaseReferenceUserInfo.child(userUID);
+        }
+        else {
+            databaseReferenceUser = databaseReferenceUserInfo.child("guest");
+        }
+
+        // Check if this book is already in the user's shelf
+        databaseReferenceUser.child("bookshelf").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Log.e("BOOKINFO", ""+ds.getKey());
+                    if (ds.getKey().equals(bookID)) {
+                        // Book already in DB
+                        Log.e("BOOKINFO", "book already in db");
+                        return;
+                    }
+                }
+
+                // Book not in DB
+                Log.e("BOOKINFO", "book not in db");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
     }
 
@@ -172,13 +210,15 @@ public class BookInfo extends AppCompatActivity
             DatabaseReference databaseReferenceUserInfo = databaseReference.child("userInfo");
             Map<String, Object> bookMap = new HashMap<String, Object>();
             bookMap.put(bookID, bookURL);
-            if (!((Guest) this.getApplication()).getGuest()) {
-                String userUID = firebaseAuth.getCurrentUser().getUid();
-                databaseReferenceUserInfo.child(userUID).child("bookshelf").updateChildren(bookMap);
-            }
-            else {
-                databaseReferenceUserInfo.child("guest").child("bookshelf").updateChildren(bookMap);
-            }
+            databaseReferenceUser.child("bookshelf").updateChildren(bookMap);
+
+//            if (!((Guest) this.getApplication()).getGuest()) {
+//                String userUID = firebaseAuth.getCurrentUser().getUid();
+//                databaseReferenceUserInfo.child(userUID).child("bookshelf").updateChildren(bookMap);
+//            }
+//            else {
+//                databaseReferenceUserInfo.child("guest").child("bookshelf").updateChildren(bookMap);
+//            }
 
             // Change intent
             Intent activityChangeIntent = new Intent(BookInfo.this, BookshelfActivity.class);
@@ -189,17 +229,6 @@ public class BookInfo extends AppCompatActivity
     }
 
     public void removeBook() {
-
-        // Get reference to correct bookshelf
-        DatabaseReference databaseReferenceUserInfo = databaseReference.child("userInfo");
-        final DatabaseReference databaseReferenceUser;
-        if (!((Guest) this.getApplication()).getGuest()) {
-            String userUID = firebaseAuth.getCurrentUser().getUid();
-            databaseReferenceUser = databaseReferenceUserInfo.child(userUID);
-        }
-        else {
-            databaseReferenceUser = databaseReferenceUserInfo.child("guest");
-        }
 
         // Remove book from database
 //        databaseReferenceUser.child("bookshelf").child(bookID).removeValue();
