@@ -192,24 +192,51 @@ public class BookInfo extends AppCompatActivity
 
         // Get reference to correct bookshelf
         DatabaseReference databaseReferenceUserInfo = databaseReference.child("userInfo");
-        DatabaseReference databaseReferenceShelf;
+        final DatabaseReference databaseReferenceUser;
         if (!((Guest) this.getApplication()).getGuest()) {
             String userUID = firebaseAuth.getCurrentUser().getUid();
-            databaseReferenceShelf = databaseReferenceUserInfo.child(userUID).child("bookshelf");
+            databaseReferenceUser = databaseReferenceUserInfo.child(userUID);
         }
         else {
-            databaseReferenceShelf = databaseReferenceUserInfo.child("guest").child("bookshelf");
+            databaseReferenceUser = databaseReferenceUserInfo.child("guest");
         }
 
         // Remove book from database
-        databaseReferenceShelf.child(bookID).removeValue();
+//        databaseReferenceUser.child("bookshelf").child(bookID).removeValue();
+
+        // Check to make sure bookshelf still exists in database
+        databaseReferenceUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Log.e("BOOKINFO", ds.getKey());
+                    if (ds.getKey().equals("bookshelf")) {
+                        Log.e("BOOKINFO", "Found bookshelf");
+                        return;
+                    }
+                }
+
+                // Add bookshelf back
+                Log.e("BOOKINFO", "ADD bookshelf back");
+                Map<String, Object> userMap = new HashMap<String, Object>();
+                userMap.put("bookshelf", "");
+                databaseReferenceUser.updateChildren(userMap);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         // Change intent
         // Not really sure if this is the right way to do this???? probably don't add the "add" extra???
-        Intent activityChangeIntent = new Intent(BookInfo.this, BookshelfActivity.class);
-        activityChangeIntent.putExtra("add", bookID);
-        activityChangeIntent.putExtra("URL", bookURL);
-        startActivity(activityChangeIntent);
+//        Intent activityChangeIntent = new Intent(BookInfo.this, BookshelfActivity.class);
+//        activityChangeIntent.putExtra("add", bookID);
+//        activityChangeIntent.putExtra("URL", bookURL);
+//        startActivity(activityChangeIntent);
     }
 
     public void initializeView(String bookID){
