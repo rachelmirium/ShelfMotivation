@@ -2,9 +2,7 @@ package com.a201csci.shelf_motivation;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,13 +14,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.api.client.util.Data;
-import com.google.api.services.books.model.Bookshelf;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,10 +27,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
+
+import static com.a201csci.shelf_motivation.R.id.recommendBook;
 
 public class BookInfo extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AbsctractBooksAPI {
@@ -77,10 +74,21 @@ public class BookInfo extends AppCompatActivity
             }
         });
 
+
+
         final Button recommendButton = (Button) findViewById(R.id.recommendButton);
+
+
+        final EditText recommendBoo= (EditText) findViewById(R.id.recommendBook);
+
+        if ( ((Guest) this.getApplication()).getGuest()){
+            recommendButton.setVisibility(View.INVISIBLE);
+            recommendBoo.setVisibility(View.INVISIBLE);
+        }
+
         recommendButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                TextView tv = (TextView) findViewById(R.id.recommendBook);
+                TextView tv = (TextView) findViewById(recommendBook);
                 recommend(tv.getText().toString().trim());
             }
         });
