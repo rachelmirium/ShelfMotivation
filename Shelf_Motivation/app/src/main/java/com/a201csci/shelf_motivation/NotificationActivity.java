@@ -149,8 +149,8 @@ public class NotificationActivity extends AppCompatActivity
                         else {
                             Intent intent = new Intent(getApplicationContext(), BookInfo.class);
                             String[] segs= content.split(" recommended book #");
-                            segs[1].replace(" to you", "");
-                            intent.putExtra("bookclub_name", segs[1]);
+                            String bookID = segs[1].replace(" to you", "");
+                            intent.putExtra("init", bookID);
                             startActivity(intent);
                         }
                     }
@@ -161,7 +161,7 @@ public class NotificationActivity extends AppCompatActivity
             public void onCancelled(DatabaseError databaseError) {}
         });
 
-        notificationListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        /*notificationListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             public void onItemClick(AdapterView<?> arg0, View v,int position, long arg3)
             {
@@ -170,7 +170,7 @@ public class NotificationActivity extends AppCompatActivity
                 activityChangeIntent.putExtra("init", id);
                 startActivity(activityChangeIntent);
             }
-        });
+        });*/
     }
 
     @Override
