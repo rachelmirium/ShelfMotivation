@@ -219,7 +219,7 @@ public class NotificationActivity extends AppCompatActivity
                 Intent intent = new Intent(this, ErrorActivity.class);
                 startActivity(intent);
             }else {
-                Intent intent = new Intent(this, BookclubOverview.class);
+                Intent intent = new Intent(this, bookclubsOverviewActivity.class);
                 startActivity(intent);
             }
         } else if (id == R.id.nav_notifications) {
