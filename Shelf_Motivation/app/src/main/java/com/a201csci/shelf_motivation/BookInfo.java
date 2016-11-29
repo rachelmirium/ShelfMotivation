@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -353,7 +354,7 @@ public class BookInfo extends AppCompatActivity
         author.setText(book.getAuthors().get(0));
 
         TextView description = (TextView) findViewById(R.id.bookDescription);
-        description.setText(book.getDescription());
+        description.setText(Html.fromHtml("<html>"+book.getDescription()+"</html>"));
     }
 
     @Override
