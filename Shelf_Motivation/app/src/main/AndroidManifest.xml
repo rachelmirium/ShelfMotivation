@@ -45,7 +45,6 @@
             android:label="@string/title_activity_bookclub"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".BookClubSignup" />
-        <activity android:name=".BookclubOverview" />
         <activity
             android:name=".GoalActivity"
             android:label="@string/title_activity_goal"
@@ -64,6 +63,10 @@
         <activity
             android:name=".ErrorActivity"
             android:label="@string/title_activity_error"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".bookclubsOverviewActivity"
+            android:label="@string/title_activity_bookclubs_overview"
             android:theme="@style/AppTheme"></activity>
     </application>
 
