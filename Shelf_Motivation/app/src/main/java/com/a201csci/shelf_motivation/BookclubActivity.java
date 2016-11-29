@@ -206,7 +206,7 @@ public class BookclubActivity extends Activity
         while(i.hasNext()){
             chat_msg = (String) ((DataSnapshot)i.next()).getValue();
             chat_username = (String) ((DataSnapshot)i.next()).getValue();
-            conversation.append(username +" : " + chat_msg + "\n");
+            conversation.append(chat_username +" : " + chat_msg + "\n");
         }
 
     }
