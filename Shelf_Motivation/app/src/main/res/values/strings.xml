@@ -17,5 +17,6 @@
     <string name="title_activity_notification">Notifications</string>
     <string name="title_activity_error">ErrorActivity</string>
     <string name="title_activity_bookclubs_overview">bookclubsOverviewActivity</string>
+    <string name="title_activity_setting">SettingActivity</string>
 
 </resources>

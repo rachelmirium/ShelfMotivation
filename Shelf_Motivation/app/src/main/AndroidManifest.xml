@@ -28,7 +28,6 @@
         </activity>
         <activity android:name=".CreateAccountScreenActivity" />
         <activity android:name=".LoginScreenActivity" />
-        <activity android:name=".SettingsActivity" />
         <activity
             android:name=".BookInfo"
             android:label="@string/title_activity_book_info"
@@ -67,6 +66,10 @@
         <activity
             android:name=".bookclubsOverviewActivity"
             android:label="@string/title_activity_bookclubs_overview"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SettingActivity"
+            android:label="@string/title_activity_setting"
             android:theme="@style/AppTheme"></activity>
     </application>
 
