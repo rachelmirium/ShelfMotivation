@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +25,13 @@ public class StartScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_screen);
+
+        // Sign out the user if still logged in
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        if(firebaseAuth.getCurrentUser() != null){
+            firebaseAuth.signOut();
+            return;
+        }
 
         final Button loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
