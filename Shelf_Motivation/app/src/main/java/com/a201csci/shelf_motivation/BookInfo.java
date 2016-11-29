@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.api.client.util.Data;
+import com.google.api.services.books.model.Bookshelf;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -112,13 +113,29 @@ public class BookInfo extends AppCompatActivity
                     Log.e("BOOKINFO", ""+ds.getKey());
                     if (ds.getKey().equals(bookID)) {
                         // Book already in DB
+                        Button addButton = (Button) findViewById(R.id.addToBookshelf);
+                        addButton.setText("Remove From Bookshelf");
+                        addButton.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                removeBook();
+                            }
+                        });
                         Log.e("BOOKINFO", "book already in db");
                         return;
                     }
+                    // Book not in DB
+                    else {
+                        Button addButton = (Button) findViewById(R.id.addToBookshelf);
+                        addButton.setText("Add To Bookshelf");
+                        addButton.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                addBook();
+                            }
+                        });
+                        Log.e("BOOKINFO", "book not in db");
+                    }
                 }
 
-                // Book not in DB
-                Log.e("BOOKINFO", "book not in db");
             }
 
             @Override
@@ -230,8 +247,20 @@ public class BookInfo extends AppCompatActivity
 
     public void removeBook() {
 
+        // Get reference to user's database entry
+        DatabaseReference databaseReferenceUserInfo = databaseReference.child("userInfo");
+        final DatabaseReference databaseReferenceUser;
+        if (!((Guest) this.getApplication()).getGuest()) {
+            String userUID = firebaseAuth.getCurrentUser().getUid();
+            databaseReferenceUser = databaseReferenceUserInfo.child(userUID);
+        }
+        else {
+            databaseReferenceUser = databaseReferenceUserInfo.child("guest");
+        }
+
         // Remove book from database
-//        databaseReferenceUser.child("bookshelf").child(bookID).removeValue();
+        databaseReferenceUser.child("bookshelf").child(bookID).removeValue();
+
 
         // Check to make sure bookshelf still exists in database
         databaseReferenceUser.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -259,13 +288,15 @@ public class BookInfo extends AppCompatActivity
 
             }
         });
-
+        BookshelfActivity.numberOfSavedBooks--;
+        Log.e("BOOKSHELF", "" + BookshelfActivity.numberOfSavedBooks);
         // Change intent
         // Not really sure if this is the right way to do this???? probably don't add the "add" extra???
-//        Intent activityChangeIntent = new Intent(BookInfo.this, BookshelfActivity.class);
+        Intent activityChangeIntent = new Intent(BookInfo.this, BookshelfActivity.class);
+        //activityChangeIntent.putExtra("remove", BookshelfActivity.numberOfSavedBooks);
 //        activityChangeIntent.putExtra("add", bookID);
 //        activityChangeIntent.putExtra("URL", bookURL);
-//        startActivity(activityChangeIntent);
+        startActivity(activityChangeIntent);
     }
 
     public void initializeView(String bookID){

@@ -27,6 +27,11 @@
             android:layout_weight="0.02"
             android:layout_height="100dp">
 
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
             <ImageView
                 android:layout_width="167dp"
                 android:layout_height="match_parent"
@@ -38,23 +43,39 @@
                 android:layout_alignEnd="@+id/bookAuthor"
                 android:layout_weight="1" />
 
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="176dp"
                 android:layout_height="match_parent"
                 android:weightSum="1">
 
-                <TextView
-                    android:text="Book Title"
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="65dp"
-                    android:id="@+id/bookTitle"
-                    android:layout_alignBottom="@+id/recommendBook"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="12dp"
-                    android:textColor="#000"
-                    android:textSize="19dp"
-                    android:layout_marginTop="12dp"/>
+                    android:layout_height="99dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:text="Book Title"
+                            android:layout_width="match_parent"
+                            android:layout_height="65dp"
+                            android:id="@+id/bookTitle"
+                            android:layout_alignBottom="@+id/recommendBook"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="12dp"
+                            android:textColor="#000"
+                            android:textSize="19dp"
+                            android:layout_marginTop="12dp"/>
+                    </LinearLayout>
+                </ScrollView>
 
                 <TextView
                     android:text="Book Author"
@@ -66,12 +87,6 @@
                     android:id="@+id/bookAuthor"
                     android:textColor="#000"
                     android:textSize="16dp"/>
-
-                <TextView
-                    android:text="Genre"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/bookGenre" />
 
             </LinearLayout>
         </LinearLayout>

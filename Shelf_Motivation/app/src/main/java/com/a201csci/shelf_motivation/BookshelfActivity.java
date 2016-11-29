@@ -41,7 +41,7 @@ public class BookshelfActivity extends AppCompatActivity
     private ArrayList<String> bookIDs = new ArrayList<String>(9);
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
-    private static int numberOfSavedBooks = 0;
+    static int numberOfSavedBooks = 0;
 
 
     @Override
@@ -95,7 +95,7 @@ public class BookshelfActivity extends AppCompatActivity
                     if(numberOfSavedBooks < 9) {
                         final String bookID = dataSnapshot.getKey();
                         final String bookURL = dataSnapshot.getValue().toString();
-
+                        Log.e("BOOKSHELF", "" + numberOfSavedBooks);
                         ImageButton imageButton = buttons.get(numberOfSavedBooks);
                         imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
                         Picasso.with(BookshelfActivity.this).load(bookURL).into(imageButton);
@@ -137,6 +137,12 @@ public class BookshelfActivity extends AppCompatActivity
                 fixVisibility();
                 numberOfSavedBooks++;
             }
+            /*final String removeIndex = b.getString("remove");
+            if(removeIndex != null){
+                numberOfSavedBooks--;
+                ImageButton imageButton= buttons.get(numberOfSavedBooks);
+                imageButton.set;
+            }*/
         }
 
         fixVisibility();
@@ -232,8 +238,10 @@ public class BookshelfActivity extends AppCompatActivity
     private void fixVisibility() {
         for (int i = 0; i < 9; i++) {
             if (numberOfSavedBooks <= i) {
+                Log.e("VISIBILITY", "Setting invisible");
                 buttons.get(i).setVisibility(View.INVISIBLE);
             } else {
+                Log.e("VISIBILITY", "Setting visible");
                 buttons.get(i).setVisibility(View.VISIBLE);
 
             }
