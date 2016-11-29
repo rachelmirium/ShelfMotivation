@@ -161,16 +161,7 @@ public class NotificationActivity extends AppCompatActivity
             public void onCancelled(DatabaseError databaseError) {}
         });
 
-        /*notificationListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            public void onItemClick(AdapterView<?> arg0, View v,int position, long arg3)
-            {
-                String id = notifications.get(position).substring(0, notifications.get(position).indexOf(' '));
-                Intent activityChangeIntent= new Intent (NotificationActivity.this, BookInfo.class);
-                activityChangeIntent.putExtra("init", id);
-                startActivity(activityChangeIntent);
-            }
-        });*/
+
     }
 
     @Override
