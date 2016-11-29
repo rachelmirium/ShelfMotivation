@@ -197,22 +197,43 @@ public class GoalActivity extends AppCompatActivity
             return null;
         }
 
-        // Add goal to user's data in database if not a guest
+        // Get reference to user's goals in database
         goal newGoal = new goal(bookTitle, dateTitle);
         goalsDB.add(newGoal);
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference databaseReferenceUserGoals = databaseReference.child("userInfo");
+        DatabaseReference databaseReferenceUser = databaseReference.child("userInfo");
 
         if (!((Guest) this.getApplication()).getGuest()) {
             firebaseAuth = FirebaseAuth.getInstance();
             String userUID = firebaseAuth.getCurrentUser().getUid();
-            databaseReferenceUserGoals = databaseReferenceUserGoals.child(userUID).child("goals");
+            databaseReferenceUser = databaseReferenceUser.child(userUID);
         }
         else {
-            databaseReferenceUserGoals = databaseReferenceUserGoals.child("guest").child("goals");
-            databaseReferenceUserGoals.setValue("TEST");
+            databaseReferenceUser = databaseReferenceUser.child("guest");
         }
-        databaseReferenceUserGoals.setValue(goalsDB);
+
+        // Check to make sure entered book title is in the user's bookshelf
+        databaseReferenceUser.child("bookshelf").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e("GOAL", ""+ dataSnapshot);
+
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    // Make api call to get book title from bookID (ds.getKey
+                    // check if ds.getKey equals the book title entered by the user
+                    // if equals, add goal to user's db
+                }
+
+                // otherwise did not find book, do not add goal to user's db and display error toast
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        databaseReferenceUser.child("goals").setValue(goalsDB);
 
         // Create checkbox
         GoalActivity.GoalCheckBox checkBox = new GoalActivity.GoalCheckBox(bookTitle, dateTitle, this);
