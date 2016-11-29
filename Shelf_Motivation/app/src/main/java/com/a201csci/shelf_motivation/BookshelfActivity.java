@@ -211,6 +211,9 @@ public class BookshelfActivity extends AppCompatActivity
         } else if (id == R.id.nav_goals) {
             Intent intent = new Intent(this, GoalActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_settings) {
+            Intent intent = new Intent(this, SettingActivity.class);
+            startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
